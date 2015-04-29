@@ -3,7 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+//use Request;
 
 class NodesController extends Controller {
 
@@ -15,7 +16,8 @@ class NodesController extends Controller {
 	public function index()
 	{
 		//
-        return view('nodes.index');
+        $nodes = \App\Node::all();
+        return view('nodes.index', compact('nodes'));
 	}
 
 	/**
@@ -26,6 +28,7 @@ class NodesController extends Controller {
 	public function create()
 	{
 		//
+        return view('nodes.create');
 	}
 
 	/**
@@ -33,9 +36,13 @@ class NodesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store(Requests\CreateNodeRequest $request)
 	{
 		//
+        $input = $request->all();
+        \App\Node::create($input);
+
+        return redirect('nodes');
 	}
 
 	/**
