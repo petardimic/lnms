@@ -21,11 +21,21 @@ class CreateNodeRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-			//
-            'name'       => 'required',
-            'ip_address' => 'required|ip',
-		];
-	}
+        switch ($this->method()) {
+         case 'POST':
+		    return [
+                'name'       => 'required',
+                'ip_address' => 'required|ip|unique:nodes,ip_address',
+		    ];
+            break;
 
+         case 'PUT':
+         case 'PATCH':
+		    return [
+                'name'       => 'required',
+                'ip_address' => 'required|ip|unique:nodes,ip_address,' . $this->route('nodes') . ',id'
+		    ];
+            break;
+        }
+	}
 }
