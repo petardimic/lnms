@@ -1,6 +1,6 @@
 ## lnms - Laravel NMS
 
-NMS - Network Management System based on Laravel web application framework.
+Network Management System based on Laravel web application framework.
 
 ## System Requirements
 

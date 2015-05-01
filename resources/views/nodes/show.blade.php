@@ -2,13 +2,18 @@
 
 @section('title', 'nodes.show')
 
+@section('breadcrumb')
+ <li><a href="/nodes">nodes</a></li>
+ <li class="active">{{ $node->name }}</li>
+@stop
+
 @section('content')
  <h1>nodes.show</h1>
  <p>{{ $node->name }}</p>
  <p>{{ $node->ip_address }}</p>
 
 
-  <a href="/nodes/{{ $node->id }}/ping" class="btn btn-info">Ping Node</a>
+  <a href="/nodes/{{ $node->id }}/test" class="btn btn-primary">Test Node</a>
 
   <a href="/nodes/{{ $node->id }}/edit" class="btn btn-primary">Edit Node</a>
   {!! Form::button('Delete', ['class' => 'btn btn-danger',

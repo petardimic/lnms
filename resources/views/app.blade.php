@@ -49,8 +49,7 @@
 <div class="container">
 
  <ol class="breadcrumb">
-  <li><a href="/">Home</a></li>
-  <li class="active">...</li>
+  @yield('breadcrumb')
  </ol>
 
  @yield('content')
@@ -63,17 +62,16 @@
 @yield('footer')
 
 <?php
-
 if ( ! isset($activeNav) ) {
     $activeNav = \Request::route()->uri();
+    //$activeNav = \Request::route()->parameterNames();
 }
-
 ?>
 <script>
 $(document).ready(function() {
  $("#{{ $activeNav }}").attr('class', 'active');
 });
-
 </script>
+
 </body>
 </html>

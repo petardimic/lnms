@@ -2,6 +2,12 @@
 
 @section('title', 'nodes.edit')
 
+@section('breadcrumb')
+ <li><a href="/nodes">nodes</a></li>
+ <li><a href="/nodes/{{ $node->id }}">{{ $node->name }}</a></li>
+ <li class="active">edit</li>
+@stop
+
 @section('content')
  <h1>nodes.edit</h1>
  {!! Form::model($node, ['id'     => 'form',

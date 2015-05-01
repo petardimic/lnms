@@ -115,19 +115,37 @@ class NodesController extends Controller {
 	}
 
     //
+    public function test($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        return view('nodes.test', compact('node'));
+    }
+
+    // api
     public function ping($id)
     {
         $node = \App\Node::findOrFail($id);
 
-        // setenforce 0
-        //$ fping -e 192.168.5.6
-        //192.168.5.6 is alive (0.15 ms)
+        exec('fping -e ' . $node->ip_address . ' 2>/dev/null', $exec_out1, $exec_ret1);
 
-        exec('fping -e ' . $node->ip_address . ' 2>&1', $exec_out1, $exec_ret1);
+        if ($exec_ret1 == 0) {
+            // ping ok
+            $ping_success = 100;
+        } else {
+            // ping fail
+            $ping_success = 0;
+        }
 
-        $ping_result = $exec_out1[0];
+        if ($ping_success <> $node->ping_success) {
+            \Log::warning('nodes/' . $node->id . ' ping changed to ' . $ping_success);
 
-        return view('nodes.ping', compact('node', 'ping_result'));
+            $node->ping_success = $ping_success;
+            $node->ping_changed = \Carbon\Carbon::now();
+
+            // update ping success changed
+            $node->save();
+        }
+
+        return response()->json(['ping_success' =>$ping_success]);
     }
-
 }
