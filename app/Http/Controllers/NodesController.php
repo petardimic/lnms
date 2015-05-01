@@ -16,8 +16,16 @@ class NodesController extends Controller {
 	public function index()
 	{
 		//
-        $nodes = \App\Node::all();
-        return view('nodes.index', compact('nodes'));
+        $q = \Request::get('q');
+
+        if ($q <> '') {
+            $nodes = \App\Node::where('name', 'RLIKE', $q)
+                                ->orWhere('ip_address', 'RLIKE', $q)
+                                ->get();
+        } else {
+            $nodes = \App\Node::all();
+        }
+        return view('nodes.index', compact('nodes', 'q'));
 	}
 
 	/**

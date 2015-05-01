@@ -1,15 +1,23 @@
 <div class="form-group">
- {!! Form::label('name', 'Name') !!}
- {!! Form::text('name', null, ['class' => 'form-control']) !!}
+ {!! Form::label('name', 'Name', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-10">
+  {!! Form::text('name', null, ['class' => 'form-control']) !!}
+ </div>
 </div>
 
 <div class="form-group">
- {!! Form::label('ip_address', 'IP Address') !!}
- {!! Form::text('ip_address', null, ['class' => 'form-control']) !!}
+ {!! Form::label('ip_address', 'IP Address', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-10">
+  {!! Form::text('ip_address', null, ['class' => 'form-control']) !!}
+ </div>
 </div>
 
-{!! Form::submit($submitButtonText, ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
-<a href="{{ $cancelHref }}" class="btn btn-default">Cancel</a>
+<div class="form-group">
+ <div class="col-sm-offset-2 col-sm-10">
+  {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+  <a href="{{ $cancelHref }}" class="btn btn-default">Cancel</a>
+ </div>
+</div>
 
 @section('footer')
 <script>
