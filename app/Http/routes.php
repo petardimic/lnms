@@ -13,6 +13,7 @@
 
 Route::get('/', 'PagesController@home');
 
+Route::get('nodes/{id}/ping', 'NodesController@ping');
 Route::resource('nodes', 'NodesController');
 
 

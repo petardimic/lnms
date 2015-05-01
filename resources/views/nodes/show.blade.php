@@ -8,6 +8,8 @@
  <p>{{ $node->ip_address }}</p>
 
 
+  <a href="/nodes/{{ $node->id }}/ping" class="btn btn-info">Ping Node</a>
+
   <a href="/nodes/{{ $node->id }}/edit" class="btn btn-primary">Edit Node</a>
   {!! Form::button('Delete', ['class' => 'btn btn-danger',
                               'data-toggle' => 'modal',
