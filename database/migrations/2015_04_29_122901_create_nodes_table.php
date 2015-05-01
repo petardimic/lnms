@@ -32,6 +32,7 @@ class CreateNodesTable extends Migration {
             // index
             $table->index('name');
             $table->index('ip_address');
+            $table->unique('ip_address');
 		});
 	}
 
