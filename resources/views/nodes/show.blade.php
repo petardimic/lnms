@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', 'nodes.show')
+
 @section('content')
  <h1>nodes.show</h1>
  <p>{{ $node->name }}</p>

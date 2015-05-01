@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', 'nodes.index')
+
 @section('content')
 <h1>nodes.index</h1>
 

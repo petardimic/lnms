@@ -1,5 +1,7 @@
 @extends('app')
 
+@section('title', 'nodes.edit')
+
 @section('content')
  <h1>nodes.edit</h1>
  {!! Form::model($node, ['id'     => 'form',
