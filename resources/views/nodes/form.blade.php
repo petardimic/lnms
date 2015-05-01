@@ -8,7 +8,16 @@
  {!! Form::text('ip_address', null, ['class' => 'form-control']) !!}
 </div>
 
-<div class="form-group">
- {!! Form::submit($submitButtonText, ['class' => 'form-control btn btn-primary']) !!}
- <a href="{{ $cancelHref }}" class="form-control btn btn-default">Cancel</a>
-</div>
+{!! Form::submit($submitButtonText, ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+<a href="{{ $cancelHref }}" class="btn btn-default">Cancel</a>
+
+@section('footer')
+<script>
+$(document).ready(function() {
+    $("#form").submit(function(event) {
+        $("#submit").val("Please wait...");
+        $("#submit").prop("disabled", true);
+    });
+});
+</script>
+@stop

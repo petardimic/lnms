@@ -54,6 +54,8 @@ class NodesController extends Controller {
 	public function show($id)
 	{
 		//
+        $node = \App\Node::findOrFail($id);
+        return view('nodes.show', compact('node'));
 	}
 
 	/**
@@ -65,6 +67,8 @@ class NodesController extends Controller {
 	public function edit($id)
 	{
 		//
+        $node = \App\Node::findOrFail($id);
+        return view('nodes.edit', compact('node'));
 	}
 
 	/**
@@ -73,9 +77,14 @@ class NodesController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Requests\CreateNodeRequest $request)
 	{
 		//
+        $node = \App\Node::findOrFail($id);
+        $input = $request->all();
+        $node->update($input);
+
+        return redirect('nodes');
 	}
 
 	/**
@@ -87,6 +96,9 @@ class NodesController extends Controller {
 	public function destroy($id)
 	{
 		//
+        $node = \App\Node::findOrFail($id);
+        $node->delete();
+        return redirect('nodes');
 	}
 
 }

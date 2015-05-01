@@ -14,7 +14,7 @@
  <tbody>
   @foreach ($nodes as $node)
    <tr>
-    <td>{{ $node->name }}</td>
+    <td><a href="/nodes/{{ $node->id }}">{{ $node->name }}</a></td>
     <td>{{ $node->ip_address }}</td>
    </tr>
   @endforeach
