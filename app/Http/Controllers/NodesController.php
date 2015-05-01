@@ -15,15 +15,20 @@ class NodesController extends Controller {
 	 */
 	public function index()
 	{
+        //
+        //$request = \Request::route()->uri();
+        //dd($request);
+
+
 		//
         $q = \Request::get('q');
 
         if ($q <> '') {
             $nodes = \App\Node::where('name', 'RLIKE', $q)
                                 ->orWhere('ip_address', 'RLIKE', $q)
-                                ->get();
+                                ->paginate(10);
         } else {
-            $nodes = \App\Node::all();
+            $nodes = \App\Node::paginate(10);
         }
         return view('nodes.index', compact('nodes', 'q'));
 	}

@@ -18,8 +18,8 @@
  <table class="table table-bordered table-hover">
  <thead>
   <tr>
-   <th>Name</th>
-   <th>IP Address</th>
+   <th><a href="/nodes?q={{ $q }}&sort=name">Name</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
   </tr>
  </thead>
  <tbody>
@@ -30,6 +30,9 @@
    </tr>
   @endforeach
  </tbody>
+  <caption style="caption-side: bottom; text-align: right;">
+   {!! $nodes->appends(['q' => $q])->render() !!}
+  </caption>
  </table>
 @else
  no data<br>

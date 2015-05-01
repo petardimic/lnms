@@ -23,8 +23,8 @@
 
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
    <ul class="nav navbar-nav">
-    <li><a href="/">Home</a></li>
-    <li><a href="/nodes">Nodes</a></li>
+    <li id="home"><a href="/">Home</a></li>
+    <li id="nodes"><a href="/nodes">Nodes</a></li>
    </ul>
 
    <ul class="nav navbar-nav navbar-right">
@@ -47,6 +47,12 @@
 </nav>
 
 <div class="container">
+
+ <ol class="breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">...</li>
+ </ol>
+
  @yield('content')
 </div>
 
@@ -55,5 +61,19 @@
 <script src="/js/bootstrap.min.js"></script>
 
 @yield('footer')
+
+<?php
+
+if ( ! isset($activeNav) ) {
+    $activeNav = \Request::route()->uri();
+}
+
+?>
+<script>
+$(document).ready(function() {
+ $("#{{ $activeNav }}").attr('class', 'active');
+});
+
+</script>
 </body>
 </html>
