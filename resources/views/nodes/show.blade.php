@@ -9,9 +9,20 @@
 
 @section('content')
  <h1>nodes.show</h1>
- <p>{{ $node->name }}</p>
- <p>{{ $node->ip_address }}</p>
 
+ <table class="table table-bordered table-hover">
+  <tr>
+   <th width="150">Name</th>
+   <td>{{ $node->name }}</td>
+  <tr>
+  <tr>
+   <th>IP Address</th>
+   <td>{{ $node->ip_address }}</td>
+  <tr>
+ </table>
+
+
+  <a href="/nodes/{{ $node->id }}/discover" class="btn btn-primary">Discover Node</a>
 
   <a href="/nodes/{{ $node->id }}/test" class="btn btn-primary">Test Node</a>
 

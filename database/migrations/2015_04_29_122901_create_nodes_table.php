@@ -26,6 +26,7 @@ class CreateNodesTable extends Migration {
             $table->tinyInteger('snmp_version')->unsigned()->default(0);    // 0=SNMP disabled
             $table->string('snmp_comm_ro')->default('');
             $table->string('snmp_comm_rw')->default('');
+            $table->tinyInteger('snmp_success')->unsigned();
             $table->timestamp('snmp_changed');
 			$table->timestamps();
 

@@ -25,6 +25,7 @@
    <th><a href="/nodes?q={{ $q }}&sort=name">Name</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ping_success">Ping Success</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=snmp_success">SNMP Success</a></th>
   </tr>
  </thead>
  <tbody>
@@ -33,6 +34,7 @@
     <td><a href="/nodes/{{ $node->id }}">{{ $node->name }}</a></td>
     <td>{{ $node->ip_address }}</td>
     <td>{{ $node->ping_success }}%</td>
+    <td>{{ $node->snmp_success }}%</td>
    </tr>
   @endforeach
  </tbody>

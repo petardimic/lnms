@@ -1,5 +1,28 @@
 <?php namespace App\Lnms;
 
+// mibs system
+// -----------
+define('OID_sysDescr',      '.1.3.6.1.2.1.1.1.0');
+define('OID_sysObjectID',   '.1.3.6.1.2.1.1.2.0');
+define('OID_sysUpTime',     '.1.3.6.1.2.1.1.3.0');
+define('OID_sysContact',    '.1.3.6.1.2.1.1.4.0');
+define('OID_sysName',       '.1.3.6.1.2.1.1.5.0');
+define('OID_sysLocation',   '.1.3.6.1.2.1.1.6.0');
+
+// mibs interfaces
+// ---------------
+define('OID_ifDescr',       '.1.3.6.1.2.1.2.2.1.2');
+define('OID_ifType',        '.1.3.6.1.2.1.2.2.1.3');
+define('OID_ifMtu',         '.1.3.6.1.2.1.2.2.1.4');
+define('OID_ifSpeed',       '.1.3.6.1.2.1.2.2.1.5');
+define('OID_ifPhysAddress', '.1.3.6.1.2.1.2.2.1.6');
+define('OID_ifAdminStatus', '.1.3.6.1.2.1.2.2.1.7');
+define('OID_ifOperStatus',  '.1.3.6.1.2.1.2.2.1.8');
+
+define('OID_ifName',        '.1.3.6.1.2.1.31.1.1.1.1');
+define('OID_ifHighSpeed',   '.1.3.6.1.2.1.31.1.1.1.15');
+define('OID_ifAlias',       '.1.3.6.1.2.1.31.1.1.1.18');
+
 /*
  * SNMP Class
  *  - using net-snmp 5.5 commands
@@ -41,6 +64,11 @@ class Snmp {
     protected $snmpget;
 
     /*
+     * SNMP Walk Command
+     */
+    protected $snmpwalk;
+
+    /*
      * SNMP error
      */
     protected $errno;
@@ -57,8 +85,13 @@ class Snmp {
 
         // SNMP Get Command
         $this->snmpget = 'snmpget -O ' . $this->output_options
-                          . ' -v ' . $snmp_version
-                          . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
+                           . ' -v ' . $snmp_version
+                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
+
+        // SNMP Walk Command
+        $this->snmpwalk = 'snmpwalk -O ' . $this->output_options
+                           . ' -v ' . $snmp_version
+                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
 
     }
 
@@ -74,6 +107,17 @@ class Snmp {
         // clear last error before snmpget again
         $this->error = '';
         exec("$this->snmpget $oids 2>&1", $exec_out1, $exec_ret1);
+        return $this->output($exec_out1, $exec_ret1);
+    }
+
+    /*
+     * run snmpwalk
+     */
+    public function walk($oid) {
+
+        // clear last error before snmpget again
+        $this->error = '';
+        exec("$this->snmpwalk $oid 2>&1", $exec_out1, $exec_ret1);
 
         return $this->output($exec_out1, $exec_ret1);
     }
@@ -110,8 +154,8 @@ class Snmp {
             for ($i=0; $i<count($exec_out1); $i++) {
                 if ( preg_match('/^\./', $exec_out1[$i]) ) {
                     // oid ok
-                    $oid   = preg_replace('/^([^\ ]+) .*/', '\\1', $exec_out1[$i]);
-                    $value = str_replace($oid . ' ', '', $exec_out1[$i]); 
+                    $oid   = preg_replace('/^([^\ ]+) *.*/', '\\1', $exec_out1[$i]);
+                    $value = preg_replace('/' . $oid . ' */', '', $exec_out1[$i]); 
                     $_ret[$oid] = $value;
                 } elseif ( preg_match('/^Failed object:/', $exec_out1[$i]) ) {
                     // oid fail

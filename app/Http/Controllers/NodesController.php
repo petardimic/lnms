@@ -53,6 +53,10 @@ class NodesController extends Controller {
 	{
 		//
         $input = $request->all();
+
+        \Session::flash('flash_message', 'node ' . $input['ip_address'] . ' created.');
+
+        // create
         \App\Node::create($input);
 
         return redirect('nodes');
@@ -95,9 +99,12 @@ class NodesController extends Controller {
 		//
         $node = \App\Node::findOrFail($id);
         $input = $request->all();
+        \Session::flash('flash_message', 'node ' . $node->ip_address . ' updated.');
+        
+        // update
         $node->update($input);
 
-        return redirect('nodes');
+        return redirect('nodes/' . $node->id);
 	}
 
 	/**
@@ -110,7 +117,11 @@ class NodesController extends Controller {
 	{
 		//
         $node = \App\Node::findOrFail($id);
+        \Session::flash('flash_message', 'node ' . $node->ip_address . ' deleted.');
+
+        // delete
         $node->delete();
+
         return redirect('nodes');
 	}
 
@@ -152,17 +163,96 @@ class NodesController extends Controller {
     public function snmp($id)
     {
         $node = \App\Node::findOrFail($id);
-        $snmp_success = 'ok';
 
-        $snmp = new \App\Lnms\Snmp($node->ip_address, 'public');
+        $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro);
         $get = $snmp->get('.1.3.6.1.2.1.1.2.0');
 
         if ($snmp->getErrno() == 0) {
-            $snmp_success = 'ok : ' . $get['.1.3.6.1.2.1.1.2.0'];
+            // snmp ok
+            $snmp_success = 100;
         } else {
-            $snmp_success = 'fail';
+            // snmp fail
+            $snmp_success = 0;
+        }
+
+        if ($snmp_success <> $node->snmp_success) {
+            \Log::warning('nodes/' . $node->id . ' snmp changed to ' . $snmp_success);
+
+            $node->snmp_success = $snmp_success;
+            $node->snmp_changed = \Carbon\Carbon::now();
+
+            // update snmp success changed
+            $node->save();
         }
 
         return response()->json(['snmp_success' => $snmp_success]);
+    }
+
+    /*
+     * run snmp to discover node
+     */
+    public function discover($id)
+    {
+        $node = \App\Node::findOrFail($id);
+
+        $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro);
+
+        // get system
+        $systemOids = array( 'sysDescr', 'sysObjectID',
+                             'sysUpTime', 'sysContact',
+                             'sysName', 'sysLocation', );
+
+        $get_oids = array();
+
+        foreach ($systemOids as $oid_name) {
+            $get_oids[] = constant('OID_' . $oid_name);
+        }
+
+        $get_result = $snmp->get($get_oids);
+
+        foreach ($systemOids as $oid_name) {
+            $snmp_system[$oid_name] = $get_result[constant('OID_' . $oid_name)];
+        }
+
+        //
+        $snmp_interfaces = array();
+
+        // walk ifDescr
+        $walk_ifDescr = $snmp->walk(OID_ifDescr);
+        foreach ($walk_ifDescr as $key1 => $value1) {
+            $ifIndex = str_replace(OID_ifDescr . '.', '', $key1);
+            $ifDescr = $value1;
+            $snmp_interfaces[$ifIndex]['ifDescr'] = $ifDescr;
+            $snmp_interfaces[$ifIndex]['ifIndex'] = $ifIndex;
+        }
+
+        $ifOids = array( 'ifType', 'ifSpeed', 'ifPhysAddress',
+                         'ifAdminStatus', 'ifOperStatus',
+                         'ifName', 'ifHighSpeed', 'ifAlias' );
+
+        foreach ($ifOids as $oid_name) {
+            $get_oids = array();
+            foreach ($snmp_interfaces as $ifIndex => $value1) {
+                $get_oids[] = constant('OID_' . $oid_name) . '.' . $ifIndex;
+            }
+
+            $get_result = $snmp->get($get_oids);
+
+            foreach ($snmp_interfaces as $ifIndex => $value1) {
+                $snmp_interfaces[$ifIndex][$oid_name] = $get_result[constant('OID_' . $oid_name) . '.' . $ifIndex];
+            }
+        }
+
+        return view('nodes.discover', compact('node', 'snmp_system', 'snmp_interfaces'));
+
+    }
+
+	public function discover_update($id)
+    {
+        $input = \Request::all();
+
+        \Session::flash('flash_message', 'polling status updated.');
+
+        return redirect('nodes/' . $id . '/discover');
     }
 }

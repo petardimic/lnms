@@ -53,6 +53,12 @@
   @yield('breadcrumb')
  </ol>
 -->
+ @if (Session::has('flash_message'))
+    <div class="alert alert-success">
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>  
+     {{ Session::get('flash_message') }}
+    </div>
+ @endif
 
  @yield('content')
 </div>
@@ -73,6 +79,10 @@ if ( ! isset($activeNav) ) {
 $(document).ready(function() {
  $("#{{ $activeNav }}").attr('class', 'active');
 });
+</script>
+
+<script>
+ $("div.alert").delay(3000).slideUp(300);
 </script>
 
 </body>

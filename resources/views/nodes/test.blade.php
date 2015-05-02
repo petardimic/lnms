@@ -9,7 +9,19 @@
 @stop
 
 @section('content')
-<h1>nodes.test</h1>
+ <h1>nodes.test</h1>
+
+ <table class="table table-bordered table-hover">
+  <tr>
+   <th width="150">Name</th>
+   <td>{{ $node->name }}</td>
+  <tr>
+  <tr>
+   <th>IP Address</th>
+   <td>{{ $node->ip_address }}</td>
+  <tr>
+ </table>
+
 <p>Test Node from NMS Server.</p>
 <button id="pingButton" type="button" class="btn btn-primary">Ping Node</button>
 <button id="snmpButton" type="button" class="btn btn-primary">SNMP Node</button>
