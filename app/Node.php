@@ -11,4 +11,11 @@ class Node extends Model {
         'snmp_comm_ro',
     ];
 
+    /*
+     * node has many ports
+     */
+    public function ports() {
+        return $this->hasMany('\App\Port');
+    }
+
 }

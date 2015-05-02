@@ -224,6 +224,7 @@ class NodesController extends Controller {
             $ifDescr = $value1;
             $snmp_interfaces[$ifIndex]['ifDescr'] = $ifDescr;
             $snmp_interfaces[$ifIndex]['ifIndex'] = $ifIndex;
+            $snmp_interfaces[$ifIndex]['node_id'] = $node->id;
         }
 
         $ifOids = array( 'ifType', 'ifSpeed', 'ifPhysAddress',
@@ -241,6 +242,13 @@ class NodesController extends Controller {
             foreach ($snmp_interfaces as $ifIndex => $value1) {
                 $snmp_interfaces[$ifIndex][$oid_name] = $get_result[constant('OID_' . $oid_name) . '.' . $ifIndex];
             }
+        }
+
+        foreach ($snmp_interfaces as $ifIndex => $value1) {
+
+            // create port
+            unset($value1['ifHighSpeed']);
+            \App\Port::create($value1);
         }
 
         return view('nodes.discover', compact('node', 'snmp_system', 'snmp_interfaces'));
