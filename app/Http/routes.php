@@ -18,3 +18,5 @@ Route::resource('nodes', 'NodesController');
 
 // api
 Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');
+Route::get('api/v1/nodes/{id}/snmp', 'NodesController@snmp');
+

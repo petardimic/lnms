@@ -48,9 +48,11 @@
 
 <div class="container">
 
+<!--
  <ol class="breadcrumb">
   @yield('breadcrumb')
  </ol>
+-->
 
  @yield('content')
 </div>

@@ -146,6 +146,23 @@ class NodesController extends Controller {
             $node->save();
         }
 
-        return response()->json(['ping_success' =>$ping_success]);
+        return response()->json(['ping_success' => $ping_success]);
+    }
+
+    public function snmp($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $snmp_success = 'ok';
+
+        $snmp = new \App\Lnms\Snmp($node->ip_address, 'public');
+        $get = $snmp->get('.1.3.6.1.2.1.1.2.0');
+
+        if ($snmp->getErrno() == 0) {
+            $snmp_success = 'ok : ' . $get['.1.3.6.1.2.1.1.2.0'];
+        } else {
+            $snmp_success = 'fail';
+        }
+
+        return response()->json(['snmp_success' => $snmp_success]);
     }
 }
