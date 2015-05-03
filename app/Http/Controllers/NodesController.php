@@ -210,6 +210,11 @@ class NodesController extends Controller {
 
         $get_result = $snmp->get($get_oids);
 
+        // get system error
+        if ($snmp->getErrno() <> 0) {
+            return 'snmpget system error';
+        }
+
         foreach ($systemOids as $oid_name) {
             $snmp_system[$oid_name] = $get_result[constant('OID_' . $oid_name)];
         }
@@ -246,9 +251,25 @@ class NodesController extends Controller {
 
         foreach ($snmp_interfaces as $ifIndex => $value1) {
 
-            // create port
+
+
+            $port = \App\Port::where('node_id', $id)->where('ifIndex', $ifIndex);
+
+
             unset($value1['ifHighSpeed']);
-            \App\Port::create($value1);
+
+            if ($port->count() == 1) {
+
+                // update port
+                $port->update($value1);
+
+                $port = $port->firstOrFail();
+
+                $snmp_interfaces[$ifIndex]['poll_enabled'] = $port->poll_enabled;
+            } else {
+                // create port
+                \App\Port::create($value1);
+            }
         }
 
         return view('nodes.discover', compact('node', 'snmp_system', 'snmp_interfaces'));
@@ -258,6 +279,20 @@ class NodesController extends Controller {
 	public function discover_update($id)
     {
         $input = \Request::all();
+        $node = \App\Node::findOrFail($id);
+
+        foreach ($node->ports as $key1 => $value1) {
+
+            $port = \App\Port::where('node_id', $id)->where('ifIndex', $value1->ifIndex)->firstOrFail();
+
+            if ( isset($input['poll_enabled'][$value1->ifIndex]) ) {
+                $port->poll_enabled = 'Y';
+            } else {
+                $port->poll_enabled = 'N';
+            }
+
+            $port->save();
+        }
 
         \Session::flash('flash_message', 'polling status updated.');
 

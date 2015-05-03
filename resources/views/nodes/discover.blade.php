@@ -64,8 +64,16 @@
   <tbody>
     @foreach ($snmp_interfaces as $snmp_interface)
      <tr>
-      <td><input type="checkbox" id="polling_{{ $snmp_interface['ifIndex'] }}" 
-                 name="polling[{{ $snmp_interface['ifIndex'] }}]"></td>
+      <td>
+
+       @if ($snmp_interface['poll_enabled'] == 'Y')
+        <input type="checkbox" id="poll_enabled_{{ $snmp_interface['ifIndex'] }}" 
+               name="poll_enabled[{{ $snmp_interface['ifIndex'] }}]" checked>
+       @else
+        <input type="checkbox" id="poll_enabled_{{ $snmp_interface['ifIndex'] }}" 
+               name="poll_enabled[{{ $snmp_interface['ifIndex'] }}]">
+       @endif
+      </td>
       <td>{{ $snmp_interface['ifIndex'] }}</td>
       <td>{{ $snmp_interface['ifDescr'] }}</td>
       <td>{{ $snmp_interface['ifType'] }}</td>

@@ -9,6 +9,7 @@ class Port extends Model {
         'ifIndex',       'ifDescr',       'ifType',         'ifSpeed',
         'ifPhysAddress', 'ifAdminStatus', 'ifOperStatus',
         'ifName',        'ifAlias',       'node_id',
+        'poll_enabled',
     ];
 
     /*
