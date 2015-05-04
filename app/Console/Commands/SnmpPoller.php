@@ -47,11 +47,11 @@ class SnmpPoller extends Command {
 
             if ($get_result) {
                 // snmp ok
+                $snmp_success  = 100;
                 $get_sysUpTime = $get_result[OID_sysUpTime];
-                $snmp_success = 100;
             } else {
                 // snmp fail
-                $snmp_success = 0;
+                $snmp_success  = 0;
                 $get_sysUpTime = 0;
             }
 
@@ -61,7 +61,7 @@ class SnmpPoller extends Command {
 
             $snmp = new \App\Snmp();
             $snmp->node_id   = $node->id;
-            $snmp->success   = $snmp_success;
+            $snmp->sysUpTime = $get_sysUpTime;
             $snmp->timestamp = \Carbon\Carbon::now();
 
             $snmp->save();

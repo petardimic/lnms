@@ -16,7 +16,7 @@ class CreateSnmpsTable extends Migration {
 		{
             $table->bigIncrements('id');
             $table->bigInteger('node_id')->unsigned();
-            $table->tinyInteger('success')->unsigned(); // snmp success 0-100%
+            $table->integer('sysUpTime')->unsigned();
             $table->timestamp('timestamp');
 
             $table->foreign('node_id')
