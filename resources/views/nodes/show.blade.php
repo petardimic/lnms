@@ -23,8 +23,14 @@
    <th>Ping Success</th>
    <td><a href="/nodes/{{ $node->id }}/graph_ping">{{ $node->ping_success }}%</a></td>
   </tr>
+  <tr>
+   <th>SNMP Success</th>
+   <td><a href="/nodes/{{ $node->id }}/graph_snmp">{{ $node->snmp_success }}%</a></td>
+  </tr>
  </table>
 
+
+  <a href="/nodes/{{ $node->id }}/ports" class="btn btn-primary">Ports</a>
 
   <a href="/nodes/{{ $node->id }}/discover" class="btn btn-primary">Discover Node</a>
 

@@ -26,9 +26,9 @@ class NodesController extends Controller {
         if ($q <> '') {
             $nodes = \App\Node::where('name', 'RLIKE', $q)
                                 ->orWhere('ip_address', 'RLIKE', $q)
-                                ->paginate(5);
+                                ->paginate(10);
         } else {
-            $nodes = \App\Node::paginate(5);
+            $nodes = \App\Node::paginate(10);
         }
         return view('nodes.index', compact('nodes', 'q'));
 	}
@@ -250,30 +250,22 @@ class NodesController extends Controller {
         }
 
         foreach ($snmp_interfaces as $ifIndex => $value1) {
-
-
-
             $port = \App\Port::where('node_id', $id)->where('ifIndex', $ifIndex);
-
-
             unset($value1['ifHighSpeed']);
 
             if ($port->count() == 1) {
-
                 // update port
                 $port->update($value1);
-
                 $port = $port->firstOrFail();
-
                 $snmp_interfaces[$ifIndex]['poll_enabled'] = $port->poll_enabled;
             } else {
                 // create port
                 \App\Port::create($value1);
+                $snmp_interfaces[$ifIndex]['poll_enabled'] = '';
             }
         }
 
         return view('nodes.discover', compact('node', 'snmp_system', 'snmp_interfaces'));
-
     }
 
 	public function discover_update($id)
@@ -309,6 +301,35 @@ class NodesController extends Controller {
 	{
 		//
         $node = \App\Node::findOrFail($id);
-        return view('nodes.graph_ping', compact('node'));
+        $pings = \App\Ping::where('node_id', $id)->orderBy('timestamp', 'desc')->paginate(10);
+
+        return view('nodes.graph_ping', compact('node', 'pings'));
 	}
+
+	/**
+	 * Display graph snmp
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function graph_snmp($id)
+	{
+		//
+        $node = \App\Node::findOrFail($id);
+        $snmps = \App\Snmp::where('node_id', $id)->orderBy('timestamp', 'desc')->paginate(10);
+
+        return view('nodes.graph_snmp', compact('node', 'snmps'));
+	}
+
+    /**
+     * display ports in node
+     *
+     */
+    public function ports($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $ports = \App\Port::where('node_id', $id)->orderBy('ifIndex')->paginate(10);
+
+        return view('nodes.ports', compact('node', 'ports'));
+    }
 }

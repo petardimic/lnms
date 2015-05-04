@@ -1,9 +1,9 @@
 @extends('app')
 
-@section('title', 'nodes.graph_ping')
+@section('title', 'nodes.graph_snmp')
 
 @section('content')
- <h1>nodes.graph_ping</h1>
+ <h1>nodes.graph_snmp</h1>
 
  <table class="table table-bordered table-hover">
   <tr>
@@ -20,23 +20,23 @@
 
 <hr>
 
-@if (count($pings))
+@if (count($snmps))
 
     <table class="table table-bordered table-hover">
     <thead>
      <th width="200">Date/Time</th>
-     <th>Ping Success</th>
+     <th>SNMP sysUpTime</th>
     </thead>
     <tbody>
-    @foreach ($pings as $ping)
+    @foreach ($snmps as $snmp)
         <tr>
-         <td>{{ $ping->timestamp }}</td>
-         <td>{{ $ping->success }}</td>
+         <td>{{ $snmp->timestamp }}</td>
+         <td>{{ $snmp->sysUpTime }}</td>
         </tr>
     @endforeach
     </tbody>
     <caption style="caption-side: bottom; text-align: right;">
-     {!! $pings->render() !!}
+     {!! $snmps->render() !!}
     </caption>
     </table>
 @else
