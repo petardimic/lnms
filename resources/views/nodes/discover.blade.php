@@ -9,11 +9,11 @@
   <tr>
    <th width="150">Name</th>
    <td>{{ $node->name }}</td>
-  <tr>
+  </tr>
   <tr>
    <th>IP Address</th>
    <td>{{ $node->ip_address }}</td>
-  <tr>
+  </tr>
  </table>
 
  <table class="table table-bordered table-hover">

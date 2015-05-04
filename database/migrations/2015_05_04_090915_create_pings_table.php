@@ -17,7 +17,7 @@ class CreatePingsTable extends Migration {
             $table->bigIncrements('id');
             $table->bigInteger('node_id')->unsigned();
             $table->tinyInteger('success')->unsigned(); // ping success 0-100%
-			$table->timestamps();
+            $table->timestamp('timestamp');
 
             $table->foreign('node_id')
                   ->references('id')

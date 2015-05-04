@@ -54,14 +54,15 @@ class PingPoller extends Command {
                 $ping_success = 0;
             }
 
-            print \Carbon\Carbon::now() . ' ' . $node->ip_address  . ' ping = ' . $ping_success . PHP_EOL;
             $u_node = \App\Node::find($node->id);
             $u_node->ping_success = $ping_success;
             $u_node->save();
 
             $ping = new \App\Ping();
-            $ping->node_id = $node->id;
-            $ping->success = $ping_success;
+            $ping->node_id   = $node->id;
+            $ping->success   = $ping_success;
+            $ping->timestamp = \Carbon\Carbon::now();
+
             $ping->save();
         }
 	}

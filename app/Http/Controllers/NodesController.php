@@ -298,4 +298,17 @@ class NodesController extends Controller {
 
         return redirect('nodes/' . $id . '/discover');
     }
+
+	/**
+	 * Display graph ping
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function graph_ping($id)
+	{
+		//
+        $node = \App\Node::findOrFail($id);
+        return view('nodes.graph_ping', compact('node'));
+	}
 }

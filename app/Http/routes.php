@@ -15,6 +15,7 @@ Route::get('/', 'PagesController@home');
 
 Route::get('nodes/{id}/test', 'NodesController@test');
 Route::get('nodes/{id}/discover', 'NodesController@discover');
+Route::get('nodes/{id}/graph_ping', 'NodesController@graph_ping');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');
 Route::resource('nodes', 'NodesController');
 

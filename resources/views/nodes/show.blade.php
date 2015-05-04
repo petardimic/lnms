@@ -14,11 +14,15 @@
   <tr>
    <th width="150">Name</th>
    <td>{{ $node->name }}</td>
-  <tr>
+  </tr>
   <tr>
    <th>IP Address</th>
    <td>{{ $node->ip_address }}</td>
+  </tr>
   <tr>
+   <th>Ping Success</th>
+   <td><a href="/nodes/{{ $node->id }}/graph_ping">{{ $node->ping_success }}%</a></td>
+  </tr>
  </table>
 
 
