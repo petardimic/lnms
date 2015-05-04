@@ -19,6 +19,4 @@ class Port extends Model {
     {
         return $this->belongsTo('\App\Node');
     }
-
-
 }

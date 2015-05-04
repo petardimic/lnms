@@ -28,6 +28,8 @@ class CreateNodesTable extends Migration {
             $table->string('snmp_comm_rw')->default('');
             $table->tinyInteger('snmp_success')->unsigned();
             $table->timestamp('snmp_changed');
+
+            $table->char('poll_enabled', 1);
 			$table->timestamps();
 
             // index

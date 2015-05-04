@@ -25,9 +25,9 @@ class CreatePortsTable extends Migration {
             $table->tinyInteger('ifOperStatus')->unsigned();
             $table->string('ifName');
             $table->string('ifAlias');
-            $table->char('poll_enabled', 1);
 
             $table->timestamp('status_changed');
+            $table->char('poll_enabled', 1);
 			$table->timestamps();
 
 			$table->unique(['node_id', 'ifIndex']);

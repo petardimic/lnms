@@ -1,0 +1,42 @@
+make:migration
+--------------
+to create migration
+
+$ php artisan make:migration create_users_table --create=users
+
+to adjust migration
+$ php artisan make:migration add_votes_to_users_table --table=users
+
+make:model
+----------
+to create model
+$ php artisan make:model Ping --no-migration
+
+make:console
+------------
+$ php artisan make:console PingPoller --command=ping:poller
+
+console command arguments
+-------------------------
+
+to return defined arguments in method
+  [$name, $mode, $description, $defaultValue]
+   - $mode = InputArgument::REQUIRED
+ 
+  ex ['example', InputArgument::REQUIRED, 'An example argument.'],
+ 
+to retrieve arguments
+  $value = $this->argument('name');
+
+console command options
+-----------------------
+
+to return defined options in method
+  [$name, $shortcut, $mode, $description, $defaultValue]
+
+   ex ['example', null, InputOption::VALUE_OPTIONAL, 'An example option.', null],
+
+to retrieve options
+  $value = $this->option('name');
+
+

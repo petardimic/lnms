@@ -18,4 +18,11 @@ class Node extends Model {
         return $this->hasMany('\App\Port');
     }
 
+    /*
+     * node has many pings
+     */
+    public function pings() {
+        return $this->hasMany('\App\Ping');
+    }
+
 }
