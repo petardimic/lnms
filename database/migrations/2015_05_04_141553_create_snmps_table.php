@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePingsTable extends Migration {
+class CreateSnmpsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,11 @@ class CreatePingsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('pings', function(Blueprint $table)
+		Schema::create('snmps', function(Blueprint $table)
 		{
             $table->bigIncrements('id');
             $table->bigInteger('node_id')->unsigned();
-            $table->tinyInteger('success')->unsigned(); // ping success 0-100%
+            $table->tinyInteger('success')->unsigned(); // snmp success 0-100%
             $table->timestamp('timestamp');
 
             $table->foreign('node_id')
@@ -33,7 +33,7 @@ class CreatePingsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('pings');
+		Schema::drop('snmps');
 	}
 
 }

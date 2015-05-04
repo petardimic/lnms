@@ -14,7 +14,7 @@ $ php artisan make:model Ping --no-migration
 
 make:console
 ------------
-$ php artisan make:console PingPoller --command=ping:poller
+$ php artisan make:console PingPoller --command=poller:ping
 
 console command arguments
 -------------------------

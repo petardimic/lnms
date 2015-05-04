@@ -5,10 +5,10 @@ Network Management System based on Laravel web application framework.
 ## System Requirements
 
 Tested on CentOS 6
-* MySQL
-* PHP 5.5
-  * with snmp
+* MySQL 5.5 (rpm from dev.mysql.com)
+* PHP 5.5 (yum from webtatic.com)
 * fping (need turn off SELinux)
+* net-snmp 5.5
 
 ## License
 

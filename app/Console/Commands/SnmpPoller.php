@@ -4,21 +4,21 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class PingPoller extends Command {
+class SnmpPoller extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'poller:ping';
+	protected $name = 'poller:snmp';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Ping Poller Command';
+	protected $description = 'SNMP Poller Command';
 
 	/**
 	 * Create a new command instance.
@@ -37,44 +37,45 @@ class PingPoller extends Command {
 	 */
 	public function fire()
 	{
-        //$this->info('display info output');
-        //$this->error('display error output');
+		//
         $nodes = \App\Node::all();
 
         foreach ($nodes as $node) {
 
-            unset($exec_out1);
-            exec('/usr/sbin/fping -e ' . $node->ip_address . ' 2>/dev/null', $exec_out1, $exec_ret1);
-    
-            if ($exec_ret1 == 0) {
-                // ping ok
-                $ping_success = 100;
+            $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro);
+            $get_result = $snmp->get(OID_sysUpTime);
+
+            if ($get_result) {
+                // snmp ok
+                $get_sysUpTime = $get_result[OID_sysUpTime];
+                $snmp_success = 100;
             } else {
-                // ping fail
-                $ping_success = 0;
+                // snmp fail
+                $snmp_success = 0;
+                $get_sysUpTime = 0;
             }
 
             $u_node = \App\Node::find($node->id);
-            $u_node->ping_success = $ping_success;
+            $u_node->snmp_success = $snmp_success;
             $u_node->save();
 
-            $ping = new \App\Ping();
-            $ping->node_id   = $node->id;
-            $ping->success   = $ping_success;
-            $ping->timestamp = \Carbon\Carbon::now();
+            $snmp = new \App\Snmp();
+            $snmp->node_id   = $node->id;
+            $snmp->success   = $snmp_success;
+            $snmp->timestamp = \Carbon\Carbon::now();
 
-            $ping->save();
+            $snmp->save();
         }
 	}
 
 	/**
 	 * Get the console command arguments.
-     *
+	 *
 	 * @return array
 	 */
 	protected function getArguments()
 	{
-        return [];
+		return [];
 	}
 
 	/**
@@ -84,7 +85,7 @@ class PingPoller extends Command {
 	 */
 	protected function getOptions()
 	{
-        return [];
+		return [];
 	}
 
 }

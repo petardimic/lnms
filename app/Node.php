@@ -25,4 +25,11 @@ class Node extends Model {
         return $this->hasMany('\App\Ping');
     }
 
+    /*
+     * node has many snmps
+     */
+    public function snmps() {
+        return $this->hasMany('\App\Snmp');
+    }
+
 }
