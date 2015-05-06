@@ -8,6 +8,12 @@ use App\Http\Controllers\Controller;
 
 class NodesController extends Controller {
 
+    public function __construct()
+    {
+        // must auth before
+        $this->middleware('auth');
+    }
+
 	/**
 	 * Display a listing of the resource.
 	 *

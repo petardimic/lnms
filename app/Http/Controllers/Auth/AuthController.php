@@ -35,4 +35,52 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+	/**
+	 * Handle a login request to the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postLogin(\Illuminate\Http\Request $request)
+	{
+		$this->validate($request, [
+			'username' => 'required', 'password' => 'required',
+		]);
+
+		$credentials = $request->only('username', 'password');
+
+		if ($this->auth->attempt($credentials, $request->has('remember')))
+		{
+			return redirect()->intended($this->redirectPath());
+		}
+
+		return redirect($this->loginPath())
+					->withInput($request->only('username', 'remember'))
+					->withErrors([
+						'username' => $this->getFailedLoginMessage(),
+					]);
+	}
+
+	/**
+	 * Handle a registration request for the application.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function postRegister(\Illuminate\Http\Request $request)
+	{
+		$validator = $this->registrar->validator($request->all());
+
+		if ($validator->fails())
+		{
+			$this->throwValidationException(
+				$request, $validator
+			);
+		}
+
+		$this->auth->login($this->registrar->create($request->all()));
+
+		return redirect($this->redirectPath());
+	}
+
 }
