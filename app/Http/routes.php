@@ -27,6 +27,9 @@ Route::get('nodes/{id}/graph_snmp', 'NodesController@graph_snmp');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');
 Route::resource('nodes', 'NodesController');
 
+Route::get('ports/{id}', 'PortsController@show');
+Route::get('ports/{id}/octets', 'PortsController@octets');
+
 // api
 Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');
 Route::get('api/v1/nodes/{id}/snmp', 'NodesController@snmp');

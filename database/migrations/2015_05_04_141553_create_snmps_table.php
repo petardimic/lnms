@@ -16,8 +16,8 @@ class CreateSnmpsTable extends Migration {
 		{
             $table->bigIncrements('id');
             $table->bigInteger('node_id')->unsigned();
-            $table->integer('sysUpTime')->unsigned();
             $table->timestamp('timestamp');
+            $table->integer('sysUpTime')->unsigned();
 
             $table->foreign('node_id')
                   ->references('id')

@@ -16,6 +16,7 @@
   </tr>
  </table>
 
+@if (count($ports))
  <table class="table table-bordered table-hover">
   <thead>
    <tr>
@@ -46,7 +47,7 @@
        @endif
       </td>
       <td>{{ $port['ifIndex'] }}</td>
-      <td>{{ $port['ifDescr'] }}</td>
+      <td><a href="/ports/{{ $port->id }}">{{ $port['ifDescr'] }}</a></td>
       <td>{{ $port['ifType'] }}</td>
       <td>{{ $port['ifSpeed'] }}</td>
       <td>{{ $port['ifPhysAddress'] }}</td>
@@ -59,7 +60,9 @@
     @endforeach
   </tbody>
  </table>
-
+@else
+ <p>no ports data</p>
+@endif
 <a href="/nodes/{{ $node->id }}" class="btn btn-default">Back</a>
 
 

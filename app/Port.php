@@ -19,4 +19,11 @@ class Port extends Model {
     {
         return $this->belongsTo('\App\Node');
     }
+
+    /*
+     * port has many octets
+     */
+    public function octets() {
+        return $this->hasMany('\App\Octet');
+    }
 }

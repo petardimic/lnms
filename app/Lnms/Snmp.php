@@ -1,28 +1,5 @@
 <?php namespace App\Lnms;
 
-// mibs system
-// -----------
-define('OID_sysDescr',      '.1.3.6.1.2.1.1.1.0');
-define('OID_sysObjectID',   '.1.3.6.1.2.1.1.2.0');
-define('OID_sysUpTime',     '.1.3.6.1.2.1.1.3.0');
-define('OID_sysContact',    '.1.3.6.1.2.1.1.4.0');
-define('OID_sysName',       '.1.3.6.1.2.1.1.5.0');
-define('OID_sysLocation',   '.1.3.6.1.2.1.1.6.0');
-
-// mibs interfaces
-// ---------------
-define('OID_ifDescr',       '.1.3.6.1.2.1.2.2.1.2');
-define('OID_ifType',        '.1.3.6.1.2.1.2.2.1.3');
-define('OID_ifMtu',         '.1.3.6.1.2.1.2.2.1.4');
-define('OID_ifSpeed',       '.1.3.6.1.2.1.2.2.1.5');
-define('OID_ifPhysAddress', '.1.3.6.1.2.1.2.2.1.6');
-define('OID_ifAdminStatus', '.1.3.6.1.2.1.2.2.1.7');
-define('OID_ifOperStatus',  '.1.3.6.1.2.1.2.2.1.8');
-
-define('OID_ifName',        '.1.3.6.1.2.1.31.1.1.1.1');
-define('OID_ifHighSpeed',   '.1.3.6.1.2.1.31.1.1.1.15');
-define('OID_ifAlias',       '.1.3.6.1.2.1.31.1.1.1.18');
-
 /*
  * SNMP Class
  *  - using net-snmp 5.5 commands
@@ -193,3 +170,60 @@ class Snmp {
         return $this->error;
     }
 }
+
+//------------------------------------------------------------------------------
+// MIBs
+//------------------------------------------------------------------------------
+// system
+define('OID_sysDescr',      '.1.3.6.1.2.1.1.1.0');
+define('OID_sysObjectID',   '.1.3.6.1.2.1.1.2.0');
+define('OID_sysUpTime',     '.1.3.6.1.2.1.1.3.0');
+define('OID_sysContact',    '.1.3.6.1.2.1.1.4.0');
+define('OID_sysName',       '.1.3.6.1.2.1.1.5.0');
+define('OID_sysLocation',   '.1.3.6.1.2.1.1.6.0');
+
+// ifEntry
+define('OID_ifIndex',           '.1.3.6.1.2.1.2.2.1.1');
+define('OID_ifDescr',           '.1.3.6.1.2.1.2.2.1.2');
+define('OID_ifType',            '.1.3.6.1.2.1.2.2.1.3');
+define('OID_ifMtu',             '.1.3.6.1.2.1.2.2.1.4');
+define('OID_ifSpeed',           '.1.3.6.1.2.1.2.2.1.5');
+define('OID_ifPhysAddress',     '.1.3.6.1.2.1.2.2.1.6');
+define('OID_ifAdminStatus',     '.1.3.6.1.2.1.2.2.1.7');
+define('OID_ifOperStatus',      '.1.3.6.1.2.1.2.2.1.8');
+define('OID_ifLastChange',      '.1.3.6.1.2.1.2.2.1.9');
+define('OID_ifInOctets',        '.1.3.6.1.2.1.2.2.1.10');
+define('OID_ifInUcastPkts',     '.1.3.6.1.2.1.2.2.1.11');
+define('OID_ifInNUcastPkts',    '.1.3.6.1.2.1.2.2.1.12');
+define('OID_ifInDiscards',      '.1.3.6.1.2.1.2.2.1.13');
+define('OID_ifInErrors',        '.1.3.6.1.2.1.2.2.1.14');
+define('OID_ifInUnknownProtos', '.1.3.6.1.2.1.2.2.1.15');
+define('OID_ifOutOctets',       '.1.3.6.1.2.1.2.2.1.16');
+define('OID_ifOutUcastPkts',    '.1.3.6.1.2.1.2.2.1.17');
+define('OID_ifOutNUcastPkts',   '.1.3.6.1.2.1.2.2.1.18');
+define('OID_ifOutDiscards',     '.1.3.6.1.2.1.2.2.1.19');
+define('OID_ifOutErrors',       '.1.3.6.1.2.1.2.2.1.20');
+define('OID_ifOutQLen',         '.1.3.6.1.2.1.2.2.1.21');
+define('OID_ifSpecific',        '.1.3.6.1.2.1.2.2.1.22');
+
+// ifXEntry
+define('OID_ifName',                    '.1.3.6.1.2.1.31.1.1.1.1');
+define('OID_ifInMulticastPkts',         '.1.3.6.1.2.1.31.1.1.1.2');
+define('OID_ifInBroadcastPkts',         '.1.3.6.1.2.1.31.1.1.1.3');
+define('OID_ifOutMulticastPkts',        '.1.3.6.1.2.1.31.1.1.1.4');
+define('OID_ifOutBroadcastPkts',        '.1.3.6.1.2.1.31.1.1.1.5');
+define('OID_ifHCInOctets',              '.1.3.6.1.2.1.31.1.1.1.6');
+define('OID_ifHCInUcastPkts',           '.1.3.6.1.2.1.31.1.1.1.7');
+define('OID_ifHCInMulticastPkts',       '.1.3.6.1.2.1.31.1.1.1.8');
+define('OID_ifHCInBroadcastPkts',       '.1.3.6.1.2.1.31.1.1.1.9');
+define('OID_ifHCOutOctets',             '.1.3.6.1.2.1.31.1.1.1.10');
+define('OID_ifHCOutUcastPkts',          '.1.3.6.1.2.1.31.1.1.1.11');
+define('OID_ifHCOutMulticastPkts',      '.1.3.6.1.2.1.31.1.1.1.12');
+define('OID_ifHCOutBroadcastPkts',      '.1.3.6.1.2.1.31.1.1.1.13');
+define('OID_ifLinkUpDownTrapEnable',    '.1.3.6.1.2.1.31.1.1.1.14');
+define('OID_ifHighSpeed',               '.1.3.6.1.2.1.31.1.1.1.15');
+define('OID_ifPromiscuousMode',         '.1.3.6.1.2.1.31.1.1.1.16');
+define('OID_ifConnectorPresent',        '.1.3.6.1.2.1.31.1.1.1.17');
+define('OID_ifAlias',                   '.1.3.6.1.2.1.31.1.1.1.18');
+define('OID_ifCounterDiscontinuityTime','.1.3.6.1.2.1.31.1.1.1.19');
+
