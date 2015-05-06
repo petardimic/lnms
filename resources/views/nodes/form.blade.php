@@ -13,6 +13,21 @@
 </div>
 
 <div class="form-group">
+ {!! Form::label('poll_enabled', 'Poll Enabled', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-3">
+  {!! Form::select('poll_enabled', ['yes' => 'yes', 'no' => 'no' ], $node->poll_enabled, ['class' => 'form-control'] ) !!}
+ </div>
+</div>
+
+<div class="form-group">
+ {!! Form::label('snmp_version', 'SNMP Version', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-3">
+  {!! Form::select('snmp_version', ['disabled' => 'disabled', '1' => '1', '2c' => '2c' ], $node->snmp_version, ['class' => 'form-control']) !!}
+
+ </div>
+</div>
+
+<div class="form-group">
  {!! Form::label('snmp_comm_ro', 'SNMP Community (ro)', ['class' => 'control-label col-sm-2']) !!}
  <div class="col-sm-3">
   {!! Form::text('snmp_comm_ro', null, ['class' => 'form-control']) !!}

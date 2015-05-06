@@ -46,8 +46,12 @@ class NodesController extends Controller {
 	 */
 	public function create()
 	{
-		//
-        return view('nodes.create');
+        $node = new \App\Node();
+
+        // default snmp version
+        $node->snmp_version = 1;
+
+        return view('nodes.create', compact('node'));
 	}
 
 	/**
