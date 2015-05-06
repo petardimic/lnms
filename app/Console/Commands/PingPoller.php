@@ -37,9 +37,7 @@ class PingPoller extends Command {
 	 */
 	public function fire()
 	{
-        //$this->info('display info output');
-        //$this->error('display error output');
-        $nodes = \App\Node::all();
+        $nodes = \App\Node::where('poll_enabled', 'Y')->get();
 
         foreach ($nodes as $node) {
 

@@ -38,26 +38,29 @@ class OctetsPoller extends Command {
 	public function fire()
 	{
 		//
-        $ports = \App\Port::all();
+        $ports = \App\Port::where('poll_enabled', 'Y')->get();
 
         foreach ($ports as $port) {
 
-            //print "$port->node->ip_address $port->ifIndex\n";
-            $snmp = new \App\Lnms\Snmp($port->node->ip_address, $port->node->snmp_comm_ro, '2c');
-            $get_result = $snmp->get([OID_ifHCInOctets  . '.' . $port->ifIndex,
-                                      OID_ifHCOutOctets . '.' . $port->ifIndex
-                                      ]);
+            if ( $port->node->poll_enabled == 'Y'
+                 && $port->node->snmp_version <> 0 ) {
 
-            if ($get_result) {
-                // get ok
-                $octet = \App\Octet::Create([
-                    'port_id'   => $port->id,
-                    'timestamp' => \Carbon\Carbon::now(),
-                    'input'     => $get_result[OID_ifHCInOctets  . '.' . $port->ifIndex],
-                    'output'    => $get_result[OID_ifHCOutOctets . '.' . $port->ifIndex],
-                ]);
-            } else {
-                // get errors
+                $snmp = new \App\Lnms\Snmp($port->node->ip_address, $port->node->snmp_comm_ro, '2c');
+                $get_result = $snmp->get([OID_ifHCInOctets  . '.' . $port->ifIndex,
+                                          OID_ifHCOutOctets . '.' . $port->ifIndex
+                                          ]);
+    
+                if ($get_result) {
+                    // get ok
+                    $octet = \App\Octet::Create([
+                        'port_id'   => $port->id,
+                        'timestamp' => \Carbon\Carbon::now(),
+                        'input'     => $get_result[OID_ifHCInOctets  . '.' . $port->ifIndex],
+                        'output'    => $get_result[OID_ifHCOutOctets . '.' . $port->ifIndex],
+                    ]);
+                } else {
+                    // get errors
+                }
             }
         }
 	}

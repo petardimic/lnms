@@ -38,7 +38,9 @@ class SnmpPoller extends Command {
 	public function fire()
 	{
 		//
-        $nodes = \App\Node::all();
+        $nodes = \App\Node::where('poll_enabled', 'Y')
+                            ->where('snmp_version', '<>', 0)
+                            ->get();
 
         foreach ($nodes as $node) {
 
