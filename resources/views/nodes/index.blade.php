@@ -36,9 +36,9 @@
    <tr>
     <td><a href="/nodes/{{ $node->id }}">{{ $node->name }}</a></td>
     <td>{{ $node->ip_address }}</td>
-    <td>{{ $node->location_id }}</td>
-    <td>{{ $node->poll_enabled }}</td>
-    <td>{{ $node->snmp_version }}</td>
+    <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
+    <td>{{ $node->dsp_poll_enabled }}</td>
+    <td>{{ $node->dsp_snmp_version }}</td>
     <td>{{ $node->ping_success }}%</td>
     <td>{{ $node->snmp_success }}%</td>
    </tr>

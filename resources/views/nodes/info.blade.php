@@ -13,11 +13,11 @@
  </tr>
  <tr>
   <th>Poll Enabled</th>
-  <td>{{ $node->poll_enabled }}</td>
+  <td>{{ $node->dsp_poll_enabled }}</td>
  </tr>
  <tr>
   <th>SNMP Version</th>
-  <td>{{ $node->snmp_version }}</td>
+  <td>{{ $node->dsp_snmp_version }}</td>
  </tr>
 
  <tr>

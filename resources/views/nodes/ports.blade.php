@@ -22,17 +22,16 @@
    <tr>
     <th>Polling</th>
     <th>ifIndex</th>
-    <th>ifDescr</th>
-    <th>ifType</th>
-    <th>ifSpeed</th>
-    <th>ifPhysAddress</th>
-    <th>ifAdminStatus</th>
-    <th>ifOperStatus</th>
-    <th>ifName</th>
-    <th>ifHighSpeed</th>
-    <th>ifAlias</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>Speed</th>
    </tr>
   </thead>
+  <caption style="caption-side: top; text-align: right;">
+   {!! $ports->render() !!}
+  </caption>
   <tbody>
     @foreach ($ports as $port)
      <tr>
@@ -48,20 +47,13 @@
       </td>
       <td>{{ $port['ifIndex'] }}</td>
       <td><a href="/ports/{{ $port->id }}">{{ $port['ifDescr'] }}</a></td>
-      <td>{{ $port['ifType'] }}</td>
-      <td>{{ $port['ifSpeed'] }}</td>
-      <td>{{ $port['ifPhysAddress'] }}</td>
-      <td>{{ $port['ifAdminStatus'] }}</td>
-      <td>{{ $port['ifOperStatus'] }}</td>
-      <td>{{ $port['ifName'] }}</td>
-      <td>{{ $port['ifHighSpeed'] }}</td>
       <td>{{ $port['ifAlias'] }}</td>
+      <td>{{ $port->dsp_ifType }}</td>
+      <td>{{ $port['dsp_ifStatus'] }}</td>
+      <td>{{ $port->dsp_ifSpeed }}</td>
      </tr>
     @endforeach
   </tbody>
-  <caption style="caption-side: bottom; text-align: right;">
-   {!! $ports->render() !!}
-  </caption>
  </table>
 @else
  <p>no ports data</p>

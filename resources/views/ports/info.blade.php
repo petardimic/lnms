@@ -14,7 +14,7 @@
  </tr>
  <tr>
   <th>ifType</th>
-  <td>{{ $port->ifType }}</td>
+  <td>{{ $port->dsp_ifType }}</td>
  </tr>
  <tr>
   <th>ifSpeed</th>

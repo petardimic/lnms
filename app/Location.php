@@ -7,6 +7,11 @@ class Location extends Model {
 	//
     protected $fillable = [ 'name' ];
 
+    /**
+     * Generate Location Associate Array
+     *
+     * @return Array
+     */
     static public function all_select() {
         $_ret = array();
 
@@ -20,4 +25,5 @@ class Location extends Model {
 
         return $_ret;
     }
+
 }
