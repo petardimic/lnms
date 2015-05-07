@@ -13,6 +13,13 @@
 </div>
 
 <div class="form-group">
+ {!! Form::label('location_id', 'Location', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-3">
+  {!! Form::select('location_id', \App\Location::all_select(), $node->location_id, ['class' => 'form-control'] ) !!}
+ </div>
+</div>
+
+<div class="form-group">
  {!! Form::label('poll_enabled', 'Poll Enabled', ['class' => 'control-label col-sm-2']) !!}
  <div class="col-sm-3">
   {!! Form::select('poll_enabled', ['Y' => 'yes', 'N' => 'no' ], $node->poll_enabled, ['class' => 'form-control'] ) !!}

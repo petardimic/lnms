@@ -30,6 +30,8 @@ Route::resource('nodes', 'NodesController');
 Route::get('ports/{id}', 'PortsController@show');
 Route::get('ports/{id}/octets', 'PortsController@octets');
 
+Route::resource('locations', 'LocationsController');
+
 // api
 Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');
 Route::get('api/v1/nodes/{id}/snmp', 'NodesController@snmp');

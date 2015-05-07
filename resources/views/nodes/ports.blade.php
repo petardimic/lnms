@@ -59,6 +59,9 @@
      </tr>
     @endforeach
   </tbody>
+  <caption style="caption-side: bottom; text-align: right;">
+   {!! $ports->render() !!}
+  </caption>
  </table>
 @else
  <p>no ports data</p>

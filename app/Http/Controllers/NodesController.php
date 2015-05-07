@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 
 class NodesController extends Controller {
 
+    /*
+     * Constructor
+     *
+     */
     public function __construct()
     {
         // must auth before
@@ -21,12 +25,6 @@ class NodesController extends Controller {
 	 */
 	public function index()
 	{
-        //
-        //$request = \Request::route()->uri();
-        //dd($request);
-
-
-		//
         $q = \Request::get('q');
 
         if ($q <> '') {
@@ -63,6 +61,10 @@ class NodesController extends Controller {
 	{
 		//
         $input = $request->all();
+
+        if ($input['location_id'] == '') {
+            $input['location_id'] = null;
+        }
 
         \Session::flash('flash_message', 'node ' . $input['ip_address'] . ' created.');
 
@@ -109,6 +111,11 @@ class NodesController extends Controller {
 		//
         $node = \App\Node::findOrFail($id);
         $input = $request->all();
+
+        if ($input['location_id'] == '') {
+            $input['location_id'] = null;
+        }
+
         \Session::flash('flash_message', 'node ' . $node->ip_address . ' updated.');
         
         // update

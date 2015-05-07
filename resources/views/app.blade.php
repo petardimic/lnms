@@ -25,6 +25,7 @@
    <ul class="nav navbar-nav">
     <li id="home"><a href="/">Home</a></li>
     <li id="nodes"><a href="/nodes">Nodes</a></li>
+    <li id="locations"><a href="/locations">Locations</a></li>
    </ul>
 
    <ul class="nav navbar-nav navbar-right">

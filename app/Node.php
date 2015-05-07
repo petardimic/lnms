@@ -7,7 +7,7 @@ class Node extends Model {
 	//
     protected $fillable = [ 'name', 'ip_address',
                             'snmp_version', 'snmp_comm_ro',
-                            'poll_enabled' ];
+                            'poll_enabled', 'location_id' ];
 
     /*
      * node has many ports

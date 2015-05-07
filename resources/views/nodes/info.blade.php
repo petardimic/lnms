@@ -8,6 +8,10 @@
   <td>{{ $node->ip_address }}</td>
  </tr>
  <tr>
+  <th>Location</th>
+  <td>{{ $node->location_id }}</td>
+ </tr>
+ <tr>
   <th>Poll Enabled</th>
   <td>{{ $node->poll_enabled }}</td>
  </tr>
