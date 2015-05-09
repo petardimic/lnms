@@ -44,3 +44,8 @@ to retrieve options
   $value = $this->option('name');
 
 
+db seeder
+---------
+$ php artisan db:seed --class=UserTableSeeder
+
+

@@ -388,10 +388,19 @@ class NodesController extends Controller {
 
         // new class
         $node_class_name = '\App\Lnms\\' . $poll_class . '\Node';
-        $node_class = new $node_class_name();
+        $node_object = new $node_class_name();
 
-        //foreach ($node_class->pollers() as $poller) {
-        //}
+        if (method_exists($node_object, 'pollers')) {
+            dd($node_object->pollers());
+            foreach ($node_object->pollers() as $poller) {
+                print '<li>' . $poller;
+            }
+        }
+
+        print '<hr>';
+        die();
+
+
 
         return view('nodes.discover', compact('node', 'discover_status'));
     }
