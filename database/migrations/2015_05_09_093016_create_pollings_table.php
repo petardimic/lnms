@@ -15,18 +15,14 @@ class CreatePollingsTable extends Migration {
 		Schema::create('pollings', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
-            $table->bigInteger('poller_id')->unsigned();
-            $table->bigInteger('table_id')->unsigned();     // node_id, port_id
+			$table->string('poll_class');               //
+			$table->string('poll_method');              //
+			$table->string('table_name');               // 'nodes', 'ports', ...
+            $table->bigInteger('table_id')->unsigned(); // node_id, port_id
             $table->char('status', 1);         
             $table->string('interval');
 			$table->timestamps();
 
-            $table->unique(['poller_id', 'table_id']);
-
-            $table->foreign('poller_id')
-                  ->references('id')
-                  ->on('pollers')
-                  ->onDelete('cascade');
 		});
 	}
 

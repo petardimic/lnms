@@ -304,51 +304,9 @@ class NodesController extends Controller {
     }
 
     /**
-     * snmp get interfaces mibs
-     *
-     * @return Array
      *
      */
-    static public function snmpget_interfaces($ip_address, $snmp_comm_ro) {
-        
-        // return
-        $snmp_interfaces = [];
-
-        $snmp = new \App\Lnms\Snmp($ip_address, $snmp_comm_ro);
-
-        // walk ifDescr
-        $walk_ifDescr = $snmp->walk(OID_ifDescr);
-        foreach ($walk_ifDescr as $key1 => $value1) {
-            $ifIndex = str_replace(OID_ifDescr . '.', '', $key1);
-            $ifDescr = $value1;
-            $snmp_interfaces[$ifIndex]['ifIndex'] = $ifIndex;
-            $snmp_interfaces[$ifIndex]['ifDescr'] = $ifDescr;
-        }
-
-        $ifOids = array( 'ifType', 'ifSpeed', 'ifPhysAddress',
-                         'ifAdminStatus', 'ifOperStatus',
-                         'ifName', 'ifHighSpeed', 'ifAlias' );
-
-        foreach ($ifOids as $oid_name) {
-            $get_oids = array();
-            foreach ($snmp_interfaces as $ifIndex => $value1) {
-                $get_oids[] = constant('OID_' . $oid_name) . '.' . $ifIndex;
-            }
-
-            $get_result = $snmp->get($get_oids);
-
-            foreach ($snmp_interfaces as $ifIndex => $value1) {
-                $snmp_interfaces[$ifIndex][$oid_name] = $get_result[constant('OID_' . $oid_name) . '.' . $ifIndex];
-            }
-        }
-
-        return $snmp_interfaces;
-    }
-
-    /**
-     *
-     */
-    static public function poll_class(Array $snmp_system)
+    static public function mapSnmpSystemToPollClass(Array $snmp_system)
     {
         switch ($snmp_system['sysObjectID']) {
          case '.1.3.6.1.4.1.8072.3.2.10':
@@ -362,10 +320,11 @@ class NodesController extends Controller {
     }
 
     /**
-     * run snmp to discover node
+     * find node poll_class
      *
+     * @return poll class name
      */
-    public function discover($id)
+    public function findPollClass($id)
     {
         $node = \App\Node::findOrFail($id);
 
@@ -375,55 +334,100 @@ class NodesController extends Controller {
             $snmp_system = self::snmpget_system($node->ip_address, $node->snmp_comm_ro);
 
             if ($snmp_system) {
-                $poll_class = self::poll_class($snmp_system);
-                $discover_status = 'ping ok,snmp ok';
+                return self::mapSnmpSystemToPollClass($snmp_system);
             } else {
-                $poll_class = 'Generic\Ping';
-                $discover_status = 'ping only';
+                return 'Generic\Ping';
             }
         } else {
-            $poll_class = 'Generic\Ping';
-            $discover_status = 'ping fail';
+            return 'Generic\Unmanage';
         }
+    }
 
-        // new class
-        $node_class_name = '\App\Lnms\\' . $poll_class . '\Node';
+    /**
+     * run snmp to discover node
+     *
+     */
+    public function discover($id)
+    {
+        $node = \App\Node::findOrFail($id);
+
+        $discover_status = '';
+
+        $node_poll_class = self::findPollClass($id);
+
+        // new node_poll_class object
+        $node_class_name = '\App\Lnms\\' . $node_poll_class . '\Node';
         $node_object = new $node_class_name();
 
-        if (method_exists($node_object, 'pollers')) {
-            dd($node_object->pollers());
-            foreach ($node_object->pollers() as $poller) {
-                print '<li>' . $poller;
+        $node->poll_class = $node_poll_class;
+        $node->save();
+
+        $discover_status .= 'Node Class: ' . $node_poll_class . ', ';
+
+        foreach ($node_object->pollers() as $table_name => $pollers) {
+
+            foreach ($pollers as $poller_name => $poller_params) {
+                $poller_class  = '\App\Lnms\\' . $node_poll_class . '\\' . $poller_params['class'];
+                $poller_method = $poller_params['method'];
+
+                if ($poller_params['initial'] == 'Y') {
+                    $poller_object = new $poller_class($node);
+
+                    $poller_result = $poller_object->$poller_method();
+
+                    if ( !isset($poller_result['table']) ) {
+                        $poller_result['table'] = $table_name;
+                    }
+
+                    // $poller_result['table']
+                    // $poller_result['action'] = 'sync';
+                    // $poller_result['data'] = array
+                    $discover_status .= $poller_params['class'] . '::' . $poller_params['method'] . ' ' . count($poller_result['data']) . ' records, ';
+
+                    for ($i=0; $i<count($poller_result['data']); $i++) {
+
+                        switch ($poller_result['action']) {
+
+                         case 'insert':
+                            // insert new
+                            \DB::table($poller_result['table'])
+                                        ->insert($poller_result['data'][$i]);
+                            break;
+
+                         case 'sync':
+                         case 'update':
+
+                            // query existing data by key
+                            $poll_db = \DB::table($poller_result['table']);
+
+                            foreach ($poller_result['key'][$i] as $poll_key => $poll_value) {
+                                $poll_db = $poll_db->where($poll_key, $poll_value);
+                            }
+
+                            if ($poll_db->count() > 0) {
+                                // update
+                                \DB::table($poller_result['table'])
+                                            ->where('id', $poll_db->first()->id)
+                                            ->update($poller_result['data'][$i]);
+                            } else {
+                                if  ($poller_result['action'] == 'sync') {
+                                    // just insert for 'sync'
+                                    \DB::table($poller_result['table'])
+                                                ->insert(array_merge($poller_result['key'][$i], $poller_result['data'][$i]));
+                                }
+                            }
+
+                            // TODO : detect and delete removed Port from DB
+                            break;
+                        }
+                    }
+                }
             }
         }
-
-        print '<hr>';
-        die();
-
-
 
         return view('nodes.discover', compact('node', 'discover_status'));
     }
 
-
-//$snmp_interfaces = self::snmpget_interfaces($node->ip_address, $node->snmp_comm_ro);
-//        foreach ($snmp_interfaces as $ifIndex => $value1) {
-//            $port = \App\Port::where('node_id', $id)->where('ifIndex', $ifIndex);
-//            unset($value1['ifHighSpeed']);
-//
-//            if ($port->count() == 1) {
-//                // update port
-//                $port->update($value1);
-//                $port = $port->firstOrFail();
-//                $snmp_interfaces[$ifIndex]['poll_enabled'] = $port->poll_enabled;
-//            } else {
-//                // create port
-//                \App\Port::create($value1);
-//                $snmp_interfaces[$ifIndex]['poll_enabled'] = '';
-//            }
-//        }
-//
-//    }
 
 	public function discover_update($id)
     {
