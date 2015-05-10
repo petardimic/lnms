@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		'App\Console\Commands\PingPoller',
 		'App\Console\Commands\SnmpPoller',
-		'App\Console\Commands\OctetsPoller',
 		'App\Console\Commands\DiscoverPoller',
 		'App\Console\Commands\PortPoller',
 	];
@@ -26,14 +25,11 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		//$schedule->command('poller:ping')
-		//		 ->everyFiveMinutes();
+		$schedule->command('poller:ping')
+				 ->everyFiveMinutes();
 
-		//$schedule->command('poller:snmp')
-		//		 ->everyFiveMinutes();
-
-		//$schedule->command('poller:octets')
-		//		 ->everyFiveMinutes();
+		$schedule->command('poller:snmp')
+				 ->everyFiveMinutes();
 
 		$schedule->command('poller:port')
 				 ->everyFiveMinutes();

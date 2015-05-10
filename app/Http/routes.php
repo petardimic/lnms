@@ -25,10 +25,12 @@ Route::get('nodes/{id}/ports',      'NodesController@ports');
 Route::get('nodes/{id}/graph_ping', 'NodesController@graph_ping');
 Route::get('nodes/{id}/graph_snmp', 'NodesController@graph_snmp');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');
+Route::patch('nodes/{id}/ports',    'NodesController@ports_update');
 Route::resource('nodes', 'NodesController');
 
 Route::get('ports/{id}', 'PortsController@show');
-Route::get('ports/{id}/octets', 'PortsController@octets');
+Route::get('ports/{id}/pollings', 'PortsController@pollings');
+Route::patch('ports/{id}/pollings', 'PortsController@pollings_update');
 
 Route::resource('locations', 'LocationsController');
 

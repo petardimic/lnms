@@ -16,7 +16,10 @@
   </tr>
  </table>
 
+{!! Form::open(['id'     => 'form',
+                'method' => 'PATCH' ]) !!}
 @if (count($ports))
+
  <table class="table table-bordered table-hover">
   <thead>
    <tr>
@@ -39,10 +42,10 @@
 
        @if ($port['poll_enabled'] == 'Y')
         <input type="checkbox" id="poll_enabled_{{ $port['ifIndex'] }}" 
-               name="poll_enabled[{{ $port['ifIndex'] }}]" checked disabled>
+               name="poll_enabled[{{ $port['ifIndex'] }}]" checked >
        @else
         <input type="checkbox" id="poll_enabled_{{ $port['ifIndex'] }}" 
-               name="poll_enabled[{{ $port['ifIndex'] }}]" disabled>
+               name="poll_enabled[{{ $port['ifIndex'] }}]" >
        @endif
       </td>
       <td>{{ $port['ifIndex'] }}</td>
@@ -55,10 +58,12 @@
     @endforeach
   </tbody>
  </table>
+  {!! Form::submit('Update', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
 @else
  <p>no ports data</p>
 @endif
 <a href="/nodes/{{ $node->id }}" class="btn btn-default">Back</a>
 
+ {!! Form::close() !!}
 
 @stop

@@ -491,8 +491,18 @@ class NodesController extends Controller {
 
     }
 
-
+    /**
+     *
+     */
 	public function discover_update($id)
+    {
+        return redirect('nodes/' . $id . '/discover');
+    }
+
+    /**
+     *
+     */
+	public function ports_update($id)
     {
         $input = \Request::all();
         $node = \App\Node::findOrFail($id);
@@ -512,7 +522,7 @@ class NodesController extends Controller {
 
         \Session::flash('flash_message', 'polling status updated.');
 
-        return redirect('nodes/' . $id . '/discover');
+        return redirect('nodes/' . $id . '/ports');
     }
 
 	/**

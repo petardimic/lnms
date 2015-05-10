@@ -215,6 +215,14 @@ class Port {
         return $_ret;
     }
 
+    /**
+     * poller ifSpeed
+     *
+     * @return Array
+     */
+    public function poll_ifSpeed($ifIndex='') {
+        return $this->poll_if('ifSpeed', $ifIndex);
+    }
 
 
 }

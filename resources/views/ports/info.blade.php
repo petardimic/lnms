@@ -18,14 +18,10 @@
  </tr>
  <tr>
   <th>ifSpeed</th>
-  <td>{{ $port->ifSpeed }}</td>
+  <td>{{ $port->dsp_ifSpeed }}</td>
  </tr>
  <tr>
-  <th>ifAdminStatus</th>
-  <td>{{ $port->ifAdminStatus }}</td>
- </tr>
- <tr>
-  <th>ifOperStatus</th>
-  <td>{{ $port->ifOperStatus }}</td>
+  <th>Status</th>
+  <td>{{ $port->dsp_ifStatus }}</td>
  </tr>
 </table>

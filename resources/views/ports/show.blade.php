@@ -13,6 +13,6 @@
 
  @include('ports.info')
 
- <a href="/ports/{{ $port->id }}/octets" class="btn btn-primary">Octets</a>
+ <a href="/ports/{{ $port->id }}/pollings" class="btn btn-primary">Pollings</a>
  <a href="/nodes/{{ $port->node->id }}/ports" class="btn btn-default">Back</a>
 @stop
