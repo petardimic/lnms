@@ -38,18 +38,31 @@ class PortPoller extends Command {
 	public function fire()
 	{
 		//
-        $pollings = \App\Polling::where('table_name', 'ports')
-                                ->where('status', 'Y')
-                                ->get();
+
+        $option_interval = $this->option('interval');
+        $option_status   = $this->option('status');
+
+        if ($option_status == 'A') {
+            // poll all
+            $pollings = \App\Polling::where('table_name', 'ports')
+                                    ->where('interval', $option_interval)
+                                    ->get();
+        } else {
+            // poll only status = 'Y'
+            $pollings = \App\Polling::where('table_name', 'ports')
+                                    ->where('status', 'Y')
+                                    ->where('interval', $option_interval)
+                                    ->get();
+        }
 
         foreach ($pollings as $polling) {
 
             $port = \App\Port::findOrFail($polling->table_id);
 
-            if ($port->poll_enabled == 'Y') {
+            if ($port->poll_enabled == 'Y' || $option_status == 'A') {
 
                 $poll_class = '\App\Lnms\\' . $port->node->poll_class . '\\' . $polling->poll_class;
-    
+
                 $poll_object = new $poll_class($port->node);
     
                 $poll_method = $polling->poll_method;
@@ -132,7 +145,10 @@ class PortPoller extends Command {
 	 */
 	protected function getOptions()
 	{
-		return [];
+		return [
+			['interval', null, InputOption::VALUE_OPTIONAL, 'Poll Interval', '5'],
+			['status',   null, InputOption::VALUE_OPTIONAL, 'Poll Only Status', 'Y'],
+		];
 	}
 
 }

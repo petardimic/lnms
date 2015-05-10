@@ -195,13 +195,25 @@ class Port {
      * @return Array
      */
     public function poll_ifOctets($ifIndex='') {
+
+        if ($ifIndex == '') {
+            // poll only one port, specified by ifIndex
+            return [];
+        }
+
+        $port = \App\Port::where('node_id', $this->node->id)
+                         ->where('ifIndex', $ifIndex)
+                         ->first();
+
+        if ($port->ifOperStatus <> 1) {
+            return [];
+        }
+
+        // poll only Port Up
         $poll_results = $this->poll_if(['ifInOctets', 'ifOutOctets'], $ifIndex);
 
         // mapping data
         for ($i=0; $i<count($poll_results); $i++) {
-            //$port = \App\Port::where('node_id', $this->node->id)
-            //                ->where('ifIndex', $poll_results[$i]['key']['ifIndex'])
-            //                ->first();
 
             $_ret[] = [ 'table'  => 'pds',
                         'action' => 'insert',
@@ -211,6 +223,7 @@ class Port {
                                     ]
                       ];
         }
+
 
         return $_ret;
     }

@@ -15,19 +15,19 @@ class Node extends \App\Lnms\Generic\Base\Node {
                                       'method'   => 'poll_ifDescr',
                                       'initial'  => 'Y',
                                       'default'  => 'Y',
-                                      'interval' => '5'];
+                                      'interval' => 'daily'];
 
         $_ret['ports']['ifType'] =   ['class'    => 'Port',
                                       'method'   => 'poll_ifType',
                                       'initial'  => 'Y',
                                       'default'  => 'Y',
-                                      'interval' => '5'];
+                                      'interval' => 'daily'];
 
         $_ret['ports']['ifSpeed'] =  ['class'    => 'Port',
                                       'method'   => 'poll_ifSpeed',
                                       'initial'  => 'Y',
                                       'default'  => 'Y',
-                                      'interval' => '5'];
+                                      'interval' => 'daily'];
 
         $_ret['ports']['ifStatus'] = ['class'    => 'Port',
                                       'method'   => 'poll_ifStatus',
