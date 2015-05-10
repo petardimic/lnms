@@ -16,7 +16,7 @@
   </tr>
  </table>
 
- <p>Discover Status: {{ $discover_status }}</p>
+ <p>Discover Result: {{ $discover_result }}</p>
 <a href="/nodes/{{ $node->id }}" class="btn btn-default">Back</a>
 
 @stop

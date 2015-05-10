@@ -167,7 +167,9 @@ class NodesController extends Controller {
         /**
          * Maximum nodes to fping in the same time
          */
-        define('FPING_MAX_NODES', '10');;
+        if ( ! defined('FPING_MAX_NODES') ) {
+            define('FPING_MAX_NODES', '10');
+        }
 
         // targets to fping
         $targets = array_chunk($ip_addresses, FPING_MAX_NODES);
@@ -324,7 +326,7 @@ class NodesController extends Controller {
      *
      * @return poll class name
      */
-    public function findPollClass($id)
+    static public function findPollClass($id)
     {
         $node = \App\Node::findOrFail($id);
 
@@ -344,14 +346,28 @@ class NodesController extends Controller {
     }
 
     /**
-     * run snmp to discover node
+     * display discover
      *
+     * @return view
      */
     public function discover($id)
     {
         $node = \App\Node::findOrFail($id);
+        $discover_result = self::execDiscover($id);
 
-        $discover_status = '';
+        return view('nodes.discover', compact('node', 'discover_result'));
+    }
+    
+    /**
+     * run snmp to discover node
+     *
+     * @return string
+     */
+    static public function execDiscover($id)
+    {
+        $node = \App\Node::findOrFail($id);
+
+        $discover_result = '';
 
         $node_poll_class = self::findPollClass($id);
 
@@ -362,7 +378,7 @@ class NodesController extends Controller {
         $node->poll_class = $node_poll_class;
         $node->save();
 
-        $discover_status .= 'Node Class: ' . $node_poll_class . ', ';
+        $discover_result .= 'Node Class: ' . $node_poll_class . ', ';
 
         foreach ($node_object->pollers() as $table_name => $pollers) {
 
@@ -370,50 +386,53 @@ class NodesController extends Controller {
                 $poller_class  = '\App\Lnms\\' . $node_poll_class . '\\' . $poller_params['class'];
                 $poller_method = $poller_params['method'];
 
+
                 if ($poller_params['initial'] == 'Y') {
                     $poller_object = new $poller_class($node);
 
                     $poller_result = $poller_object->$poller_method();
 
-                    if ( !isset($poller_result['table']) ) {
-                        $poller_result['table'] = $table_name;
-                    }
+                    $discover_result .= $poller_params['class'] . '::' . $poller_params['method'] . ' ' . count($poller_result) . ' records, ';
+                    for ($i=0; $i<count($poller_result); $i++) {
 
-                    // $poller_result['table']
-                    // $poller_result['action'] = 'sync';
-                    // $poller_result['data'] = array
-                    $discover_status .= $poller_params['class'] . '::' . $poller_params['method'] . ' ' . count($poller_result['data']) . ' records, ';
-
-                    for ($i=0; $i<count($poller_result['data']); $i++) {
-
-                        switch ($poller_result['action']) {
+                        switch ($poller_result[$i]['action']) {
 
                          case 'insert':
                             // insert new
-                            \DB::table($poller_result['table'])
-                                        ->insert($poller_result['data'][$i]);
+                            if ( isset($poller_result[$i]['key']) ) {
+                                \DB::table($poller_result[$i]['table'])
+                                            ->insert(array_merge($poller_result[$i]['key'], $poller_result[$i]['data']));
+                            } else {
+                                \DB::table($poller_result[$i]['table'])
+                                            ->insert($poller_result[$i]['data']);
+                            }
                             break;
 
                          case 'sync':
                          case 'update':
 
                             // query existing data by key
-                            $poll_db = \DB::table($poller_result['table']);
+                            $poll_db = \DB::table($poller_result[$i]['table']);
 
-                            foreach ($poller_result['key'][$i] as $poll_key => $poll_value) {
+                            foreach ($poller_result[$i]['key'] as $poll_key => $poll_value) {
                                 $poll_db = $poll_db->where($poll_key, $poll_value);
                             }
 
                             if ($poll_db->count() > 0) {
                                 // update
-                                \DB::table($poller_result['table'])
+                                \DB::table($poller_result[$i]['table'])
                                             ->where('id', $poll_db->first()->id)
-                                            ->update($poller_result['data'][$i]);
+                                            ->update($poller_result[$i]['data']);
                             } else {
-                                if  ($poller_result['action'] == 'sync') {
+                                if  ($poller_result[$i]['action'] == 'sync') {
                                     // just insert for 'sync'
-                                    \DB::table($poller_result['table'])
-                                                ->insert(array_merge($poller_result['key'][$i], $poller_result['data'][$i]));
+                                    if ( isset($poller_result[$i]['key']) ) {
+                                        \DB::table($poller_result[$i]['table'])
+                                                ->insert(array_merge($poller_result[$i]['key'], $poller_result[$i]['data']));
+                                    } else {
+                                        \DB::table($poller_result[$i]['table'])
+                                                ->insert($poller_result[$i]['data']);
+                                    }
                                 }
                             }
 
@@ -425,7 +444,8 @@ class NodesController extends Controller {
             }
         }
 
-        return view('nodes.discover', compact('node', 'discover_status'));
+        return $discover_result;
+
     }
 
 

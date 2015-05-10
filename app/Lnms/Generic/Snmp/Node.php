@@ -11,23 +11,29 @@ class Node extends \App\Lnms\Generic\Base\Node {
         $_ret = [];
 
         // Port pollers
-        $_ret['ports']['descr']  = ['class'    => 'Port',
-                                    'method'   => 'poll_descr',
-                                    'initial'  => 'Y',
-                                    'default'  => 'Y',
-                                    'interval' => '5'];
+        $_ret['ports']['ifDescr']  = ['class'    => 'Port',
+                                      'method'   => 'poll_ifDescr',
+                                      'initial'  => 'N',
+                                      'default'  => 'Y',
+                                      'interval' => '5'];
 
-        $_ret['ports']['status'] = ['class'    => 'Port',
-                                    'method'   => 'poll_status',
-                                    'initial'  => 'N',
-                                    'default'  => 'Y',
-                                    'interval' => '5'];
+        $_ret['ports']['ifType'] =   ['class'    => 'Port',
+                                      'method'   => 'poll_ifType',
+                                      'initial'  => 'Y',
+                                      'default'  => 'Y',
+                                      'interval' => '5'];
 
-        $_ret['ports']['octets'] = ['class'    => 'Port',
-                                    'method'   => 'poll_octets',
-                                    'initial'  => 'N',
-                                    'default'  => 'Y',
-                                    'interval' => '5'];
+        $_ret['ports']['ifStatus'] = ['class'    => 'Port',
+                                      'method'   => 'poll_ifStatus',
+                                      'initial'  => 'N',
+                                      'default'  => 'Y',
+                                      'interval' => '5'];
+
+        $_ret['ports']['ifOctets'] = ['class'    => 'Port',
+                                      'method'   => 'poll_ifOctets',
+                                      'initial'  => 'Y',
+                                      'default'  => 'Y',
+                                      'interval' => '5'];
 
         return $_ret;
     }

@@ -21,21 +21,15 @@ class Port {
      *
      * @return Array
      */
-    public function poll_descr() {
+    public function poll_ifDescr() {
 
         // return
         $_ret = [];
-
-        $_ret['table']  = 'ports';
-        $_ret['action'] = 'sync';
-        $_ret['key']  = [];
-        $_ret['data'] = [];
 
         $snmp = new \App\Lnms\Snmp($this->node->ip_address, $this->node->snmp_comm_ro);
 
         // walk ifDescr
         $walk_ifDescr = $snmp->walk(OID_ifDescr);
-
 
         if (count($walk_ifDescr) > 0) {
             // found ports
@@ -43,10 +37,13 @@ class Port {
                 $ifIndex = str_replace(OID_ifDescr . '.', '', $key1);
                 $ifDescr = $value1;
 
-                $_ret['key'][] =  [ 'node_id' => $this->node->id,
-                                    'ifIndex' => $ifIndex ];
+                $_ret[] =  [ 'table'  => 'ports',
+                             'action' => 'sync',
+                             'key'    => [ 'node_id' => $this->node->id,
+                                           'ifIndex' => $ifIndex ],
 
-                $_ret['data'][] = [ 'ifDescr' => $ifDescr ];
+                             'data'   => [ 'ifDescr' => $ifDescr ],
+                            ];
             }
         }
 
@@ -54,11 +51,117 @@ class Port {
     }
 
     /**
-     * poller status
+     * common poller if
      *
      * @return Array
      */
-    public function poll_status() {
+    public function poll_if($ifOIDs, $tables = [0 => [ 'table' => 'ports', 'action' => 'update' ]]) {
+        // return
+        $_ret = [];
+
+        $snmp = new \App\Lnms\Snmp($this->node->ip_address, $this->node->snmp_comm_ro);
+
+        $oids = [];
+
+        foreach ($this->node->ports as $port) {
+            if ( is_array($ifOIDs) ) {
+                foreach ($ifOIDs as $ifOID) {
+                    $oids[] = constant('OID_' . $ifOID) . '.' . $port->ifIndex;
+                }
+            } else {
+                $oids[] = constant('OID_' . $ifOIDs) . '.' . $port->ifIndex;
+            }
+        }
+
+        if (count($oids) > 0) {
+            $get_result = $snmp->get($oids);
+
+            if ($get_result > 0) {
+
+                if ( is_array($ifOIDs) ) {
+                    $ifData = [];
+
+                    foreach ($get_result as $key1 => $value1) {
+
+                        $ifKey = preg_replace('/\.[0-9]+$/', '', $key1);
+                        $ifIndex = str_replace($ifKey . '.', '', $key1);
+
+                        foreach ($ifOIDs as $ifOID) {
+                            if ( constant('OID_' . $ifOID) == $ifKey ) {
+                                $ifData[$ifIndex][$ifOID] = $value1;
+                            }
+                        }
+                    }
+
+                    foreach ($ifData as $ifIndex => $ifValues) {
+                        foreach ($tables as $table) {
+
+                            // replace column name as defined
+                            foreach ($ifValues as $ifKey => $ifValue) {
+                                if ( isset($table['columns'][$ifKey]) ) {
+                                    $ifDataValues[$table['columns'][$ifKey]] = $ifValue;
+                                } else {
+                                    $ifDataValues[$ifKey] = $ifValue;
+                                }
+                            }
+
+                            $_ret[] =  [ 'table'  => $table['table'],
+                                         'action' => $table['action'],
+                                         'key'    => [ 'node_id' => $this->node->id,
+                                                       'ifIndex' => $ifIndex ],
+            
+                                         'data'   => $ifDataValues,
+                                        ];
+                        }
+                    }
+
+                } else {
+                    foreach ($get_result as $key1 => $value1) {
+                        $ifIndex = str_replace(constant('OID_' . $ifOIDs) . '.', '', $key1);
+                        $ifValue = $value1;
+
+                        foreach ($tables as $table) {
+
+                            // replace column name as defined
+                            if ( isset($table['columns'][$ifOIDs]) ) {
+                                $ifOIDs = $table['columns'][$ifOIDs];
+                            }
+
+                            $_ret[] =  [ 'table'  => $table['table'],
+                                         'action' => $table['action'],
+                                         'key'    => [ 'node_id' => $this->node->id,
+                                                       'ifIndex' => $ifIndex ],
+            
+                                         'data'   => [ $ifOIDs   => $ifValue ],
+                                        ];
+                        }
+                    }
+                }
+            }
+        }
+
+        return $_ret;
+    }
+
+    /**
+     * poller ifType
+     *
+     * @return Array
+     */
+    public function poll_ifType() {
+
+        $ifOID = 'ifType';
+
+        return $this->poll_if($ifOID);
+    }
+
+    /**
+     * poller ifStatus : ifAdminStatus, ifOperStatus
+     *
+     * @return Array
+     */
+    public function poll_ifStatus() {
+        return $this->poll_if(['ifAdminStatus', 'ifOperStatus']);
     }
 
     /**
@@ -66,56 +169,28 @@ class Port {
      *
      * @return Array
      */
-    public function poll_octets() {
-    }
+    public function poll_ifOctets() {
 
-    /**
-     * snmp get interfaces mibs
-     *
-     * @return Array
-     *
-     */
-    public function snmpget_interfaces() {
-        
+        $poll_results = $this->poll_if(['ifInOctets', 'ifOutOctets']);
 
-        $ifOids = array( 'ifType', 'ifSpeed', 'ifPhysAddress',
-                         'ifAdminStatus', 'ifOperStatus',
-                         'ifName', 'ifHighSpeed', 'ifAlias' );
+        // mapping data
+        for ($i=0; $i<count($poll_results); $i++) {
+            $port = \App\Port::where('node_id', $this->node->id)
+                            ->where('ifIndex', $poll_results[$i]['key']['ifIndex'])
+                            ->first();
 
-        foreach ($ifOids as $oid_name) {
-            $get_oids = array();
-            foreach ($snmp_interfaces as $ifIndex => $value1) {
-                $get_oids[] = constant('OID_' . $oid_name) . '.' . $ifIndex;
-            }
-
-            $get_result = $snmp->get($get_oids);
-
-            foreach ($snmp_interfaces as $ifIndex => $value1) {
-                $snmp_interfaces[$ifIndex][$oid_name] = $get_result[constant('OID_' . $oid_name) . '.' . $ifIndex];
-            }
+            $_ret[] = [ 'table'  => 'pds',
+                        'action' => 'insert',
+                        'key'    => [ 'port_id' => $port->id ],
+                        'data'   => [ 'input'  => $poll_results[$i]['data']['ifInOctets'],
+                                      'output' => $poll_results[$i]['data']['ifOutOctets'],
+                                    ]
+                      ];
         }
 
-        return $snmp_interfaces;
+        return $_ret;
     }
 
-//$snmp_interfaces = self::snmpget_interfaces($node->ip_address, $node->snmp_comm_ro);
-//        foreach ($snmp_interfaces as $ifIndex => $value1) {
-//            $port = \App\Port::where('node_id', $id)->where('ifIndex', $ifIndex);
-//            unset($value1['ifHighSpeed']);
-//
-//            if ($port->count() == 1) {
-//                // update port
-//                $port->update($value1);
-//                $port = $port->firstOrFail();
-//                $snmp_interfaces[$ifIndex]['poll_enabled'] = $port->poll_enabled;
-//            } else {
-//                // create port
-//                \App\Port::create($value1);
-//                $snmp_interfaces[$ifIndex]['poll_enabled'] = '';
-//            }
-//        }
-//
-//    }
+
 
 }
-
