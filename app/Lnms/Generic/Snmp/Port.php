@@ -21,10 +21,15 @@ class Port {
      *
      * @return Array
      */
-    public function poll_ifDescr() {
+    public function poll_ifDescr($ifIndex='') {
 
         // return
         $_ret = [];
+
+        if ($ifIndex <> '') {
+            $poll_results = $this->poll_if('ifDescr', $ifIndex);
+            return $poll_results;
+        }
 
         $snmp = new \App\Lnms\Snmp($this->node->ip_address, $this->node->snmp_comm_ro);
 
@@ -55,7 +60,10 @@ class Port {
      *
      * @return Array
      */
-    public function poll_if($ifOIDs, $tables = [0 => [ 'table' => 'ports', 'action' => 'update' ]]) {
+    //public function poll_if($ifOIDs, $tables = [0 => [ 'table' => 'ports', 'action' => 'update' ]]) {
+
+    public function poll_if($ifOIDs, $ifIndex='') {
+
         // return
         $_ret = [];
 
@@ -63,13 +71,23 @@ class Port {
 
         $oids = [];
 
-        foreach ($this->node->ports as $port) {
+        if ($ifIndex == '') {
+            foreach ($this->node->ports as $port) {
+                if ( is_array($ifOIDs) ) {
+                    foreach ($ifOIDs as $ifOID) {
+                        $oids[] = constant('OID_' . $ifOID) . '.' . $port->ifIndex;
+                    }
+                } else {
+                    $oids[] = constant('OID_' . $ifOIDs) . '.' . $port->ifIndex;
+                }
+            }
+        } else {
             if ( is_array($ifOIDs) ) {
                 foreach ($ifOIDs as $ifOID) {
-                    $oids[] = constant('OID_' . $ifOID) . '.' . $port->ifIndex;
+                    $oids[] = constant('OID_' . $ifOID) . '.' . $ifIndex;
                 }
             } else {
-                $oids[] = constant('OID_' . $ifOIDs) . '.' . $port->ifIndex;
+                $oids[] = constant('OID_' . $ifOIDs) . '.' . $ifIndex;
             }
         }
 
@@ -94,25 +112,13 @@ class Port {
                     }
 
                     foreach ($ifData as $ifIndex => $ifValues) {
-                        foreach ($tables as $table) {
-
-                            // replace column name as defined
-                            foreach ($ifValues as $ifKey => $ifValue) {
-                                if ( isset($table['columns'][$ifKey]) ) {
-                                    $ifDataValues[$table['columns'][$ifKey]] = $ifValue;
-                                } else {
-                                    $ifDataValues[$ifKey] = $ifValue;
-                                }
-                            }
-
-                            $_ret[] =  [ 'table'  => $table['table'],
-                                         'action' => $table['action'],
-                                         'key'    => [ 'node_id' => $this->node->id,
-                                                       'ifIndex' => $ifIndex ],
+                        $_ret[] =  [ 'table'  => 'ports',
+                                     'action' => 'update',
+                                     'key'    => [ 'node_id' => $this->node->id,
+                                                  'ifIndex' => $ifIndex ],
             
-                                         'data'   => $ifDataValues,
-                                        ];
-                        }
+                                     'data'   => $ifValues,
+                                    ];
                     }
 
                 } else {
@@ -120,21 +126,13 @@ class Port {
                         $ifIndex = str_replace(constant('OID_' . $ifOIDs) . '.', '', $key1);
                         $ifValue = $value1;
 
-                        foreach ($tables as $table) {
-
-                            // replace column name as defined
-                            if ( isset($table['columns'][$ifOIDs]) ) {
-                                $ifOIDs = $table['columns'][$ifOIDs];
-                            }
-
-                            $_ret[] =  [ 'table'  => $table['table'],
-                                         'action' => $table['action'],
-                                         'key'    => [ 'node_id' => $this->node->id,
-                                                       'ifIndex' => $ifIndex ],
+                        $_ret[] =  [ 'table'  => 'ports',
+                                     'action' => 'update',
+                                     'key'    => [ 'node_id' => $this->node->id,
+                                                   'ifIndex' => $ifIndex ],
             
-                                         'data'   => [ $ifOIDs   => $ifValue ],
-                                        ];
-                        }
+                                     'data'   => [ $ifOIDs   => $ifValue ],
+                                    ];
                     }
                 }
             }
@@ -148,11 +146,38 @@ class Port {
      *
      * @return Array
      */
-    public function poll_ifType() {
+    public function poll_ifType($ifIndex='') {
 
-        $ifOID = 'ifType';
+        $poll_results = $this->poll_if('ifType', $ifIndex);
 
-        return $this->poll_if($ifOID);
+        // mapping data
+        for ($i=0; $i<count($poll_results); $i++) {
+
+            $_ret[] = [ 'table'  => 'ports',
+                        'action' => 'update',
+                        'key'    => $poll_results[$i]['key'],
+                        'data'   => $poll_results[$i]['data'], 
+                      ];
+
+            switch ($poll_results[$i]['data']['ifType']) {
+             case '24':
+                $u_poll_enabled = 'N';
+                break;
+
+             default:
+                $u_poll_enabled = 'Y';
+                break;
+            }
+
+            $_ret[] = [ 'table'  => 'ports',
+                        'action' => 'update',
+                        'key'    => $poll_results[$i]['key'],
+                        'data'   => ['poll_enabled' => $u_poll_enabled],
+                      ];
+        }
+
+        return $_ret;
+
     }
 
     /**
@@ -160,8 +185,8 @@ class Port {
      *
      * @return Array
      */
-    public function poll_ifStatus() {
-        return $this->poll_if(['ifAdminStatus', 'ifOperStatus']);
+    public function poll_ifStatus($ifIndex='') {
+        return $this->poll_if(['ifAdminStatus', 'ifOperStatus'], $ifIndex);
     }
 
     /**
@@ -169,19 +194,18 @@ class Port {
      *
      * @return Array
      */
-    public function poll_ifOctets() {
-
-        $poll_results = $this->poll_if(['ifInOctets', 'ifOutOctets']);
+    public function poll_ifOctets($ifIndex='') {
+        $poll_results = $this->poll_if(['ifInOctets', 'ifOutOctets'], $ifIndex);
 
         // mapping data
         for ($i=0; $i<count($poll_results); $i++) {
-            $port = \App\Port::where('node_id', $this->node->id)
-                            ->where('ifIndex', $poll_results[$i]['key']['ifIndex'])
-                            ->first();
+            //$port = \App\Port::where('node_id', $this->node->id)
+            //                ->where('ifIndex', $poll_results[$i]['key']['ifIndex'])
+            //                ->first();
 
             $_ret[] = [ 'table'  => 'pds',
                         'action' => 'insert',
-                        'key'    => [ 'port_id' => $port->id ],
+                        'key'    => $poll_results[$i]['key'],
                         'data'   => [ 'input'  => $poll_results[$i]['data']['ifInOctets'],
                                       'output' => $poll_results[$i]['data']['ifOutOctets'],
                                     ]

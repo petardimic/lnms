@@ -23,6 +23,8 @@ class CreatePollingsTable extends Migration {
             $table->string('interval');
 			$table->timestamps();
 
+            $table->unique(['poll_class', 'poll_method', 'table_name', 'table_id']);
+
 		});
 	}
 

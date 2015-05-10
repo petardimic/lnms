@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\SnmpPoller',
 		'App\Console\Commands\OctetsPoller',
 		'App\Console\Commands\DiscoverPoller',
+		'App\Console\Commands\PortPoller',
 	];
 
 	/**
@@ -33,6 +34,9 @@ class Kernel extends ConsoleKernel {
 
 		//$schedule->command('poller:octets')
 		//		 ->everyFiveMinutes();
+
+		$schedule->command('poller:port')
+				 ->everyFiveMinutes();
 	}
 
 }

@@ -382,19 +382,19 @@ class NodesController extends Controller {
 
         foreach ($node_object->pollers() as $table_name => $pollers) {
 
-            foreach ($pollers as $poller_name => $poller_params) {
-                $poller_class  = '\App\Lnms\\' . $node_poll_class . '\\' . $poller_params['class'];
-                $poller_method = $poller_params['method'];
 
+            foreach ($pollers as $poller_name => $poller_params) {
 
                 if ($poller_params['initial'] == 'Y') {
+
+                    $poller_class  = '\App\Lnms\\' . $node_poll_class . '\\' . $poller_params['class'];
+                    $poller_method = $poller_params['method'];
+
                     $poller_object = new $poller_class($node);
-
                     $poller_result = $poller_object->$poller_method();
-
                     $discover_result .= $poller_params['class'] . '::' . $poller_params['method'] . ' ' . count($poller_result) . ' records, ';
-                    for ($i=0; $i<count($poller_result); $i++) {
 
+                    for ($i=0; $i<count($poller_result); $i++) {
                         switch ($poller_result[$i]['action']) {
 
                          case 'insert':
@@ -440,6 +440,49 @@ class NodesController extends Controller {
                             break;
                         }
                     }
+                }
+
+                // update pollings table
+                for ($i=0; $i<count($poller_result); $i++) {
+
+                    $i_poll_class  = $poller_params['class'];
+                    $i_poll_method = $poller_params['method'];
+                    $i_table_name  = $table_name;
+                    $i_status      = $poller_params['default'];
+                    $i_interval    = $poller_params['interval'];
+
+
+                    // query existing data by key
+                    $poll_db = \DB::table($i_table_name);
+
+                    foreach ($poller_result[$i]['key'] as $poll_key => $poll_value) {
+                        $poll_db = $poll_db->where($poll_key, $poll_value);
+                    }
+
+                    $i_table_id = $poll_db->first()->id;
+
+                    $polling_db = \Db::table('pollings')
+                                        ->where('poll_class', $i_poll_class)
+                                        ->where('poll_method', $i_poll_method)
+                                        ->where('table_name', $i_table_name)
+                                        ->where('table_id', $i_table_id);
+
+                    if ($polling_db->count() == 0) {
+                        // if not exists, insert new pollings
+
+                        $i_polling_data = [
+                            'poll_class' => $i_poll_class,
+                            'poll_method'=> $i_poll_method,
+                            'table_name' => $i_table_name,
+                            'table_id'   => $i_table_id,
+                            'status'     => $i_status,
+                            'interval'   => $i_interval,
+                        ];
+    
+                        \DB::table('pollings')
+                                    ->insert($i_polling_data);
+                    }
+                    // TODO: delete unused pollings records
                 }
             }
         }

@@ -13,7 +13,7 @@ class Node extends \App\Lnms\Generic\Base\Node {
         // Port pollers
         $_ret['ports']['ifDescr']  = ['class'    => 'Port',
                                       'method'   => 'poll_ifDescr',
-                                      'initial'  => 'N',
+                                      'initial'  => 'Y',
                                       'default'  => 'Y',
                                       'interval' => '5'];
 
@@ -31,7 +31,7 @@ class Node extends \App\Lnms\Generic\Base\Node {
 
         $_ret['ports']['ifOctets'] = ['class'    => 'Port',
                                       'method'   => 'poll_ifOctets',
-                                      'initial'  => 'Y',
+                                      'initial'  => 'N',
                                       'default'  => 'Y',
                                       'interval' => '5'];
 
