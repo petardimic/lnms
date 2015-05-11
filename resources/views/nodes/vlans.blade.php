@@ -23,6 +23,7 @@
    <tr>
     <th>vlanIndex</th>
     <th>vlanName</th>
+    <th>Ports</th>
    </tr>
   </thead>
   <caption style="caption-side: top; text-align: right;">
@@ -33,6 +34,7 @@
      <tr>
       <td>{{ $vlan->vlanIndex }}</td>
       <td>{{ $vlan->vlanName }}</td>
+      <td>{{ json_encode($vlan->ports->lists('ifDescr')) }}</td>
      </tr>
     @endforeach
   </tbody>

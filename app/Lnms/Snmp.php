@@ -35,6 +35,11 @@ class Snmp {
      */
     protected $output_options = '0efnqt';
 
+    /**
+     * set other snmp command options
+     */
+    protected $options = '';
+
     /*
      * SNMP Get Command
      */
@@ -60,22 +65,37 @@ class Snmp {
         $this->snmp_comm_ro = $snmp_comm_ro;
         $this->snmp_version = $snmp_version;
 
-        // SNMP Get Command
-        $this->snmpget = 'snmpget -O ' . $this->output_options
-                           . ' -v ' . $snmp_version
-                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
+//        // SNMP Get Command
+//        $this->snmpget = 'snmpget -O ' . $this->output_options
+//                           . ' ' . $this->options
+//                           . ' -v ' . $snmp_version
+//                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
+//
+//        // SNMP Walk Command
+//        $this->snmpwalk = 'snmpwalk -O ' . $this->output_options
+//                           . ' ' . $this->options
+//                           . ' -v ' . $snmp_version
+//                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
 
-        // SNMP Walk Command
-        $this->snmpwalk = 'snmpwalk -O ' . $this->output_options
-                           . ' -v ' . $snmp_version
-                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
+    }
 
+    /**
+     * set other snmp options
+     */
+    public function setOptions($options) {
+        $this->options = $options;
     }
 
     /*
      * run snmpget
      */
     public function get($oids) {
+
+        // SNMP Get Command
+        $this->snmpget = 'snmpget -O ' . $this->output_options
+                           . ' ' . $this->options
+                           . ' -v ' . $this->snmp_version
+                           . ' -c ' . $this->snmp_comm_ro . ' ' . $this->ip_address ;
 
         if ( is_array($oids) ) {
             $oids = implode(' ', $oids);
@@ -91,6 +111,12 @@ class Snmp {
      * run snmpwalk
      */
     public function walk($oid) {
+
+        // SNMP Walk Command
+        $this->snmpwalk = 'snmpwalk -O ' . $this->output_options
+                           . ' ' . $this->options
+                           . ' -v ' . $this->snmp_version
+                           . ' -c ' . $this->snmp_comm_ro . ' ' . $this->ip_address;
 
         // clear last error before snmpget again
         $this->error = '';
@@ -133,6 +159,12 @@ class Snmp {
                     // oid ok
                     $oid   = preg_replace('/^([^\ ]+) *.*/', '\\1', $exec_out1[$i]);
                     $value = preg_replace('/' . $oid . ' */', '', $exec_out1[$i]); 
+
+                    // remove begin and end ", and trim space at the end of line
+                    $value = preg_replace('/^"/', '', $value);
+                    $value = preg_replace('/"$/', '', $value);
+                    $value = trim($value);
+
                     $_ret[$oid] = $value;
                 } elseif ( preg_match('/^Failed object:/', $exec_out1[$i]) ) {
                     // oid fail
@@ -227,7 +259,20 @@ define('OID_ifConnectorPresent',        '.1.3.6.1.2.1.31.1.1.1.17');
 define('OID_ifAlias',                   '.1.3.6.1.2.1.31.1.1.1.18');
 define('OID_ifCounterDiscontinuityTime','.1.3.6.1.2.1.31.1.1.1.19');
 
-// vlan
-define('OID_vlanName', '.1.3.6.1.2.1.17.7.1.4.3.1.1');
+// vlan (only static)
+define('OID_dot1qVlanStaticName',           '.1.3.6.1.2.1.17.7.1.4.3.1.1');
+define('OID_dot1qVlanStaticEgressPorts',    '.1.3.6.1.2.1.17.7.1.4.3.1.2');
+define('OID_dot1qVlanForbiddenEgressPorts', '.1.3.6.1.2.1.17.7.1.4.3.1.3');
+define('OID_dot1qVlanStaticUntaggedPorts',  '.1.3.6.1.2.1.17.7.1.4.3.1.4');
+define('OID_dot1qVlanStaticRowStatus',      '.1.3.6.1.2.1.17.7.1.4.3.1.5');
 
+// vlan (all)
+define('OID_dot1qVlanFdbId',                '.1.3.6.1.2.1.17.7.1.4.2.1.3');
+define('OID_dot1qVlanCurrentEgressPorts',   '.1.3.6.1.2.1.17.7.1.4.2.1.4');
+define('OID_dot1qVlanCurrentUntaggedPorts', '.1.3.6.1.2.1.17.7.1.4.2.1.5');
+define('OID_dot1qVlanStatus',               '.1.3.6.1.2.1.17.7.1.4.2.1.6'); // 1 : other 2 : permanent 3 : dynamicGvrp
+define('OID_dot1qVlanCreationTime',         '.1.3.6.1.2.1.17.7.1.4.2.1.7');
+
+// map between portIndex and ifIndex
+define('OID_dot1dBasePortIfIndex',          '.1.3.6.1.2.1.17.1.4.1.2');
 

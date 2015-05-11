@@ -23,13 +23,15 @@ class PortsController extends Controller {
 
         $pollings = [];
 
-        foreach ($node_pollers['ports'] as $poller_name => $poller_params) {
-
-            $pollings[] = \App\Polling::where('poll_class',  $poller_params['class'])
-                                      ->where('poll_method', $poller_params['method'])
-                                      ->where('table_name',  'ports')
-                                      ->where('table_id',    $id)
-                                      ->first();
+        if ( isset($node_pollers['ports']) ) {
+            foreach ($node_pollers['ports'] as $poller_name => $poller_params) {
+    
+                $pollings[] = \App\Polling::where('poll_class',  $poller_params['class'])
+                                          ->where('poll_method', $poller_params['method'])
+                                          ->where('table_name',  'ports')
+                                          ->where('table_id',    $id)
+                                          ->first();
+            }
         }
 
         return view('ports.pollings', compact('port', 'pollings'));

@@ -28,6 +28,13 @@ class Port extends Model {
     }
 
     /**
+     * port belongs to many vlans
+     */
+    public function vlans() {
+        return $this->belongsToMany('\App\Vlan');
+    }
+
+    /**
      * Display ifType
      *
      * @return String

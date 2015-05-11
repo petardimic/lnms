@@ -12,4 +12,12 @@ class Vlan extends Model {
         return $this->belongsTo('\App\Node');
     }
 
+    /*
+     * vlan belongs to many ports
+     */
+    public function ports()
+    {
+        return $this->belongsToMany('\App\Port');
+    }
+
 }

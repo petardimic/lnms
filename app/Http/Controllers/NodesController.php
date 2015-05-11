@@ -395,8 +395,13 @@ class NodesController extends Controller {
 
         $discover_result .= 'Node Class: ' . $node_poll_class . ', ';
 
+        // init result          
+        $poller_result = [];
+
         foreach ($node_object->pollers() as $table_name => $pollers) {
 
+            // reset result
+            $poller_result = [];
 
             foreach ($pollers as $poller_name => $poller_params) {
 
@@ -466,7 +471,6 @@ class NodesController extends Controller {
                     $i_status      = $poller_params['default'];
                     $i_interval    = $poller_params['interval'];
 
-
                     // query existing data by key
                     $poll_db = \DB::table($i_table_name);
 
@@ -500,6 +504,7 @@ class NodesController extends Controller {
                     // TODO: delete unused pollings records
                 }
             }
+
         }
 
         return $discover_result;
