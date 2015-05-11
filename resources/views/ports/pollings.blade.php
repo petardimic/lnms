@@ -35,7 +35,7 @@
                  name="status[{{ $polling['id'] }}]" >
          @endif
          </td>
-         <td>{{ $polling->poll_method }}</td>
+         <td><a href="/pollings/{{ $polling->id }}/ds">{{ $polling->poll_method }}</a></td>
          <td>{{ $polling->interval }}</td>
         </tr>
     @endforeach

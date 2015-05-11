@@ -22,6 +22,7 @@ Route::get('/', 'PagesController@home');
 Route::get('nodes/{id}/test',       'NodesController@test');
 Route::get('nodes/{id}/discover',   'NodesController@discover');
 Route::get('nodes/{id}/ports',      'NodesController@ports');
+Route::get('nodes/{id}/vlans',      'NodesController@vlans');
 Route::get('nodes/{id}/graph_ping', 'NodesController@graph_ping');
 Route::get('nodes/{id}/graph_snmp', 'NodesController@graph_snmp');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');
@@ -33,6 +34,8 @@ Route::get('ports/{id}/pollings', 'PortsController@pollings');
 Route::patch('ports/{id}/pollings', 'PortsController@pollings_update');
 
 Route::resource('locations', 'LocationsController');
+
+Route::get('pollings/{id}/ds', 'PollingsController@ds');
 
 // api
 Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');

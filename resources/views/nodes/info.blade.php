@@ -9,7 +9,7 @@
  </tr>
  <tr>
   <th>Location</th>
-  <td>{{ $node->location_id }}</td>
+  <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
  </tr>
  <tr>
   <th>Poll Enabled</th>

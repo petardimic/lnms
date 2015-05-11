@@ -19,6 +19,15 @@ class Node extends Model {
     }
 
     /**
+     * node has many vlans
+     *
+     * @return
+     */
+    public function vlans() {
+        return $this->hasMany('\App\Vlan');
+    }
+
+    /**
      * node has many pings
      *
      * @return

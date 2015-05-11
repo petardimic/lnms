@@ -227,3 +227,7 @@ define('OID_ifConnectorPresent',        '.1.3.6.1.2.1.31.1.1.1.17');
 define('OID_ifAlias',                   '.1.3.6.1.2.1.31.1.1.1.18');
 define('OID_ifCounterDiscontinuityTime','.1.3.6.1.2.1.31.1.1.1.19');
 
+// vlan
+define('OID_vlanName', '.1.3.6.1.2.1.17.7.1.4.3.1.1');
+
+

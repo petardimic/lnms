@@ -26,9 +26,11 @@
    <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=location_id">Location</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_enabled">Poll Enabled</a></th>
-   <th><a href="/nodes?q={{ $q }}&sort=snmp_success">SNMP Version</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=poll_class">Poll Class</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ping_success">Ping Success</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=snmp_success">SNMP Success</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=ports">#Ports</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=vlans">#VLANs</a></th>
   </tr>
  </thead>
  <tbody>
@@ -38,9 +40,11 @@
     <td>{{ $node->ip_address }}</td>
     <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
     <td>{{ $node->dsp_poll_enabled }}</td>
-    <td>{{ $node->dsp_snmp_version }}</td>
+    <td>{{ $node->poll_class }}</td>
     <td>{{ $node->ping_success }}%</td>
     <td>{{ $node->snmp_success }}%</td>
+    <td><a href="/nodes/{{ $node->id }}/ports">{{ $node->ports->count() }}</a></td>
+    <td><a href="/nodes/{{ $node->id }}/vlans">{{ $node->vlans->count() }}</a></td>
    </tr>
   @endforeach
  </tbody>

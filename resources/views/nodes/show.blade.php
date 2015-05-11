@@ -12,6 +12,8 @@
 
   @include('nodes.info')
 
+  <a href="/nodes/{{ $node->id }}/vlans" class="btn btn-primary">VLANs</a>
+
   <a href="/nodes/{{ $node->id }}/ports" class="btn btn-primary">Ports</a>
 
   <a href="/nodes/{{ $node->id }}/discover" class="btn btn-primary">Discover Node</a>

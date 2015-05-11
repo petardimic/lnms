@@ -315,6 +315,21 @@ class NodesController extends Controller {
             return 'Netsnmp\Linux';
             break;
 
+         case '.1.3.6.1.4.1.9.6.1.83.10.1': // Cisco SG300-10    10-Port Gigabit Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.10.2': // Cisco SG300-10P   10-Port Gigabit PoE Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.10.3': // Cisco SG300-10MP  10-Port Gigabit Max-PoE Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.10.5': // Cisco SG300-10SFP 10-port Gigabit Managed SFP Switch
+         case '.1.3.6.1.4.1.9.6.1.83.20.1': // Cisco SG300-20    20-Port Gigabit Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.28.1': // Cisco SG300-28    28-Port Gigabit Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.28.2': // Cisco SG300-28P   28-Port Gigabit PoE Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.28.3': // Cisco SG300-28MP  28-port Gigabit Max-PoE Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.28.5': // Cisco SG300-28SFP 28-port Gigabit SFP Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.52.1': // Cisco SG300-52    52-Port Gigabit Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.52.2': // Cisco SG300-52P   52-port Gigabit PoE Managed Switch
+         case '.1.3.6.1.4.1.9.6.1.83.52.3': // Cisco SG300-52MP  52-port Gigabit Max-PoE Managed Switch
+            return 'Cisco\Sg300';
+            break;
+
          default:
             return 'Generic\Snmp';
             break;
@@ -565,5 +580,17 @@ class NodesController extends Controller {
         $ports = \App\Port::where('node_id', $id)->orderBy('ifIndex')->paginate(10);
 
         return view('nodes.ports', compact('node', 'ports'));
+    }
+
+    /**
+     * display vlans in node
+     *
+     */
+    public function vlans($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $vlans = \App\Vlan::where('node_id', $id)->orderBy('vlanIndex')->paginate(10);
+
+        return view('nodes.vlans', compact('node', 'vlans'));
     }
 }

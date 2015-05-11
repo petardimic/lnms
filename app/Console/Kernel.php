@@ -25,11 +25,11 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-//		$schedule->command('poller:ping')
-//				 ->everyFiveMinutes();
-//
-//		$schedule->command('poller:snmp')
-//				 ->everyFiveMinutes();
+		$schedule->command('poller:ping')
+				 ->everyFiveMinutes();
+
+		$schedule->command('poller:snmp')
+				 ->everyFiveMinutes();
 
         $schedule->command('poller:port')
                  ->everyFiveMinutes();
