@@ -610,4 +610,28 @@ class NodesController extends Controller {
 
         return view('nodes.macs', compact('node', 'macs'));
     }
+
+    /**
+     * display ips in node
+     *
+     */
+    public function ips($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $ips = \App\Ip::where('node_id', $id)->orderBy('ipAddress')->paginate(10);
+
+        return view('nodes.ips', compact('node', 'ips'));
+    }
+
+    /**
+     * display arps in node
+     *
+     */
+    public function arps($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $arps = \App\Arp::where('node_id', $id)->orderBy('ipAddress')->paginate(10);
+
+        return view('nodes.arps', compact('node', 'arps'));
+    }
 }

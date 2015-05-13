@@ -42,6 +42,20 @@ class Port extends Model {
     }
 
     /**
+     * port has many ips
+     */
+    public function ips() {
+        return $this->hasMany('\App\Ip');
+    }
+
+    /**
+     * port has many arps
+     */
+    public function arps() {
+        return $this->hasMany('\App\Arp');
+    }
+
+    /**
      * Display ifType
      *
      * @return String

@@ -35,6 +35,20 @@ class Node extends Model {
     }
 
     /**
+     * node has many ips
+     */
+    public function ips() {
+        return $this->hasMany('\App\Ip');
+    }
+
+    /**
+     * node has many arps
+     */
+    public function arps() {
+        return $this->hasMany('\App\Arp');
+    }
+
+    /**
      * node has many pings
      *
      * @return

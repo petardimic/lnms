@@ -34,6 +34,8 @@ Route::get('nodes/{id}/discover',   'NodesController@discover');
 Route::get('nodes/{id}/ports',      'NodesController@ports');
 Route::get('nodes/{id}/vlans',      'NodesController@vlans');
 Route::get('nodes/{id}/macs',       'NodesController@macs');
+Route::get('nodes/{id}/ips',        'NodesController@ips');
+Route::get('nodes/{id}/arps',       'NodesController@arps');
 Route::get('nodes/{id}/graph_ping', 'NodesController@graph_ping');
 Route::get('nodes/{id}/graph_snmp', 'NodesController@graph_snmp');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');

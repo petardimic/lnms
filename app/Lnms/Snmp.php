@@ -274,8 +274,19 @@ define('OID_dot1qVlanStatus',               '.1.3.6.1.2.1.17.7.1.4.2.1.6'); // 1
 define('OID_dot1qVlanCreationTime',         '.1.3.6.1.2.1.17.7.1.4.2.1.7');
 
 // map between portIndex and ifIndex
-define('OID_dot1dBasePortIfIndex',          '.1.3.6.1.2.1.17.1.4.1.2');
+define('OID_dot1dBasePortIfIndex',  '.1.3.6.1.2.1.17.1.4.1.2');
 
-// vlanIndex.macDec = portIndex
-define('OID_dot1qTpFdbPort',                '.1.3.6.1.2.1.17.7.1.2.2.1.2');
+// oid.vlanIndex.macDec(6) = portIndex
+define('OID_dot1qTpFdbPort',    '.1.3.6.1.2.1.17.7.1.2.2.1.2');
+
+//  ipAdEntAddr
+define('OID_ipAdEntAddr',       '.1.3.6.1.2.1.4.20.1.1');   // oid.ipAddress(4) = ipAddress
+define('OID_ipAdEntIfIndex',    '.1.3.6.1.2.1.4.20.1.2');   // oid.ipAddress(4) = ifIndex
+define('OID_ipAdEntNetMask',    '.1.3.6.1.2.1.4.20.1.3');   // oid.ipAddress(4) = netmask
+
+// ipNetToMedia
+define('OID_ipNetToMediaIfIndex',       '.1.3.6.1.2.1.4.22.1.1');   // oid.ifIndex.ipAddress(4) = ifIndex
+define('OID_ipNetToMediaPhysAddress',   '.1.3.6.1.2.1.4.22.1.2');   // oid.ifIndex.ipAddress(4) = macAddress
+define('OID_ipNetToMediaNetAddress',    '.1.3.6.1.2.1.4.22.1.3');   // oid.ifIndex.ipAddress(4) = ipAddress
+define('OID_ipNetToMediaType',          '.1.3.6.1.2.1.4.22.1.4');   // oid.ifIndex.ipAddress(4) = arpType
 

@@ -12,6 +12,11 @@
 
   @include('nodes.info')
 
+
+  <a href="/nodes/{{ $node->id }}/arps" class="btn btn-primary">ARPs</a>
+
+  <a href="/nodes/{{ $node->id }}/ips" class="btn btn-primary">IPs</a>
+
   <a href="/nodes/{{ $node->id }}/macs" class="btn btn-primary">MACs</a>
 
   <a href="/nodes/{{ $node->id }}/vlans" class="btn btn-primary">VLANs</a>
