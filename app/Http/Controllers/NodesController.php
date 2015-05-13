@@ -634,4 +634,16 @@ class NodesController extends Controller {
 
         return view('nodes.arps', compact('node', 'arps'));
     }
+
+    /**
+     * display routes in node
+     *
+     */
+    public function routes($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $routes = \App\Route::where('node_id', $id)->orderBy('routeDest')->paginate(10);
+
+        return view('nodes.routes', compact('node', 'routes'));
+    }
 }

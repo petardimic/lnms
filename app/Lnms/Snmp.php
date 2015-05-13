@@ -290,3 +290,10 @@ define('OID_ipNetToMediaPhysAddress',   '.1.3.6.1.2.1.4.22.1.2');   // oid.ifInd
 define('OID_ipNetToMediaNetAddress',    '.1.3.6.1.2.1.4.22.1.3');   // oid.ifIndex.ipAddress(4) = ipAddress
 define('OID_ipNetToMediaType',          '.1.3.6.1.2.1.4.22.1.4');   // oid.ifIndex.ipAddress(4) = arpType
 
+// ipRoute
+define('OID_ipRouteIfIndex',    '.1.3.6.1.2.1.4.21.1.2');   // oid.routeDest(4) = ifIndex
+define('OID_ipRouteNextHop',    '.1.3.6.1.2.1.4.21.1.7');   // oid.routeDest(4) = routeNextHop
+define('OID_ipRouteType',       '.1.3.6.1.2.1.4.21.1.8');   // oid.routeDest(4) = routeType
+define('OID_ipRouteProto',      '.1.3.6.1.2.1.4.21.1.9');   // oid.routeDest(4) = routeProto
+define('OID_ipRouteMask',       '.1.3.6.1.2.1.4.21.1.11');  // oid.routeDest(4) = routeMasks
+

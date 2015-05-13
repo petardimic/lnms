@@ -49,6 +49,13 @@ class Node extends Model {
     }
 
     /**
+     * node has many routes
+     */
+    public function routes() {
+        return $this->hasMany('\App\Route');
+    }
+
+    /**
      * node has many pings
      *
      * @return

@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Arp extends Model {
+class Route extends Model {
 
     /*
-     * arp belongs to node
+     * route belongs to node
      */
     public function node()
     {
@@ -13,10 +13,11 @@ class Arp extends Model {
     }
 
     /*
-     * arp belongs to port
+     * route belongs to port
      */
     public function port()
     {
         return $this->belongsTo('\App\Port');
     }
+
 }
