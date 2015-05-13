@@ -49,7 +49,7 @@
        @endif
       </td>
       <td>{{ $port['ifIndex'] }}</td>
-      <td><a href="/ports/{{ $port->id }}">{{ $port['ifDescr'] }}</a></td>
+      <td><a href="/ports/{{ $port->id }}">{{ $port->dsp_ifDescr }}</a></td>
       <td>{{ $port['ifAlias'] }}</td>
       <td>{{ $port->dsp_ifType }}</td>
       <td>{{ $port['dsp_ifStatus'] }}</td>

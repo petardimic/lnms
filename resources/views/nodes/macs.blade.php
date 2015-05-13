@@ -1,9 +1,9 @@
 @extends('app')
 
-@section('title', 'nodes.vlans')
+@section('title', 'nodes.macs')
 
 @section('content')
- <h1>nodes.vlans</h1>
+ <h1>nodes.macs</h1>
 
  <table class="table table-bordered table-hover">
   <tr>
@@ -16,31 +16,31 @@
   </tr>
  </table>
 
-@if (count($vlans))
+@if (count($macs))
 
  <table class="table table-bordered table-hover">
   <thead>
    <tr>
-    <th>vlanIndex</th>
-    <th>vlanName</th>
-    <th>Ports</th>
+    <th>macAddress</th>
+    <th>Port</th>
+    <th>VLAN</th>
    </tr>
   </thead>
   <caption style="caption-side: top; text-align: right;">
-   {!! $vlans->render() !!}
+   {!! $macs->render() !!}
   </caption>
   <tbody>
-    @foreach ($vlans as $vlan)
+    @foreach ($macs as $mac)
      <tr>
-      <td>{{ $vlan->vlanIndex }}</td>
-      <td>{{ $vlan->vlanName }}</td>
-      <td>{{ json_encode($vlan->ports->lists('dsp_ifDescr')) }}</td>
+      <td>{{ $mac->macAddress }}</td>
+      <td>{{ $mac->port->dsp_ifDescr }}</td>
+      <td>{{ $mac->vlan->vlanIndex }}</td>
      </tr>
     @endforeach
   </tbody>
  </table>
 @else
- <p>no vlans data</p>
+ <p>no macs data</p>
 @endif
 <a href="/nodes/{{ $node->id }}" class="btn btn-default">Back</a>
 

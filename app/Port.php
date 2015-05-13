@@ -35,6 +35,13 @@ class Port extends Model {
     }
 
     /**
+     * port has many macs
+     */
+    public function macs() {
+        return $this->hasMany('\App\Mac');
+    }
+
+    /**
      * Display ifType
      *
      * @return String
@@ -375,6 +382,19 @@ class Port extends Model {
             return 'Unknown';
             break;
         }
+    }
+
+    /**
+     * Display ifDescr
+     *
+     * @return String
+     */
+    public function getDspIfDescrAttribute() {
+
+        $this->ifDescr = str_replace('gigabitethernet', 'Gig ', $this->ifDescr);
+
+        return $this->ifDescr;
+
     }
 }
 

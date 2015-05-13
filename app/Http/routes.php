@@ -11,9 +11,19 @@
 |
 */
 
+// temporary disable register and password pages
+Route::get('auth/register', function() {
+    return 'disabled';
+});
+
+Route::post('auth/register', function() {
+    return 'disabled';
+});
+
+//	'password' => 'Auth\PasswordController',
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
 ]);
 
 Route::get('home', 'PagesController@home');
@@ -23,6 +33,7 @@ Route::get('nodes/{id}/test',       'NodesController@test');
 Route::get('nodes/{id}/discover',   'NodesController@discover');
 Route::get('nodes/{id}/ports',      'NodesController@ports');
 Route::get('nodes/{id}/vlans',      'NodesController@vlans');
+Route::get('nodes/{id}/macs',       'NodesController@macs');
 Route::get('nodes/{id}/graph_ping', 'NodesController@graph_ping');
 Route::get('nodes/{id}/graph_snmp', 'NodesController@graph_snmp');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');

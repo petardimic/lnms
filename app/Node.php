@@ -28,6 +28,13 @@ class Node extends Model {
     }
 
     /**
+     * node has many macs
+     */
+    public function macs() {
+        return $this->hasMany('\App\Mac');
+    }
+
+    /**
      * node has many pings
      *
      * @return

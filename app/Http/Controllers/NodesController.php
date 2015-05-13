@@ -598,4 +598,16 @@ class NodesController extends Controller {
 
         return view('nodes.vlans', compact('node', 'vlans'));
     }
+
+    /**
+     * display macs in node
+     *
+     */
+    public function macs($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $macs = \App\Mac::where('node_id', $id)->orderBy('macAddress')->paginate(10);
+
+        return view('nodes.macs', compact('node', 'macs'));
+    }
 }

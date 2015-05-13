@@ -20,4 +20,10 @@ class Vlan extends Model {
         return $this->belongsToMany('\App\Port');
     }
 
+    /**
+     * vlan has many macs
+     */
+    public function macs() {
+        return $this->hasMany('\App\Mac');
+    }
 }
