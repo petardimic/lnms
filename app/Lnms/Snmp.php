@@ -91,6 +91,10 @@ class Snmp {
      */
     public function get($oids) {
 
+        if ( ! is_array($oids) ) {
+            $oids = [ $oids ];
+        }
+
         // SNMP Get Command
         $this->snmpget = 'snmpget -O ' . $this->output_options
                            . ' ' . $this->options
@@ -312,4 +316,9 @@ define('OID_ipRouteNextHop',    '.1.3.6.1.2.1.4.21.1.7');   // oid.routeDest(4) 
 define('OID_ipRouteType',       '.1.3.6.1.2.1.4.21.1.8');   // oid.routeDest(4) = routeType
 define('OID_ipRouteProto',      '.1.3.6.1.2.1.4.21.1.9');   // oid.routeDest(4) = routeProto
 define('OID_ipRouteMask',       '.1.3.6.1.2.1.4.21.1.11');  // oid.routeDest(4) = routeMasks
+
+// Aironet
+define('OID_cd11IfAuxSsid',                     '.1.3.6.1.4.1.9.9.272.1.1.1.6.1.2');
+define('OID_cd11IfPhyDsssMaxCompatibleRate',    '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.1');    // 500 Kb per second
+define('OID_cd11IfPhyDsssCurrentChannel',       '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.3');
 

@@ -41,7 +41,7 @@ class SnmpPoller extends Command {
         $nodes = \App\Node::where('poll_enabled', 'Y')
                           ->where('ping_success', 100)
                           ->where('snmp_version', '<>', 0)
-                          ->where('snmp_comm_ro', '<>', '')
+                          ->where('sysObjectID', '')
                           ->get();
 
         foreach ($nodes as $node) {

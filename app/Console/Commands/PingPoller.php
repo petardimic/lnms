@@ -37,7 +37,8 @@ class PingPoller extends Command {
 	 */
 	public function fire()
 	{
-        $nodes = \App\Node::where('poll_enabled', 'Y')->get();
+        //$nodes = \App\Node::where('poll_enabled', 'Y')->get();
+        $nodes = \App\Node::all();
 
         foreach ($nodes as $node) {
 
@@ -51,6 +52,8 @@ class PingPoller extends Command {
                 // ping fail
                 $ping_success = 0;
             }
+
+            print $node->ip_address . ' = ' . $ping_success . '%' . PHP_EOL;
 
             $u_node = \App\Node::find($node->id);
             $u_node->ping_success = $ping_success;

@@ -56,6 +56,13 @@ class Port extends Model {
     }
 
     /**
+     * port has many bssids
+     */
+    public function bssids() {
+        return $this->hasMany('\App\Bssid');
+    }
+
+    /**
      * Display ifType
      *
      * @return String

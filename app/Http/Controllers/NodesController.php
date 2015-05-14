@@ -332,6 +332,62 @@ class NodesController extends Controller {
             return 'Cisco\Sg300';
             break;
 
+//         case '.1.3.6.1.4.1.9.1.431'; // catalyst355012G    WS-C3550-12G    10 GBIC + 2 10/100/1000
+//         case '.1.3.6.1.4.1.9.1.368'; // catalyst355012T    WS-C3550-12T    10 10/100/1000 + 2 GBIC
+//         case '.1.3.6.1.4.1.9.1.366'; // catalyst355024     WS-C3550-24     24 10/100 + 2 GBIC
+//         case '.1.3.6.1.4.1.9.1.367'; // catalyst355048     WS-C3550-48     48 10/100 + 2 GBIC
+//         case '.1.3.6.1.4.1.9.1.485'; // catalyst355024PWR  WS-C3550-24PWR  24 10/100 PWR + 2 GBIC
+//            // Cisco Catalyst 3550 Series Switches
+//            return 'Cisco\Cat3550';
+//            break;
+//
+//         case '.1.3.6.1.4.1.9.1.550'; // cisco1701
+//         case '.1.3.6.1.4.1.9.1.538'; // cisco1711
+//         case '.1.3.6.1.4.1.9.1.539'; // cisco1712
+//         case '.1.3.6.1.4.1.9.1.444'; // cisco1721
+//         case '.1.3.6.1.4.1.9.1.326'; // cisco1751
+//         case '.1.3.6.1.4.1.9.1.416'; // cisco1760
+//            // Cisco 1700 Series Modular Access Routers
+//            return 'Cisco\R1700';
+//            break;
+//
+//
+//         case '.1.3.6.1.4.1.9.1.638'; // cisco1801
+//         case '.1.3.6.1.4.1.9.1.639'; // cisco1802
+//         case '.1.3.6.1.4.1.9.1.640'; // cisco1803
+//         case '.1.3.6.1.4.1.9.1.641'; // cisco1811
+//         case '.1.3.6.1.4.1.9.1.642'; // cisco1812
+//         case '.1.3.6.1.4.1.9.1.620'; // cisco1841
+//         case '.1.3.6.1.4.1.9.1.1065'; // cisco1861
+//            // Cisco 1800 Series Integrated Services Routers
+//            return 'Cisco\R1800';
+//            break;
+//
+//         case '.1.3.6.1.4.1.9.1.1192'; // cisco1905k9
+//         case '.1.3.6.1.4.1.9.1.1191'; // cisco1921k9
+//         case '.1.3.6.1.4.1.9.1.1095'; // cisco1941W
+//         case '.1.3.6.1.4.1.9.1.1172'; // cisco1941WEK9
+//         case '.1.3.6.1.4.1.9.1.1173'; // cisco1941WPK9
+//         case '.1.3.6.1.4.1.9.1.1174'; // cisco1941WNK9
+//            // Cisco 1900 Series Integrated Services Routers
+//            return 'Cisco\R1900';
+//            break;
+
+         case '.1.3.6.1.4.1.9.1.507'; // ciscoAIRAP1100
+         case '.1.3.6.1.4.1.9.1.618'; // ciscoAIRAP1130
+            // Cisco Aironet 1100 Series
+            return 'Cisco\Ap1100';
+            break;
+
+
+         case '.1.3.6.1.4.1.9.1.474'; // ciscoAIRAP1200
+         case '.1.3.6.1.4.1.9.1.525'; // ciscoAIRAP1210
+         case '.1.3.6.1.4.1.9.1.685'; // ciscoAIRAP1240
+         case '.1.3.6.1.4.1.9.1.758'; // ciscoAIRAP1250
+            // Cisco Aironet 1200 Series
+            return 'Cisco\Ap1200';
+            break;
+
          default:
             return 'Generic\Snmp';
             break;
@@ -647,5 +703,17 @@ class NodesController extends Controller {
         $routes = \App\Route::where('node_id', $id)->orderBy('routeDest')->paginate(10);
 
         return view('nodes.routes', compact('node', 'routes'));
+    }
+
+    /**
+     * display bssids in node
+     *
+     */
+    public function bssids($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $bssids = \App\Bssid::where('node_id', $id)->orderBy('bssidIndex')->paginate(10);
+
+        return view('nodes.bssids', compact('node', 'bssids'));
     }
 }
