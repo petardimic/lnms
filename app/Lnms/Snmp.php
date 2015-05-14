@@ -97,13 +97,29 @@ class Snmp {
                            . ' -v ' . $this->snmp_version
                            . ' -c ' . $this->snmp_comm_ro . ' ' . $this->ip_address ;
 
-        if ( is_array($oids) ) {
-            $oids = implode(' ', $oids);
+        /**
+         * Maximum oids to snmpget in the same time
+         */
+        if ( ! defined('SNMPGET_MAX_OIDS') ) {
+            define('SNMPGET_MAX_OIDS', '10');
         }
 
-        // clear last error before snmpget again
+        if ( count($oids) > SNMPGET_MAX_OIDS ) {
+            // targets to fping
+            $chunks = array_chunk($oids, SNMPGET_MAX_OIDS);
+        } else {
+            $chunks = [];
+            $chunks[] = $oids;
+        }
+
+        // clear last error before snmpget
         $this->error = '';
-        exec("$this->snmpget $oids 2>&1", $exec_out1, $exec_ret1);
+
+        foreach ($chunks as $chunk) {
+            $oids = implode(' ', $chunk);
+            exec("$this->snmpget $oids 2>&1", $exec_out1, $exec_ret1);
+        }
+
         return $this->output($exec_out1, $exec_ret1);
     }
 

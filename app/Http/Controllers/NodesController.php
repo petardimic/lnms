@@ -277,9 +277,11 @@ class NodesController extends Controller {
         $snmp = new \App\Lnms\Snmp($ip_address, $snmp_comm_ro);
 
         // get system
-        $systemOids = array( 'sysDescr', 'sysObjectID',
-                             'sysUpTime', 'sysContact',
-                             'sysName', 'sysLocation', );
+        //$systemOids = array( 'sysDescr', 'sysObjectID',
+        //                     'sysUpTime', 'sysContact',
+        //                     'sysName', 'sysLocation', );
+
+        $systemOids = array( 'sysDescr', 'sysObjectID', );
 
         $get_oids = array();
 
@@ -582,7 +584,7 @@ class NodesController extends Controller {
     public function ports($id)
     {
         $node = \App\Node::findOrFail($id);
-        $ports = \App\Port::where('node_id', $id)->orderBy('ifIndex')->paginate(10);
+        $ports = \App\Port::where('node_id', $id)->orderBy('ifIndex')->paginate(100);
 
         return view('nodes.ports', compact('node', 'ports'));
     }

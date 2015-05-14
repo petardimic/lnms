@@ -26,6 +26,7 @@
    <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=location_id">Location</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_enabled">Poll Enabled</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=sysObjectID">sysObjectID</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_class">Poll Class</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ping_success">Ping Success</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=snmp_success">SNMP Success</a></th>
@@ -40,6 +41,7 @@
     <td>{{ $node->ip_address }}</td>
     <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
     <td>{{ $node->dsp_poll_enabled }}</td>
+    <td>{{ $node->sysObjectID }}</td>
     <td>{{ $node->poll_class }}</td>
     <td>{{ $node->ping_success }}%</td>
     <td>{{ $node->snmp_success }}%</td>

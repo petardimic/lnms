@@ -27,6 +27,7 @@
     <th>ifIndex</th>
     <th>Name</th>
     <th>Description</th>
+    <th>IP Address</th>
     <th>Type</th>
     <th>Status</th>
     <th>Speed</th>
@@ -51,6 +52,8 @@
       <td>{{ $port['ifIndex'] }}</td>
       <td><a href="/ports/{{ $port->id }}">{{ $port->dsp_ifDescr }}</a></td>
       <td>{{ $port['ifAlias'] }}</td>
+      <td>{{ $port->ips->count() ? json_encode($port->ips->lists('ipAddress')) : '' }}</td>
+
       <td>{{ $port->dsp_ifType }}</td>
       <td>{{ $port['dsp_ifStatus'] }}</td>
       <td>{{ $port->dsp_ifSpeed }}</td>

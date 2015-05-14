@@ -47,8 +47,10 @@ class Port {
                              'key'    => [ 'node_id' => $this->node->id,
                                            'ifIndex' => $ifIndex ],
 
-                             'data'   => [ 'ifDescr' => $ifDescr ],
+                             'data'   => [ 'ifDescr' => $ifDescr, ],
                             ];
+
+
             }
         }
 
@@ -72,7 +74,10 @@ class Port {
         $oids = [];
 
         if ($ifIndex == '') {
+
             foreach ($this->node->ports as $port) {
+
+
                 if ( is_array($ifOIDs) ) {
                     foreach ($ifOIDs as $ifOID) {
                         $oids[] = constant('OID_' . $ifOID) . '.' . $port->ifIndex;
@@ -82,6 +87,7 @@ class Port {
                 }
             }
         } else {
+
             if ( is_array($ifOIDs) ) {
                 foreach ($ifOIDs as $ifOID) {
                     $oids[] = constant('OID_' . $ifOID) . '.' . $ifIndex;
@@ -159,8 +165,11 @@ class Port {
                         'data'   => $poll_results[$i]['data'], 
                       ];
 
+            // update ifType
             switch ($poll_results[$i]['data']['ifType']) {
-             case '24':
+             case '24':  // softwareLoopback
+             case '53':  // propVirtual
+             case '131': // tunnel
                 $u_poll_enabled = 'N';
                 break;
 
@@ -237,5 +246,22 @@ class Port {
         return $this->poll_if('ifSpeed', $ifIndex);
     }
 
+    /**
+     * poller ifName
+     *
+     * @return Array
+     */
+    public function poll_ifName($ifIndex='') {
+        return $this->poll_if('ifName', $ifIndex);
+    }
+
+    /**
+     * poller ifAlias
+     *
+     * @return Array
+     */
+    public function poll_ifAlias($ifIndex='') {
+        return $this->poll_if('ifAlias', $ifIndex);
+    }
 
 }

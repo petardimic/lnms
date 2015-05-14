@@ -343,7 +343,7 @@ class Port extends Model {
         ];
 
         if ( isset($ifTypeArray[$this->ifType]) ) {
-            return $ifTypeArray[$this->ifType];
+            return $ifTypeArray[$this->ifType] . '(' . $this->ifType . ')';
         } else {
             return $this->ifType;
         }
@@ -405,7 +405,25 @@ class Port extends Model {
      */
     public function getDspIfDescrAttribute() {
 
+        switch ($this->ifDescr) {
+
+         case 'Ethernet Interface':
+            // Sg300
+            $this->ifDescr = $this->ifName;
+            break;
+
+         case 'vlan':
+            // Sg300
+            $this->ifDescr = 'VLAN ' . $this->ifName;
+            break;
+        }
+
         $this->ifDescr = str_replace('gigabitethernet', 'Gig ', $this->ifDescr);
+
+        if ( preg_match('/^gi[0-9]/', $this->ifDescr) ) {
+            // Sg300
+            $this->ifDescr = str_replace('gi', 'Gig ', $this->ifDescr);
+        }
 
         return $this->ifDescr;
 
