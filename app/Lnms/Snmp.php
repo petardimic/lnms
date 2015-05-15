@@ -317,11 +317,15 @@ define('OID_ipRouteType',       '.1.3.6.1.2.1.4.21.1.8');   // oid.routeDest(4) 
 define('OID_ipRouteProto',      '.1.3.6.1.2.1.4.21.1.9');   // oid.routeDest(4) = routeProto
 define('OID_ipRouteMask',       '.1.3.6.1.2.1.4.21.1.11');  // oid.routeDest(4) = routeMasks
 
-// Aironet
+// Aironet BSSIDs
 define('OID_cd11IfAuxSsid',                     '.1.3.6.1.4.1.9.9.272.1.1.1.6.1.2');
-
 define('OID_cd11IfPhyMacSpecification',         '.1.3.6.1.4.1.9.9.272.1.1.2.1.1.6');    // 1 = 11a, 2 = 11b, 3 = 11g
-
 define('OID_cd11IfPhyDsssMaxCompatibleRate',    '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.1');    // 500 Kb per second
 define('OID_cd11IfPhyDsssCurrentChannel',       '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.3');
+
+// Aironet Clients
+define('OID_cDot11ClientIpAddress',         '.1.3.6.1.4.1.9.9.273.1.2.1.1.16');
+define('OID_cDot11ClientSignalStrength',    '.1.3.6.1.4.1.9.9.273.1.3.1.1.3');
+define('OID_cDot11ClientBytesSent',         '.1.3.6.1.4.1.9.9.273.1.3.1.1.9');
+define('OID_cDot11ClientBytesReceived',     '.1.3.6.1.4.1.9.9.273.1.3.1.1.7');
 

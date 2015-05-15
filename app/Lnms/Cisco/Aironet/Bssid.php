@@ -17,11 +17,11 @@ class Bssid {
     }
 
     /**
-     * poller ssidName
+     * poller bssidName
      *
      * @return Array
      */
-    public function poll_ssidName() {
+    public function poll_bssidName() {
 
         // return
         $_ret = [];
@@ -95,4 +95,76 @@ class Bssid {
         return $_ret;
     }
 
+    /**
+     * poller clientMacAddress
+     *
+     * @return Array
+     */
+    public function poll_clientMacAddress() {
+
+        // return
+        $_ret = [];
+
+        $snmp = new \App\Lnms\Snmp($this->node->ip_address, $this->node->snmp_comm_ro);
+
+        // walk cDot11ClientIpAddress
+        $walk_cDot11ClientIpAddress = $snmp->walk(OID_cDot11ClientIpAddress);
+
+        if (count($walk_cDot11ClientIpAddress) == 0) {
+            // not found cDot11ClientIpAddress
+            return $_ret;
+        }
+
+        // oid.?.??.bssidNameDec.clientMacAddressDec = clientIpAddressHex
+        foreach ($walk_cDot11ClientIpAddress as $key1 => $clientIpAddressHex) {
+            $tmp1 = explode('.', str_replace(OID_cDot11ClientIpAddress . '.', '', $key1));
+
+            // find which bssidName each client connected
+            // TODO : for now ignore the first 2-bytes
+
+            // find bssidName
+            $bssidName   = '';
+            for ($i=2; $i<(count($tmp1)-6); $i++) {
+                $bssidName .= chr($tmp1[$i]);
+            }
+
+            // find clientMacAddress
+            $clientMacAddress = '';
+            for ($i=(count($tmp1)-6); $i<count($tmp1); $i++) {
+                $clientMacAddress .= sprintf("%02s", dechex($tmp1[$i])) . ':';
+            }
+            $clientMacAddress = trim($clientMacAddress, ':');
+
+            // find clientIpAddress
+            $tmp2 = explode(' ', trim($clientIpAddressHex));
+            $clientIpAddress = '';
+            for ($i=0; $i<count($tmp2); $i++) {
+                $clientIpAddress .= hexdec($tmp2[$i]) . '.';
+            }
+
+            $clientIpAddress = trim($clientIpAddress, '.');
+
+            // find bssid
+            $bssid = \App\Bssid::where('node_id', $this->node->id)
+                              ->where('bssidName', $bssidName)
+                              ->first();
+
+            if ($bssid) {
+                // found bssid
+                $_ret[] =  [ 'table'  => 'bds',
+                             'action' => 'sync',
+                             'key'    => [ 'node_id'  => $this->node->id,
+                                           'bssid_id' => $bssid->id,
+                                           'clientMacAddress' => $clientMacAddress,
+                                           'timestamp' => \Carbon\Carbon::now(),
+                                           ],
+    
+                             'data'   => [ 'clientIpAddress' => $clientIpAddress,
+                                           ],
+                            ];
+            }
+        }
+
+        return $_ret;
+    }
 }
