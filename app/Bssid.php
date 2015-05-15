@@ -20,4 +20,21 @@ class Bssid extends Model {
         return $this->belongsTo('\App\Port');
     }
 
+    /**
+     *
+     */
+    public function getDspBssidSpecAttribute() {
+        $bssidSpecArray = [
+            '1' => '802.11a',
+            '2' => '802.11b',
+            '3' => '802.11g',
+        ];
+
+        if ( isset($bssidSpecArray[$this->bssidSpec]) ) {
+            return $bssidSpecArray[$this->bssidSpec];
+        } else {
+            return $this->bssidSpec;
+        }
+    }
+
 }

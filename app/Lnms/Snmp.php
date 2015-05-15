@@ -319,6 +319,9 @@ define('OID_ipRouteMask',       '.1.3.6.1.2.1.4.21.1.11');  // oid.routeDest(4) 
 
 // Aironet
 define('OID_cd11IfAuxSsid',                     '.1.3.6.1.4.1.9.9.272.1.1.1.6.1.2');
+
+define('OID_cd11IfPhyMacSpecification',         '.1.3.6.1.4.1.9.9.272.1.1.2.1.1.6');    // 1 = 11a, 2 = 11b, 3 = 11g
+
 define('OID_cd11IfPhyDsssMaxCompatibleRate',    '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.1');    // 500 Kb per second
 define('OID_cd11IfPhyDsssCurrentChannel',       '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.3');
 

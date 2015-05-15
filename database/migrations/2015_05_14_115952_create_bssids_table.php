@@ -18,7 +18,10 @@ class CreateBssidsTable extends Migration {
             $table->bigInteger('node_id')->unsigned();
             $table->bigInteger('port_id')->unsigned();
             $table->integer('bssidIndex')->unsigned();
-            $table->string('ssidName');
+            $table->string('bssidName');
+            $table->tinyInteger('bssidSpec')->unsigned();       // 1 = 11a, 2 = 11b, 3 = 11g
+            $table->integer('bssidMaxRate')->unsigned();        // Mbps 
+            $table->integer('bssidCurrentChannel')->unsigned();
 			$table->timestamps();
 
 			$table->unique(['node_id', 'port_id', 'bssidIndex']);

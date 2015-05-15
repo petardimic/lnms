@@ -22,7 +22,10 @@
   <thead>
    <tr>
     <th>bssidIndex</th>
-    <th>ssidName</th>
+    <th>bssidName</th>
+    <th>bssidSpec</th>
+    <th>bssidMaxRate</th>
+    <th>bssidCurrentChannel</th>
     <th>Port</th>
    </tr>
   </thead>
@@ -33,7 +36,10 @@
     @foreach ($bssids as $bssid)
      <tr>
       <td>{{ $bssid->bssidIndex }}</td>
-      <td>{{ $bssid->ssidName }}</td>
+      <td>{{ $bssid->bssidName }}</td>
+      <td>{{ $bssid->dsp_bssidSpec }}</td>
+      <td>{{ $bssid->bssidMaxRate }}</td>
+      <td>{{ $bssid->bssidCurrentChannel }}</td>
       <td>{{ $bssid->port->dsp_ifDescr }}</td>
      </tr>
     @endforeach
