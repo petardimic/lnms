@@ -18,6 +18,7 @@ class CreateBssidsTable extends Migration {
             $table->bigInteger('node_id')->unsigned();
             $table->bigInteger('port_id')->unsigned();
             $table->integer('bssidIndex')->unsigned();
+            $table->string('bssidMacAddress', 17);
             $table->string('bssidName');
             $table->tinyInteger('bssidSpec')->unsigned();       // 1 = 11a, 2 = 11b, 3 = 11g
             $table->integer('bssidMaxRate')->unsigned();        // Mbps 

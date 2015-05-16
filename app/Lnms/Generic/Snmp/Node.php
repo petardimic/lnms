@@ -22,7 +22,13 @@ class Node extends \App\Lnms\Generic\Base\Node {
 //                                      'initial'  => 'Y',
 //                                      'default'  => 'Y',
 //                                      'interval' => 'daily'];
-//
+
+    $_ret['ports']['ifPhysAddress'] = ['class'    => 'Port',
+                                       'method'   => 'poll_ifPhysAddress',
+                                       'initial'  => 'Y',
+                                       'default'  => 'Y',
+                                       'interval' => 'daily'];
+
 //        $_ret['ports']['ifSpeed'] =  ['class'    => 'Port',
 //                                      'method'   => 'poll_ifSpeed',
 //                                      'initial'  => 'Y',

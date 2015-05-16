@@ -22,6 +22,7 @@
   <thead>
    <tr>
     <th>bssidIndex</th>
+    <th>bssidMacAddress</th>
     <th>bssidName</th>
     <th>bssidSpec</th>
     <th>bssidMaxRate</th>
@@ -36,6 +37,7 @@
     @foreach ($bssids as $bssid)
      <tr>
       <td>{{ $bssid->bssidIndex }}</td>
+      <td>{{ $bssid->bssidMacAddress }}</td>
       <td>{{ $bssid->bssidName }}</td>
       <td>{{ $bssid->dsp_bssidSpec }}</td>
       <td>{{ $bssid->bssidMaxRate }}</td>

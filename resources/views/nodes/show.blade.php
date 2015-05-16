@@ -13,6 +13,8 @@
   @include('nodes.info')
 
 
+  <a href="/nodes/{{ $node->id }}/bssid_clients" class="btn btn-primary">Clients</a>
+
   <a href="/nodes/{{ $node->id }}/bssids" class="btn btn-primary">BSSIDs</a>
 
   <a href="/nodes/{{ $node->id }}/routes" class="btn btn-primary">Routes</a>

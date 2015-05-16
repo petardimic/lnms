@@ -264,4 +264,13 @@ class Port {
         return $this->poll_if('ifAlias', $ifIndex);
     }
 
+    /**
+     * poller ifPhysAddress
+     *
+     * @return Array
+     */
+    public function poll_ifPhysAddress($ifIndex='') {
+        return $this->poll_if('ifPhysAddress', $ifIndex);
+    }
+
 }

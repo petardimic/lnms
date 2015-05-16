@@ -63,6 +63,13 @@ class Node extends Model {
     }
 
     /**
+     * node has many bds
+     */
+    public function bds() {
+        return $this->hasMany('\App\Bd');
+    }
+
+    /**
      * node has many pings
      *
      * @return

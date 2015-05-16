@@ -716,4 +716,16 @@ class NodesController extends Controller {
 
         return view('nodes.bssids', compact('node', 'bssids'));
     }
+
+    /**
+     * display bssid_clients in node
+     *
+     */
+    public function bssid_clients($id)
+    {
+        $node = \App\Node::findOrFail($id);
+        $clients = \App\Bd::where('node_id', $id)->orderBy('clientMacAddress')->paginate(10);
+
+        return view('nodes.bssid_clients', compact('node', 'clients'));
+    }
 }

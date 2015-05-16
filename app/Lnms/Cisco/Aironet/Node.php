@@ -11,6 +11,7 @@ class Node extends \App\Lnms\Generic\Snmp\Node {
 
         $_ret = parent::pollers();
 
+        // requires ['ports']['ifPhysAddress']
         $_ret['bssids']['bssidName'] = ['class'    => 'Bssid',
                                         'method'   => 'poll_bssidName',
                                         'initial'  => 'Y',

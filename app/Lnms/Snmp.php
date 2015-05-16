@@ -326,6 +326,6 @@ define('OID_cd11IfPhyDsssCurrentChannel',       '.1.3.6.1.4.1.9.9.272.1.1.2.5.1.
 // Aironet Clients
 define('OID_cDot11ClientIpAddress',         '.1.3.6.1.4.1.9.9.273.1.2.1.1.16');
 define('OID_cDot11ClientSignalStrength',    '.1.3.6.1.4.1.9.9.273.1.3.1.1.3');
-define('OID_cDot11ClientBytesSent',         '.1.3.6.1.4.1.9.9.273.1.3.1.1.9');
 define('OID_cDot11ClientBytesReceived',     '.1.3.6.1.4.1.9.9.273.1.3.1.1.7');
+define('OID_cDot11ClientBytesSent',         '.1.3.6.1.4.1.9.9.273.1.3.1.1.9');
 

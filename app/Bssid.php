@@ -21,6 +21,13 @@ class Bssid extends Model {
     }
 
     /**
+     * bssid has many bds
+     */
+    public function bds() {
+        return $this->hasMany('\App\Bd');
+    }
+
+    /**
      *
      */
     public function getDspBssidSpecAttribute() {

@@ -38,6 +38,7 @@ Route::get('nodes/{id}/ips',        'NodesController@ips');
 Route::get('nodes/{id}/arps',       'NodesController@arps');
 Route::get('nodes/{id}/routes',     'NodesController@routes');
 Route::get('nodes/{id}/bssids',     'NodesController@bssids');
+Route::get('nodes/{id}/bssid_clients',     'NodesController@bssid_clients');
 Route::get('nodes/{id}/graph_ping', 'NodesController@graph_ping');
 Route::get('nodes/{id}/graph_snmp', 'NodesController@graph_snmp');
 Route::patch('nodes/{id}/discover', 'NodesController@discover_update');

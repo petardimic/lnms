@@ -76,6 +76,7 @@ class Bssid {
                              ->first();
             if ($port) {
                 // found port
+
                 $_ret[] =  [ 'table'  => 'bssids',
                              'action' => 'sync',
                              'key'    => [ 'node_id' => $this->node->id,
@@ -83,7 +84,8 @@ class Bssid {
                                            'bssidIndex' => $bssidIndex,
                                            ],
     
-                             'data'   => [ 'bssidName' => $bssidName,
+                             'data'   => [ 'bssidMacAddress'     => $port->ifPhysAddress,
+                                           'bssidName'           => $bssidName,
                                            'bssidSpec'           => $bssidSpec,
                                            'bssidMaxRate'        => $bssidMaxRate,
                                            'bssidCurrentChannel' => $bssidCurrentChannel,
@@ -115,9 +117,18 @@ class Bssid {
             return $_ret;
         }
 
+        $walk1 = $snmp->walk(OID_cDot11ClientSignalStrength);
+
+// cDot11ClientSignalStrength
+// cDot11ClientBytesReceived
+// cDot11ClientBytesSent
+
+
         // oid.?.??.bssidNameDec.clientMacAddressDec = clientIpAddressHex
         foreach ($walk_cDot11ClientIpAddress as $key1 => $clientIpAddressHex) {
-            $tmp1 = explode('.', str_replace(OID_cDot11ClientIpAddress . '.', '', $key1));
+
+            $clientSuffix = str_replace(OID_cDot11ClientIpAddress . '.', '', $key1);
+            $tmp1 = explode('.', $clientSuffix);
 
             // find which bssidName each client connected
             // TODO : for now ignore the first 2-bytes
@@ -141,8 +152,30 @@ class Bssid {
             for ($i=0; $i<count($tmp2); $i++) {
                 $clientIpAddress .= hexdec($tmp2[$i]) . '.';
             }
-
             $clientIpAddress = trim($clientIpAddress, '.');
+
+            // get cDot11ClientStatisticEntry
+            $walk_clientStatistics = $snmp->get([ OID_cDot11ClientSignalStrength . '.' . $clientSuffix,
+                                                  OID_cDot11ClientBytesReceived  . '.' . $clientSuffix,
+                                                  OID_cDot11ClientBytesSent      . '.' . $clientSuffix,
+                                                ]);
+            if ( isset($walk_clientStatistics[OID_cDot11ClientSignalStrength . '.' . $clientSuffix]) ) {
+                $clientSignalStrength = $walk_clientStatistics[OID_cDot11ClientSignalStrength . '.' . $clientSuffix];
+            } else {
+                $clientSignalStrength = null;
+            }
+
+            if ( isset($walk_clientStatistics[OID_cDot11ClientBytesReceived . '.' . $clientSuffix]) ) {
+                $clientBytesReceived = $walk_clientStatistics[OID_cDot11ClientBytesReceived . '.' . $clientSuffix];
+            } else {
+                $clientBytesReceived = null;
+            }
+
+            if ( isset($walk_clientStatistics[OID_cDot11ClientBytesSent . '.' . $clientSuffix]) ) {
+                $clientBytesSent = $walk_clientStatistics[OID_cDot11ClientBytesSent . '.' . $clientSuffix];
+            } else {
+                $clientBytesSent = null;
+            }
 
             // find bssid
             $bssid = \App\Bssid::where('node_id', $this->node->id)
@@ -152,15 +185,20 @@ class Bssid {
             if ($bssid) {
                 // found bssid
                 $_ret[] =  [ 'table'  => 'bds',
-                             'action' => 'sync',
+                             'action' => 'insert',
                              'key'    => [ 'node_id'  => $this->node->id,
                                            'bssid_id' => $bssid->id,
                                            'clientMacAddress' => $clientMacAddress,
                                            'timestamp' => \Carbon\Carbon::now(),
                                            ],
     
-                             'data'   => [ 'clientIpAddress' => $clientIpAddress,
+                             'data'   => [ 'clientIpAddress'      => $clientIpAddress,
+                                           'clientSignalStrength' => $clientSignalStrength,
+                                           'clientBytesReceived'  => $clientBytesReceived,
+                                           'clientBytesSent'      => $clientBytesSent,
                                            ],
+
+
                             ];
             }
         }
