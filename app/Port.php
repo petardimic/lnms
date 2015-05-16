@@ -366,6 +366,9 @@ class Port extends Model {
             return $this->ifSpeed / 1000 . ' kb';
         } elseif ($this->ifSpeed < 1000000000) {
             return ($this->ifSpeed / 1000000) . ' Mb';
+        } elseif ($this->ifSpeed == 4294967295) {
+            // max int speed should not be displayed
+            return '-';
         } else {
             return ($this->ifSpeed / 1000000000) . ' Gb';;
         }

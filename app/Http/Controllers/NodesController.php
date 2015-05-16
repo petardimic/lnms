@@ -25,12 +25,16 @@ class NodesController extends Controller {
 	 */
 	public function index()
 	{
+        // \Request::has('q')
+        // \Session::get('q')
+        // \Session::put('q', $q);
+
         $q = \Request::get('q');
 
         if ($q <> '') {
             $nodes = \App\Node::where('name', 'RLIKE', $q)
-                                ->orWhere('ip_address', 'RLIKE', $q)
-                                ->paginate(10);
+                              ->orWhere('ip_address', 'RLIKE', $q)
+                              ->paginate(10);
         } else {
             $nodes = \App\Node::paginate(10);
         }
@@ -350,19 +354,18 @@ class NodesController extends Controller {
 //            // Cisco 1700 Series Modular Access Routers
 //            return 'Cisco\R1700';
 //            break;
-//
-//
-//         case '.1.3.6.1.4.1.9.1.638'; // cisco1801
-//         case '.1.3.6.1.4.1.9.1.639'; // cisco1802
-//         case '.1.3.6.1.4.1.9.1.640'; // cisco1803
-//         case '.1.3.6.1.4.1.9.1.641'; // cisco1811
-//         case '.1.3.6.1.4.1.9.1.642'; // cisco1812
-//         case '.1.3.6.1.4.1.9.1.620'; // cisco1841
-//         case '.1.3.6.1.4.1.9.1.1065'; // cisco1861
-//            // Cisco 1800 Series Integrated Services Routers
-//            return 'Cisco\R1800';
-//            break;
-//
+
+         case '.1.3.6.1.4.1.9.1.638'; // cisco1801
+         case '.1.3.6.1.4.1.9.1.639'; // cisco1802
+         case '.1.3.6.1.4.1.9.1.640'; // cisco1803
+         case '.1.3.6.1.4.1.9.1.641'; // cisco1811
+         case '.1.3.6.1.4.1.9.1.642'; // cisco1812
+         case '.1.3.6.1.4.1.9.1.620'; // cisco1841
+         case '.1.3.6.1.4.1.9.1.1065'; // cisco1861
+            // Cisco 1800 Series Integrated Services Routers
+            return 'Cisco\R1800';
+            break;
+
 //         case '.1.3.6.1.4.1.9.1.1192'; // cisco1905k9
 //         case '.1.3.6.1.4.1.9.1.1191'; // cisco1921k9
 //         case '.1.3.6.1.4.1.9.1.1095'; // cisco1941W

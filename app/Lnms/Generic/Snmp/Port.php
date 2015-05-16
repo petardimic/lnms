@@ -167,6 +167,7 @@ class Port {
 
             // update ifType
             switch ($poll_results[$i]['data']['ifType']) {
+             case '1':   // other : ex. Cisco Null
              case '24':  // softwareLoopback
              case '53':  // propVirtual
              case '131': // tunnel

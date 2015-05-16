@@ -12,7 +12,7 @@
 <form class="form-inline">
   <div class="form-group">
     <label class="sr-only" for="q">Name or IP Address</label>
-    <input type="text" class="form-control" id="q" name="q" placeholder="Name or IP Address" value="{{ $q }}">
+    <input type="text" class="form-control" id="q" name="q" placeholder="Name or IP Address" value="{{ \Request::get('q') }}">
   </div>
   <button type="submit" class="btn btn-primary">search</button>
 </form>
@@ -26,6 +26,7 @@
    <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=location_id">Location</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_enabled">Poll Enabled</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=sysName">sysName</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=sysObjectID">sysObjectID</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_class">Poll Class</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ping_success">Ping Success</a></th>
@@ -41,6 +42,7 @@
     <td>{{ $node->ip_address }}</td>
     <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
     <td>{{ $node->dsp_poll_enabled }}</td>
+    <td>{{ $node->sysName }}</td>
     <td>{{ $node->sysObjectID }}</td>
     <td>{{ $node->poll_class }}</td>
     <td>{{ $node->ping_success }}%</td>
