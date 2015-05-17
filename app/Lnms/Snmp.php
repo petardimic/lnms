@@ -414,6 +414,7 @@ define('OID_Aruba_nUserConnectedSlot',             '.1.3.6.1.4.1.14823.2.2.1.4.1
 define('OID_Aruba_nUserConnectedPort',             '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.25');
 define('OID_Aruba_nUserPhyType',                   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.26');
 define('OID_Aruba_nUserMobilityDomainName',        '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.27');
+
 define('OID_Aruba_staUserAgent',                   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.37');
 define('OID_Aruba_staUserType',                    '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.39');
 

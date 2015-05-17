@@ -19,11 +19,18 @@ class Node extends \App\Lnms\Generic\Snmp\Node {
 //                                       'default'  => 'Y',
 //                                       'interval' => 'daily'];
 
-        $_ret['bssids']['apBssid'] = ['class'    => 'Ap',
-                                      'method'   => 'poll_apBssid',
-                                      'initial'  => 'Y',
-                                      'default'  => 'Y',
-                                      'interval' => 'daily'];
+//        $_ret['bssids']['apBssid'] = ['class'    => 'Ap',
+//                                      'method'   => 'poll_apBssid',
+//                                      'initial'  => 'Y',
+//                                      'default'  => 'Y',
+//                                      'interval' => 'daily'];
+
+        $_ret['bds']['apClient'] = ['class'    => 'Ap',
+                                    'method'   => 'poll_apClient',
+                                    'initial'  => 'Y',
+                                    'default'  => 'Y',
+                                    'interval' => 'daily'];
+
         return $_ret;
     }
 }

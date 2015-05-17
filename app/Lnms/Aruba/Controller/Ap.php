@@ -184,4 +184,73 @@ class Ap {
 
         return $_ret;
     }
+
+    /**
+     * poller ap client
+     *
+     * @return Array
+     */
+    public function poll_apClient() {
+
+        // return
+        $_ret = [];
+
+        $snmp = new \App\Lnms\Snmp($this->node->ip_address, $this->node->snmp_comm_ro);
+
+        $walk_nUserApBSSID    = $snmp->walk(OID_Aruba_nUserApBSSID);
+
+        if ( count($walk_nUserApBSSID) == 0 ) {
+            return $_ret;
+        }
+
+        // oid.clientMacDec(6).clientIpAddress(4) = bssidMacHex
+        foreach ($walk_nUserApBSSID as $key1 => $bssidMacHex) {
+
+            $bssidMacAddress = str_replace(' ', ':', trim($bssidMacHex));
+            $clientSuffix = str_replace(OID_Aruba_nUserApBSSID . '.', '', $key1);
+            $tmp1 = explode('.', $clientSuffix);
+
+            $clientMacAddress = sprintf("%02s", dechex($tmp1[0])) . ':'
+                               . sprintf("%02s", dechex($tmp1[1])) . ':'
+                               . sprintf("%02s", dechex($tmp1[2])) . ':'
+                               . sprintf("%02s", dechex($tmp1[3])) . ':'
+                               . sprintf("%02s", dechex($tmp1[4])) . ':'
+                               . sprintf("%02s", dechex($tmp1[5]));
+
+            $clientIpAddress = $tmp1[6] . '.' . $tmp1[7] . '.' . $tmp1[8] . '.' . $tmp1[9];
+
+            // find bssid
+            $bssid = \App\Bssid::where('bssidMacAddress', $bssidMacAddress)
+                               ->first();
+
+            $clientSignalStrength = 0;
+            $clientBytesReceived  = 0;
+            $clientBytesSent      = 0;
+
+            // get more details about client
+            //$clientDetails = $snmp->get([OID_Aruba_staSignalToNoiseRatio ]);
+
+            if ($bssid) {
+                // found bssid
+                $_ret[] =  [ 'table'  => 'bds',
+                             'action' => 'insert',
+                             'key'    => [ 'node_id'  => $this->node->id,
+                                           'bssid_id' => $bssid->id,
+                                           'clientMacAddress' => $clientMacAddress,
+                                           'timestamp' => \Carbon\Carbon::now(),
+                                           ],
+    
+                             'data'   => [ 'clientIpAddress'      => $clientIpAddress,
+                                           'clientSignalStrength' => $clientSignalStrength,
+                                           'clientBytesReceived'  => $clientBytesReceived,
+                                           'clientBytesSent'      => $clientBytesSent,
+                                           ],
+
+
+                            ];
+            }
+        }
+
+        return $_ret;
+    }
 }
