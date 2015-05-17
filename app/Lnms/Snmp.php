@@ -329,3 +329,8 @@ define('OID_cDot11ClientSignalStrength',    '.1.3.6.1.4.1.9.9.273.1.3.1.1.3');
 define('OID_cDot11ClientBytesReceived',     '.1.3.6.1.4.1.9.9.273.1.3.1.1.7');
 define('OID_cDot11ClientBytesSent',         '.1.3.6.1.4.1.9.9.273.1.3.1.1.9');
 
+// dot1dTpFdb
+define('OID_dot1dTpFdbAddress',             '.1.3.6.1.2.1.17.4.3.1.1');
+define('OID_dot1dTpFdbPort',                '.1.3.6.1.2.1.17.4.3.1.2'); // oid.macDec(6) = portIndex
+define('OID_dot1dTpFdbStatus',              '.1.3.6.1.2.1.17.4.3.1.3');
+

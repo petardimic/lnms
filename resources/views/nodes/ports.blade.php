@@ -25,6 +25,7 @@
    <tr>
     <th>Polling</th>
     <th>ifIndex</th>
+    <th>portIndex</th>
     <th>Name</th>
     <th>Description</th>
     <th>IP Address</th>
@@ -50,6 +51,7 @@
        @endif
       </td>
       <td>{{ $port['ifIndex'] }}</td>
+      <td>{{ $port['portIndex'] }}</td>
       <td><a href="/ports/{{ $port->id }}">{{ $port->dsp_ifDescr }}</a></td>
       <td>{{ $port['ifAlias'] }}</td>
       <td>{{ $port->ips->count() ? json_encode($port->ips->lists('ipAddress')) : '' }}</td>

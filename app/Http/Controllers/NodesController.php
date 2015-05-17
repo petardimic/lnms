@@ -391,6 +391,48 @@ class NodesController extends Controller {
             return 'Cisco\Ap1200';
             break;
 
+         case '.1.3.6.1.4.1.11.2.3.7.11.29': //     HP ProCurve 2650            J4899A
+         case '.1.3.6.1.4.1.11.2.3.7.11.30': //     HP ProCurve 6108            J4902A
+         case '.1.3.6.1.4.1.11.2.3.7.11.31': //     HP ProCurve 2824            J4903A
+         case '.1.3.6.1.4.1.11.2.3.7.11.32': //     HP ProCurve 2848            J4904A
+         case '.1.3.6.1.4.1.11.2.3.7.11.34': //     HP ProCurve 2626            J4900A
+         case '.1.3.6.1.4.1.11.2.3.7.11.35': //     HP ProCurve 2650-PWR        J8165A
+         case '.1.3.6.1.4.1.11.2.3.7.11.36': //     HP ProCurve 2626-PWR        J8164A
+         case '.1.3.6.1.4.1.11.2.3.7.11.42': //     HP ProCurve 3400cl-24G      J4905A
+         case '.1.3.6.1.4.1.11.2.3.7.11.43': //     HP ProCurve 3400cl-48G      J4906A
+         case '.1.3.6.1.4.1.11.2.3.7.11.44': //     HP ProCurve 2650            J4899B
+         case '.1.3.6.1.4.1.11.2.3.7.11.45': //     HP ProCurve 2626            J4900B
+         case '.1.3.6.1.4.1.11.2.3.7.11.61': //     HP ProCurve 2510-24         J9019A 
+         case '.1.3.6.1.4.1.11.2.3.7.11.62': //     HP ProCurve 2510-48         J9020A
+         case '.1.3.6.1.4.1.11.2.3.7.11.63': //     HP ProCurve 2810-24G        J9021A 
+         case '.1.3.6.1.4.1.11.2.3.7.11.64': //     HP ProCurve 2810-48G        J9022A 
+         case '.1.3.6.1.4.1.11.2.3.7.11.65': //     HP ProCurve 1800-24G        J9028A
+         case '.1.3.6.1.4.1.11.2.3.7.11.66': //     HP ProCurve 1800-8G         J9029A
+         case '.1.3.6.1.4.1.11.2.3.7.11.68': //     HP ProCurve 2900-48G        J9050A  
+         case '.1.3.6.1.4.1.11.2.3.7.11.69': //     HP ProCurve 2900-24G        J9049A  
+         case '.1.3.6.1.4.1.11.2.3.7.11.74': //     HP ProCurve 1700-8          J9079A
+         case '.1.3.6.1.4.1.11.2.3.7.11.75': //     HP ProCurve 1700-24         J9080A
+         case '.1.3.6.1.4.1.11.2.3.7.11.79': //     HP Switch 2610-48-PoE       J9089A 
+         case '.1.3.6.1.4.1.11.2.3.7.11.80': //     HP Switch 2610-24-PPoE      J9086A
+         case '.1.3.6.1.4.1.11.2.3.7.11.81': //     HP ProCurve 1800-24G-B      J9028B
+         case '.1.3.6.1.4.1.11.2.3.7.11.82': //     HP ProCurve 2626            J4900C
+         case '.1.3.6.1.4.1.11.2.3.7.11.83': //     HP ProCurve 2650            J4899C
+         case '.1.3.6.1.4.1.11.2.3.7.11.90': //     HP ProCurve 2510-24         J9019B 
+         case '.1.3.6.1.4.1.11.2.3.7.11.94': //     HP ProCurve 2520-8-PoE      J9137A
+         case '.1.3.6.1.4.1.11.2.3.7.11.95': //     HP ProCurve 2520-24-PoE     J9138A
+         case '.1.3.6.1.4.1.11.2.3.7.11.96': //     HP ProCurve 2520-8G-PoE     J9298A
+         case '.1.3.6.1.4.1.11.2.3.7.11.97': //     HP ProCurve 2520-24G-PoE    J9299A
+         case '.1.3.6.1.4.1.11.2.3.7.11.103': //    HP ProCurve 1810G-8         J9449A
+         case '.1.3.6.1.4.1.11.2.3.7.11.104': //    HP ProCurve 1810G-24        J9450A
+         case '.1.3.6.1.4.1.11.2.3.7.11.136': //    HP Switch 2530-48G-PoE+     J9772A
+         case '.1.3.6.1.4.1.11.2.3.7.11.137': //    HP Switch 2530-24G-PoE+     J9773A
+         case '.1.3.6.1.4.1.11.2.3.7.11.139': //    HP Switch 2530-48G          J9775A
+         case '.1.3.6.1.4.1.11.2.3.7.11.140': //    HP Switch 2530-24G          J9776A
+         case '.1.3.6.1.4.1.11.2.3.7.11.150': //    HP Switch 1810-8G           J9802A
+            // HP Bridge
+            return 'Hp\Bridge';
+            break;
+
          default:
             return 'Generic\Snmp';
             break;
