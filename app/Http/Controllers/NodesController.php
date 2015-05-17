@@ -433,6 +433,13 @@ class NodesController extends Controller {
             return 'Hp\Bridge';
             break;
 
+         case '.1.3.6.1.4.1.14823.1.1.13':  // Aruba 3200    
+         case '.1.3.6.1.4.1.14823.1.1.15':  // Aruba 3400
+         case '.1.3.6.1.4.1.14823.1.1.17':  // Aruba 3600
+            // Aruba 3000 Series Mobility Controllers
+            return 'Aruba\Controller';
+            break;
+
          default:
             return 'Generic\Snmp';
             break;
