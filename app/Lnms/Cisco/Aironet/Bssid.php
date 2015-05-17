@@ -76,11 +76,11 @@ class Bssid {
                              ->first();
             if ($port) {
                 // found port
+                // 'port_id' => $port->id,
 
                 $_ret[] =  [ 'table'  => 'bssids',
                              'action' => 'sync',
                              'key'    => [ 'node_id' => $this->node->id,
-                                           'port_id' => $port->id,
                                            'bssidIndex' => $bssidIndex,
                                            ],
     
@@ -118,11 +118,6 @@ class Bssid {
         }
 
         $walk1 = $snmp->walk(OID_cDot11ClientSignalStrength);
-
-// cDot11ClientSignalStrength
-// cDot11ClientBytesReceived
-// cDot11ClientBytesSent
-
 
         // oid.?.??.bssidNameDec.clientMacAddressDec = clientIpAddressHex
         foreach ($walk_cDot11ClientIpAddress as $key1 => $clientIpAddressHex) {

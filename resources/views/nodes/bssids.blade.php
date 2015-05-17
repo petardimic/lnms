@@ -27,7 +27,6 @@
     <th>bssidSpec</th>
     <th>bssidMaxRate</th>
     <th>bssidCurrentChannel</th>
-    <th>Port</th>
    </tr>
   </thead>
   <caption style="caption-side: top; text-align: right;">
@@ -42,7 +41,6 @@
       <td>{{ $bssid->dsp_bssidSpec }}</td>
       <td>{{ $bssid->bssidMaxRate }}</td>
       <td>{{ $bssid->bssidCurrentChannel }}</td>
-      <td>{{ $bssid->port->dsp_ifDescr }}</td>
      </tr>
     @endforeach
   </tbody>

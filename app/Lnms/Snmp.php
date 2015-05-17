@@ -363,3 +363,129 @@ define('OID_Aruba_wlanAPFQLN',                '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.
 define('OID_Aruba_wlanAPFQLNCampus',          '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.27');
 define('OID_Aruba_wlanAPOobIpAddress',        '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.36');
 
+// Aruba wlsxSwitchStationMgmt
+define('OID_Aruba_staPhyAddress',          '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.1');
+define('OID_Aruba_staAccessPointBSSID',    '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.2');
+define('OID_Aruba_staUserName',            '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.3');
+define('OID_Aruba_staUserRole',            '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.4');
+define('OID_Aruba_staAssociationID',       '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.5');
+define('OID_Aruba_staAccessPointESSID',    '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.6');
+define('OID_Aruba_staSignalToNoiseRatio',  '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.7');
+define('OID_Aruba_staTransmitRate',        '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.8');
+define('OID_Aruba_staReceiveRate',         '.1.3.6.1.4.1.14823.2.2.1.1.2.2.1.9');
+
+// Aruba wlsxSwitchStationStats
+define('OID_Aruba_staTxPackets',               '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.1');
+define('OID_Aruba_staTxBytes',                 '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.2');
+define('OID_Aruba_staRxPackets',               '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.3');
+define('OID_Aruba_staRxBytes',                 '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.4');
+define('OID_Aruba_staBwRate',                  '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.5');
+define('OID_Aruba_staFrameRetryRate',          '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.6');
+define('OID_Aruba_staFrameLowSpeedRate',       '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.7');
+define('OID_Aruba_staFrameNonUnicastRate',     '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.8');
+define('OID_Aruba_staFrameFragmentationRate',  '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.9');
+define('OID_Aruba_staFrameReceiveErrorRate',   '.1.3.6.1.4.1.14823.2.2.1.1.2.3.1.10');
+
+// Aruba wlsxUser
+define('OID_Aruba_nUserPhyAddress',                '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.1');
+define('OID_Aruba_nUserIpAddress',                 '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.2');
+define('OID_Aruba_nUserName',                      '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.3');
+define('OID_Aruba_nUserRole',                      '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.4');
+define('OID_Aruba_nUserUpTime',                    '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.5');
+define('OID_Aruba_nUserAuthenticationMethod',      '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.6');
+define('OID_Aruba_nUserSubAuthenticationMethod',   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.7');
+define('OID_Aruba_nUserAuthServerName',            '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.8');
+define('OID_Aruba_nUserExtVPNAddress',             '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.9');
+define('OID_Aruba_nUserApLocation',                '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.10');
+define('OID_Aruba_nUserApBSSID',                   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.11');
+define('OID_Aruba_nUserIsOnHomeAgent',             '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.12');
+define('OID_Aruba_nUserHomeAgentIpAddress',        '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.13');
+define('OID_Aruba_nUserMobilityStatus',            '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.14');
+define('OID_Aruba_nUserHomeVlan',                  '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.15');
+define('OID_Aruba_nUserDefaultVlan',               '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.16');
+define('OID_Aruba_nUserAssignedVlan',              '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.17');
+define('OID_Aruba_nUserBWContractName',            '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.18');
+define('OID_Aruba_nUserBWContractUsage',           '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.19');
+define('OID_Aruba_nUserBWContractId',              '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.20');
+define('OID_Aruba_nUserIsProxyArpEnabled',         '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.21');
+define('OID_Aruba_nUserCurrentVlan',               '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.22');
+define('OID_Aruba_nUserIsWired',                   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.23');
+define('OID_Aruba_nUserConnectedSlot',             '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.24');
+define('OID_Aruba_nUserConnectedPort',             '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.25');
+define('OID_Aruba_nUserPhyType',                   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.26');
+define('OID_Aruba_nUserMobilityDomainName',        '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.27');
+define('OID_Aruba_staUserAgent',                   '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.37');
+define('OID_Aruba_staUserType',                    '.1.3.6.1.4.1.14823.2.2.1.4.1.2.1.39');
+
+// Aruba wlsxWlanAPBssid
+define('OID_Aruba_wlanAPBSSID',                        '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.1');
+define('OID_Aruba_wlanAPESSID',                        '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.2');
+define('OID_Aruba_wlanAPBssidSlot',                    '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.3');
+define('OID_Aruba_wlanAPBssidPort',                    '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.4');
+define('OID_Aruba_wlanAPBssidPhyType',                 '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.5');
+define('OID_Aruba_wlanAPBssidRogueType',               '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.6');
+define('OID_Aruba_wlanAPBssidMode',                    '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.7');
+define('OID_Aruba_wlanAPBssidChannel',                 '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.8');
+define('OID_Aruba_wlanAPBssidUpTime',                  '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.9');
+define('OID_Aruba_wlanAPBssidInactiveTime',            '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.10');
+define('OID_Aruba_wlanAPBssidLoadBalancing',           '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.11');
+define('OID_Aruba_wlanAPBssidNumAssociatedStations',   '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.12');
+define('OID_Aruba_wlanAPBssidAPMacAddress',            '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.13');
+define('OID_Aruba_wlanAPBssidPhyNumber',               '.1.3.6.1.4.1.14823.2.2.1.5.2.1.7.1.14');
+
+// Aruba wlsxWlanStation
+define('OID_Aruba_wlanStaPhyAddress',       '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.1');
+define('OID_Aruba_wlanStaApBssid',          '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.2');
+define('OID_Aruba_wlanStaPhyType',          '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.3');
+define('OID_Aruba_wlanStaIsAuthenticated',  '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.4');
+define('OID_Aruba_wlanStaIsAssociated',     '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.5');
+define('OID_Aruba_wlanStaChannel',          '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.6');
+define('OID_Aruba_wlanStaVlanId',           '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.7');
+define('OID_Aruba_wlanStaVOIPState',        '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.8');
+define('OID_Aruba_wlanStaVOIPProtocol',     '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.9');
+define('OID_Aruba_wlanStaTransmitRate',     '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.10');
+define('OID_Aruba_wlanStaAssociationID',    '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.11');
+define('OID_Aruba_wlanStaAccessPointESSID', '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.12');
+define('OID_Aruba_wlanStaPhyNumber',        '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.13');
+define('OID_Aruba_wlanStaRSSI',             '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.14');
+define('OID_Aruba_wlanStaUpTime',           '.1.3.6.1.4.1.14823.2.2.1.5.2.2.1.1.15');
+
+// Aruba wlsxWlanAPStats
+define('OID_Aruba_wlanAPCurrentChannel',           '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.1');
+define('OID_Aruba_wlanAPNumClients',               '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.2');
+define('OID_Aruba_wlanAPTxPkts',                   '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.3');
+define('OID_Aruba_wlanAPTxBytes',                  '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.4');
+define('OID_Aruba_wlanAPRxPkts',                   '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.5');
+define('OID_Aruba_wlanAPRxBytes',                  '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.6');
+define('OID_Aruba_wlanAPTxDeauthentications',      '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.7');
+define('OID_Aruba_wlanAPRxDeauthentications',      '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.8');
+define('OID_Aruba_wlanAPChannelThroughput',        '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.9');
+define('OID_Aruba_wlanAPFrameRetryRate',           '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.10');
+define('OID_Aruba_wlanAPFrameLowSpeedRate',        '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.11');
+define('OID_Aruba_wlanAPFrameNonUnicastRate',      '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.12');
+define('OID_Aruba_wlanAPFrameFragmentationRate',   '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.13');
+define('OID_Aruba_wlanAPFrameBandwidthRate',       '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.14');
+define('OID_Aruba_wlanAPFrameRetryErrorRate',      '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.15');
+define('OID_Aruba_wlanAPChannelErrorRate',         '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.16');
+define('OID_Aruba_wlanAPFrameReceiveErrorRate',    '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.17');
+define('OID_Aruba_wlanAPRxDataPkts',               '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.18');
+define('OID_Aruba_wlanAPRxDataBytes',              '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.19');
+define('OID_Aruba_wlanAPTxDataPkts',               '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.20');
+define('OID_Aruba_wlanAPTxDataBytes',              '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.21');
+define('OID_Aruba_wlanAPRxDataPkts64',             '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.22');
+define('OID_Aruba_wlanAPRxDataBytes64',            '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.23');
+define('OID_Aruba_wlanAPTxDataPkts64',             '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.24');
+define('OID_Aruba_wlanAPTxDataBytes64',            '.1.3.6.1.4.1.14823.2.2.1.5.3.1.1.1.25');
+
+// Aruba wlsxWlanRadio
+define('OID_Aruba_wlanAPRadioNumber',                  '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.1');
+define('OID_Aruba_wlanAPRadioType',                    '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.2');
+define('OID_Aruba_wlanAPRadioChannel',                 '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.3');
+define('OID_Aruba_wlanAPRadioTransmitPower',           '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.4');
+define('OID_Aruba_wlanAPRadioMode',                    '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.5');
+define('OID_Aruba_wlanAPRadioUtilization',             '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.6');
+define('OID_Aruba_wlanAPRadioNumAssociatedClients',    '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.7');
+define('OID_Aruba_wlanAPRadioNumMonitoredClients',     '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.8');
+define('OID_Aruba_wlanAPRadioNumActiveBSSIDs',         '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.9');
+define('OID_Aruba_wlanAPRadioNumMonitoredBSSIDs',      '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.10');
+
