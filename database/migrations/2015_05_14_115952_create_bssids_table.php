@@ -16,6 +16,7 @@ class CreateBssidsTable extends Migration {
 		{
             $table->bigIncrements('id');
             $table->bigInteger('node_id')->unsigned();
+            $table->bigInteger('port_id')->unsigned();
             $table->integer('bssidIndex')->unsigned();
             $table->string('bssidMacAddress', 17);
             $table->string('bssidName');
@@ -24,7 +25,7 @@ class CreateBssidsTable extends Migration {
             $table->integer('bssidCurrentChannel')->unsigned();
 			$table->timestamps();
 
-			$table->unique(['node_id', 'bssidIndex']);
+			$table->unique(['node_id', 'port_id', 'bssidIndex']);
 
             $table->foreign('node_id')
                   ->references('id')

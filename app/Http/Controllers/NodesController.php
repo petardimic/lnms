@@ -488,6 +488,23 @@ class NodesController extends Controller {
             break;
 
          default:
+
+            //
+            if ( preg_match('/^.1.3.6.1.4.1/', $snmp_system['sysObjectID']) ) {
+
+                // get the enterprise number
+                // .1.3.6.1.4.1.x
+                $tmp1 = explode('.', $snmp_system['sysObjectID']);
+
+                $enterprise_number = $tmp1[7];
+
+                switch ($enterprise_number) {
+                 case '8744':
+                    return 'Colubris\Ap';
+                    break;
+                }
+            }
+
             return 'Generic\Snmp';
             break;
         }

@@ -490,3 +490,49 @@ define('OID_Aruba_wlanAPRadioNumMonitoredClients',     '.1.3.6.1.4.1.14823.2.2.1
 define('OID_Aruba_wlanAPRadioNumActiveBSSIDs',         '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.9');
 define('OID_Aruba_wlanAPRadioNumMonitoredBSSIDs',      '.1.3.6.1.4.1.14823.2.2.1.5.2.1.5.1.10');
 
+// Colubris
+define('OID_Colubris_coDot11RelayBetweenStation',               '.1.3.6.1.4.1.8744.5.4.1.1.1.1');
+define('OID_Colubris_coDot11BeaconPeriod',                      '.1.3.6.1.4.1.8744.5.4.1.1.1.2');
+define('OID_Colubris_coDot11DTIMPeriod',                        '.1.3.6.1.4.1.8744.5.4.1.1.1.3');
+define('OID_Colubris_coDot11PrivacyOptionImplemented',          '.1.3.6.1.4.1.8744.5.4.1.1.1.4');
+define('OID_Colubris_coDot11RSNAOptionImplemented',             '.1.3.6.1.4.1.8744.5.4.1.1.1.5');
+define('OID_Colubris_coDot11NumberOfUsers',                     '.1.3.6.1.4.1.8744.5.4.1.1.1.6');
+define('OID_Colubris_coDot11AddToAssociationNotification',      '.1.3.6.1.4.1.8744.5.4.1.1.1.7');
+define('OID_Colubris_coDot11PhyTxPowerAdminLevel',              '.1.3.6.1.4.1.8744.5.4.1.1.1.8');
+define('OID_Colubris_coDot11PhyTxPowerOperLevel',               '.1.3.6.1.4.1.8744.5.4.1.1.1.9');
+define('OID_Colubris_coDot11CurrentSNRLevel',                   '.1.3.6.1.4.1.8744.5.4.1.1.1.10');
+define('OID_Colubris_coDot11BSSID',                             '.1.3.6.1.4.1.8744.5.4.1.1.1.11');
+define('OID_Colubris_coDot11AdminMinimumDataRate',              '.1.3.6.1.4.1.8744.5.4.1.1.1.12');
+define('OID_Colubris_coDot11AdminMaximumDataRate',              '.1.3.6.1.4.1.8744.5.4.1.1.1.13');
+define('OID_Colubris_coDot11HighThroughputOptionImplemented',   '.1.3.6.1.4.1.8744.5.4.1.1.1.14');
+
+define('OID_Colubris_coVscCfgIndex',                            '.1.3.6.1.4.1.8744.5.22.1.1.1.1.1');
+define('OID_Colubris_coVscCfgFriendlyVscName',                  '.1.3.6.1.4.1.8744.5.22.1.1.1.1.2');
+define('OID_Colubris_coVscCfgSSID',                             '.1.3.6.1.4.1.8744.5.22.1.1.1.1.3');
+define('OID_Colubris_coVscCfgAccessControlled',                 '.1.3.6.1.4.1.8744.5.22.1.1.1.1.4');
+define('OID_Colubris_coVscCfgSecurity',                         '.1.3.6.1.4.1.8744.5.22.1.1.1.1.5');
+define('OID_Colubris_coVscCfgEncryption',                       '.1.3.6.1.4.1.8744.5.22.1.1.1.1.6');
+define('OID_Colubris_coVscCfg8021xAuthentication',              '.1.3.6.1.4.1.8744.5.22.1.1.1.1.7');
+define('OID_Colubris_coVscCfgMACAuthentication',                '.1.3.6.1.4.1.8744.5.22.1.1.1.1.8');
+define('OID_Colubris_coVscCfgHTMLAuthentication',               '.1.3.6.1.4.1.8744.5.22.1.1.1.1.9');
+
+define('OID_Colubris_coDot11AssociationIndex',        '.1.3.6.1.4.1.8744.5.4.1.5.1.1');
+define('OID_Colubris_coDot11StationMACAddress',       '.1.3.6.1.4.1.8744.5.4.1.5.1.2');
+define('OID_Colubris_coDot11StationConnectTime',      '.1.3.6.1.4.1.8744.5.4.1.5.1.3');
+define('OID_Colubris_coDot11SignalLevel',             '.1.3.6.1.4.1.8744.5.4.1.5.1.4');
+define('OID_Colubris_coDot11NoiseLevel',              '.1.3.6.1.4.1.8744.5.4.1.5.1.5');
+define('OID_Colubris_coDot11SNR',                     '.1.3.6.1.4.1.8744.5.4.1.5.1.6');
+define('OID_Colubris_coDot11TransmitRate',            '.1.3.6.1.4.1.8744.5.4.1.5.1.19');
+define('OID_Colubris_coDot11ReceiveRate',             '.1.3.6.1.4.1.8744.5.4.1.5.1.20');
+define('OID_Colubris_coDot11InPkts',                  '.1.3.6.1.4.1.8744.5.4.1.5.1.21');
+define('OID_Colubris_coDot11OutPkts',                 '.1.3.6.1.4.1.8744.5.4.1.5.1.22');
+define('OID_Colubris_coDot11InOctets',                '.1.3.6.1.4.1.8744.5.4.1.5.1.23');
+define('OID_Colubris_coDot11OutOctets',               '.1.3.6.1.4.1.8744.5.4.1.5.1.24');
+define('OID_Colubris_coDot11StationSSID',             '.1.3.6.1.4.1.8744.5.4.1.5.1.25');
+define('OID_Colubris_coDot11StationName',             '.1.3.6.1.4.1.8744.5.4.1.5.1.26');
+define('OID_Colubris_coDot11StationIPAddress',        '.1.3.6.1.4.1.8744.5.4.1.5.1.27');
+define('OID_Colubris_coDot11StationVLAN',             '.1.3.6.1.4.1.8744.5.4.1.5.1.28');
+define('OID_Colubris_coDot11StationLocalInterface',   '.1.3.6.1.4.1.8744.5.4.1.5.1.29');
+define('OID_Colubris_coDot11StaHT',                   '.1.3.6.1.4.1.8744.5.4.1.5.1.30');
+define('OID_Colubris_coDot11StaEncryptionType',       '.1.3.6.1.4.1.8744.5.4.1.5.1.31');
+
