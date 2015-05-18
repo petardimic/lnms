@@ -25,25 +25,66 @@ class NodesController extends Controller {
 	 */
 	public function index()
 	{
-        // \Request::has('q')
-        // \Session::get('q')
-        // \Session::put('q', $q);
 
-        $q = trim(\Request::get('q'));
+        $q = '';
 
-        if ( \Request::has('project_id') ) {
-            $nodes = \App\Node::where('project_id', \Request::get('project_id'))
-                              ->paginate(10);
-            return view('nodes.index', compact('nodes', 'q'));
-        }
+        if ( \Request::has('q')
+             || \Request::has('location_id')
+             || \Request::has('project_id')
+             || \Request::has('status')
+           ) {
 
-        if ($q <> '') {
-            $nodes = \App\Node::where('name', 'RLIKE', $q)
-                              ->orWhere('ip_address', 'RLIKE', $q)
-                              ->paginate(10);
+            $nodes = \App\Node::where('id', '>', 0);
+
+            // search by name or ip_address
+            if ( \Request::has('q') ) {
+                $q = \Request::get('q');
+                $nodes = $nodes->where(function($query) {
+                                            $q = \Request::get('q');
+                                            $query->where('name', 'RLIKE', $q)
+                                                  ->orWhere('ip_address', 'RLIKE', $q);
+                                       });
+            }
+
+            // search by location_id
+            if ( \Request::has('location_id') ) {
+                $nodes = $nodes->where('location_id', \Request::get('location_id'));
+            }
+
+            // search by project_id
+            if ( \Request::has('project_id') ) {
+                $nodes = $nodes->where('project_id', \Request::get('project_id'));
+            }
+
+            // search by status
+            if ( \Request::has('status') ) {
+                switch (\Request::get('status')) {
+                 case 'up':
+                    $nodes = $nodes->where('ping_success', 100);
+                    break;
+
+                 case 'down':
+                    $nodes = $nodes->where('ping_success', 0);
+                    break;
+
+                 case 'unknown':
+                    $nodes = $nodes->where('ping_success', '<>', 100);
+                    $nodes = $nodes->where('ping_success', '<>', 0);
+                    break;
+
+                 default:
+                    break;
+                }
+            }
+
+            // paginate
+            $nodes = $nodes->paginate(10);
+
         } else {
+            $q = '';
             $nodes = \App\Node::paginate(10);
         }
+
         return view('nodes.index', compact('nodes', 'q'));
 	}
 

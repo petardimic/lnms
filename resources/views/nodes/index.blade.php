@@ -13,6 +13,15 @@
   <div class="form-group">
     <label class="sr-only" for="q">Name or IP Address</label>
     <input type="text" class="form-control" id="q" name="q" placeholder="Name or IP Address" value="{{ \Request::get('q') }}">
+
+&nbsp; &nbsp; Location:
+{!! Form::select('location_id', \App\Location::all_select(), \Request::get('location_id'), ['class' => 'form-control'] ) !!}
+&nbsp; &nbsp; Project:
+{!! Form::select('project_id',  \App\Project::all_select(),  \Request::get('project_id'),  ['class' => 'form-control'] ) !!}
+
+&nbsp; &nbsp; Status:
+{!! Form::select('status',  \App\Node::status_select(),  \Request::get('status'),  ['class' => 'form-control'] ) !!}
+
   </div>
   <button type="submit" class="btn btn-primary">search</button>
 </form>
@@ -55,7 +64,7 @@
   @endforeach
  </tbody>
   <caption style="caption-side: bottom; text-align: right;">
-   {!! $nodes->appends(['q' => $q])->render() !!}
+   {!! $nodes->appends(['q' => $q, 'location_id' => \Request::get('location_id'), 'project_id' => \Request::get('project_id')])->render() !!}
   </caption>
  </table>
 @else

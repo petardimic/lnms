@@ -38,10 +38,9 @@ class SnmpPoller extends Command {
 	public function fire()
 	{
 		//
-        $nodes = \App\Node::where('poll_enabled', 'Y')
+        $nodes = \App\Node::where('ping_method', 'ping')
+                          ->where('ping_params', '')
                           ->where('ping_success', 100)
-                          ->where('snmp_version', '<>', 0)
-                          ->where('sysObjectID', '')
                           ->get();
 
         foreach ($nodes as $node) {
@@ -54,28 +53,24 @@ class SnmpPoller extends Command {
                 $get_sysUpTime   = $get_result[OID_sysUpTime];
 
                 // get sysObjectID
-                $get_result2 = $snmp->get(OID_sysObjectID);
+                $get_result2 = $snmp->get([OID_sysObjectID, OID_sysName]);
                 $get_sysObjectID = $get_result2[OID_sysObjectID];
+                $get_sysName     = $get_result2[OID_sysName];
             } else {
                 // snmp fail
-                $snmp_success  = 0;
+                $snmp_success  = 1;
                 $get_sysUpTime = 0;
                 $get_sysObjectID = '';
+                $get_sysName     = '?';
             }
 
-            print "$node->ip_address $node->snmp_comm_ro = $snmp_success $get_sysUpTime = $get_sysObjectID\n";
+            print "$node->ip_address $node->snmp_comm_ro = $snmp_success $get_sysUpTime = $get_sysObjectID $get_sysName\n";
 
             $u_node = \App\Node::find($node->id);
             $u_node->snmp_success = $snmp_success;
             $u_node->sysObjectID  = $get_sysObjectID;
+            $u_node->sysName      = $get_sysName;
             $u_node->save();
-
-//            $snmp = new \App\Snmp();
-//            $snmp->node_id   = $node->id;
-//            $snmp->sysUpTime = $get_sysUpTime;
-//            $snmp->timestamp = \Carbon\Carbon::now();
-//
-//            $snmp->save();
         }
 	}
 

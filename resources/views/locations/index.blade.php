@@ -23,12 +23,14 @@
  <thead>
   <tr>
    <th><a href="/locations?q={{ $q }}&sort=name">Name</a></th>
+   <th><a href="/locations?q={{ $q }}&sort=name">#Nodes</a></th>
   </tr>
  </thead>
  <tbody>
   @foreach ($locations as $location)
    <tr>
     <td><a href="/locations/{{ $location->id }}">{{ $location->name }}</a></td>
+    <td><a href="/nodes?location_id={{ $location->id }}">{{ $location->nodes()->count() }}</a></td>
    </tr>
   @endforeach
  </tbody>

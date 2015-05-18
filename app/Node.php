@@ -141,4 +141,20 @@ class Node extends Model {
             break;
         }
     }
+
+    /**
+     * Generate Node Status
+     *
+     * @return Array
+     */
+    static public function status_select() {
+        $_ret = array();
+
+        $_ret = [ 'all'     => 'all',
+                  'up'      => 'up',
+                  'down'    => 'down',
+                  'unknown' => 'unknown'];
+
+        return $_ret;
+    }
 }
