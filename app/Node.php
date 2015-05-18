@@ -87,6 +87,22 @@ class Node extends Model {
         return $this->hasMany('\App\Snmp');
     }
 
+    /*
+     * node belongs to project
+     */
+    public function project()
+    {
+        return $this->belongsTo('\App\Project');
+    }
+
+    /*
+     * node belongs to location
+     */
+    public function location()
+    {
+        return $this->belongsTo('\App\Location');
+    }
+
     /**
      * Display Poll Enabled
      *

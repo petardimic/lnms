@@ -24,6 +24,7 @@
   <tr>
    <th><a href="/nodes?q={{ $q }}&sort=name">Name</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=project_id">Project</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=location_id">Location</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_enabled">Poll Enabled</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=sysName">sysName</a></th>
@@ -40,6 +41,7 @@
    <tr>
     <td><a href="/nodes/{{ $node->id }}">{{ $node->name }}</a></td>
     <td>{{ $node->ip_address }}</td>
+    <td>{{ $node->project_id == '' ? '' : \App\Project::find($node->project_id)->name }}</td>
     <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
     <td>{{ $node->dsp_poll_enabled }}</td>
     <td>{{ $node->sysName }}</td>

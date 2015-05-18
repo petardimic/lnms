@@ -29,7 +29,13 @@ class NodesController extends Controller {
         // \Session::get('q')
         // \Session::put('q', $q);
 
-        $q = \Request::get('q');
+        $q = trim(\Request::get('q'));
+
+        if ( \Request::has('project_id') ) {
+            $nodes = \App\Node::where('project_id', \Request::get('project_id'))
+                              ->paginate(10);
+            return view('nodes.index', compact('nodes', 'q'));
+        }
 
         if ($q <> '') {
             $nodes = \App\Node::where('name', 'RLIKE', $q)

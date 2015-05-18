@@ -8,6 +8,14 @@ class Location extends Model {
     protected $fillable = [ 'name' ];
 
     /**
+     * location has many nodes
+     */
+    public function nodes() {
+        return $this->hasMany('\App\Node');
+    }
+
+
+    /**
      * Generate Location Associate Array
      *
      * @return Array
