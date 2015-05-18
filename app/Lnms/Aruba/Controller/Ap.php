@@ -64,9 +64,13 @@ class Ap {
 
             // AP Status
             if ($apDetails[OID_Aruba_wlanAPStatus . '.' . $apSuffix] === false) {
-                $apStatus = '';
+                $apStatus = '0';
             } else {
-                $apStatus = $apDetails[OID_Aruba_wlanAPStatus . '.' . $apSuffix];
+                if ( $apDetails[OID_Aruba_wlanAPStatus . '.' . $apSuffix] == 1 ) {
+                    $apStatus = 100;
+                } else {
+                    $apStatus = 0;
+                }
             }
 
             // AP Oob IP Addess
@@ -91,6 +95,9 @@ class Ap {
                                        'ping_method'    => 'Aruba\Controller\Ap::poll_apAddress',
                                        'ping_params'    => $this->node->id,
                                        'ping_success'   => $apStatus,
+                                       'snmp_success'   => 0,
+                                       'poll_enabled'   => 'N',
+                                       'project_id'     => $this->node->project_id,
                                        ],
                         ];
         }
@@ -234,7 +241,7 @@ class Ap {
                 // found bssid
                 $_ret[] =  [ 'table'  => 'bds',
                              'action' => 'insert',
-                             'key'    => [ 'node_id'  => $this->node->id,
+                             'key'    => [ 'node_id'  => $bssid->node->id,
                                            'bssid_id' => $bssid->id,
                                            'clientMacAddress' => $clientMacAddress,
                                            'timestamp' => \Carbon\Carbon::now(),

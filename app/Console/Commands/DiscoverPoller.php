@@ -38,11 +38,12 @@ class DiscoverPoller extends Command {
 	public function fire()
 	{
 		//
-        $nodes = \App\Node::all();
+        $nodes = \App\Node::where('ping_success', '100')
+                          ->where('snmp_success', '100')
+                          ->get();
 
         foreach ($nodes as $node) {
             $discover_result = \App\Http\Controllers\NodesController::execDiscover($node->id);
-
             print "$node->ip_address = " . $discover_result . PHP_EOL;
         }
 	}

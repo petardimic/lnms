@@ -18,7 +18,7 @@
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
    </button>
-   <a class="navbar-brand" href="/">lnms</a>
+   <a class="navbar-brand" href="/">{{ env('APP_NAME', 'lnms') }}</a>
   </div>
 
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -27,6 +27,7 @@
     <li id="nodes"><a href="/nodes">Nodes</a></li>
     <li id="locations"><a href="/locations">Locations</a></li>
     <li id="projects"><a href="/projects">Projects</a></li>
+    <li id="nodegroups"><a href="/nodegroups">Nodegroups</a></li>
    </ul>
 
    <ul class="nav navbar-nav navbar-right">

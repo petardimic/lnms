@@ -31,6 +31,7 @@ class NodesController extends Controller {
         if ( \Request::has('q')
              || \Request::has('location_id')
              || \Request::has('project_id')
+             || \Request::has('nodegroup_id')
              || \Request::has('status')
            ) {
 
@@ -38,9 +39,9 @@ class NodesController extends Controller {
 
             // search by name or ip_address
             if ( \Request::has('q') ) {
-                $q = \Request::get('q');
+                $q = trim(\Request::get('q'));
                 $nodes = $nodes->where(function($query) {
-                                            $q = \Request::get('q');
+                                            $q = trim(\Request::get('q'));
                                             $query->where('name', 'RLIKE', $q)
                                                   ->orWhere('ip_address', 'RLIKE', $q);
                                        });
@@ -54,6 +55,11 @@ class NodesController extends Controller {
             // search by project_id
             if ( \Request::has('project_id') ) {
                 $nodes = $nodes->where('project_id', \Request::get('project_id'));
+            }
+
+            // search by nodegroup_id
+            if ( \Request::has('nodegroup_id') ) {
+                $nodes = $nodes->where('nodegroup_id', \Request::get('nodegroup_id'));
             }
 
             // search by status

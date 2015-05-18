@@ -63,4 +63,34 @@
  <br>
 @endif
 
+@if (count($nodegroups))
+<table class="table table-bordered table-hover">
+ <caption>
+  Node Status by Nodegroup
+ </caption>
+ <thead>
+  <tr>
+   <th><a href="/nodegroups?sort=name">Name</a></th>
+   <th><a href="/nodegroups?sort=name">#Nodes</a></th>
+   <th><a href="/nodegroups?sort=name">#Up</a></th>
+   <th><a href="/nodegroups?sort=name">#Down</a></th>
+  </tr>
+ </thead>
+ <tbody>
+  @foreach ($nodegroups as $nodegroup)
+   <tr>
+    <td>{{ $nodegroup->name }}</td>
+    <td align="right"><a href="/nodes?nodegroup_id={{ $nodegroup->id }}">{{ $nodegroup->nodes()->count() }}</a></td>
+    <td align="right"><a href="/nodes?nodegroup_id={{ $nodegroup->id }}&status=up">{{ $nodegroup->nodesUp }}</a></td>
+    <td align="right"><a href="/nodes?nodegroup_id={{ $nodegroup->id }}&status=down">{{ $nodegroup->nodesDown }}</a></td>
+
+   </tr>
+  @endforeach
+ </tbody>
+</table>
+@else
+ no data<br>
+ <br>
+@endif
+
 @stop

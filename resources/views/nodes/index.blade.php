@@ -16,8 +16,12 @@
 
 &nbsp; &nbsp; Location:
 {!! Form::select('location_id', \App\Location::all_select(), \Request::get('location_id'), ['class' => 'form-control'] ) !!}
+
 &nbsp; &nbsp; Project:
 {!! Form::select('project_id',  \App\Project::all_select(),  \Request::get('project_id'),  ['class' => 'form-control'] ) !!}
+
+&nbsp; &nbsp; Nodegroup:
+{!! Form::select('nodegroup_id',  \App\Nodegroup::all_select(),  \Request::get('nodegroup_id'),  ['class' => 'form-control'] ) !!}
 
 &nbsp; &nbsp; Status:
 {!! Form::select('status',  \App\Node::status_select(),  \Request::get('status'),  ['class' => 'form-control'] ) !!}
@@ -34,6 +38,7 @@
    <th><a href="/nodes?q={{ $q }}&sort=name">Name</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ip_address">IP Address</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=project_id">Project</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=nodegroup_id">Nodegroup</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=location_id">Location</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_enabled">Poll Enabled</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=sysName">sysName</a></th>
@@ -50,6 +55,7 @@
    <tr>
     <td><a href="/nodes/{{ $node->id }}">{{ $node->name }}</a></td>
     <td>{{ $node->ip_address }}</td>
+    <td>{{ $node->nodegroup_id == '' ? '' : \App\Nodegroup::find($node->nodegroup_id)->name }}</td>
     <td>{{ $node->project_id == '' ? '' : \App\Project::find($node->project_id)->name }}</td>
     <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
     <td>{{ $node->dsp_poll_enabled }}</td>

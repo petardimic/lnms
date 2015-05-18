@@ -4,10 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Node extends Model {
 
-	//
-    protected $fillable = [ 'name', 'ip_address',
-                            'snmp_version', 'snmp_comm_ro',
-                            'poll_enabled', 'location_id' ];
+    //
+    protected $fillable = [ 'name',         'ip_address',   'mac_address',
+                            'snmp_version', 'snmp_comm_ro', 'ping_method',
+                            'ping_params',  'ping_success', 'snmp_success',
+                            'poll_enabled', 'location_id',  'project_id',
+                            'nodegroup_id' ];
 
     /**
      * node has many ports
@@ -101,6 +103,14 @@ class Node extends Model {
     public function location()
     {
         return $this->belongsTo('\App\Location');
+    }
+
+    /*
+     * node belongs to nodegroup
+     */
+    public function nodegroup()
+    {
+        return $this->belongsTo('\App\Nodegroup');
     }
 
     /**

@@ -20,6 +20,20 @@
 </div>
 
 <div class="form-group">
+ {!! Form::label('project_id', 'Project', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-3">
+  {!! Form::select('project_id', \App\Project::all_select(), $node->project_id, ['class' => 'form-control'] ) !!}
+ </div>
+</div>
+
+<div class="form-group">
+ {!! Form::label('nodegroup_id', 'Nodegroup', ['class' => 'control-label col-sm-2']) !!}
+ <div class="col-sm-3">
+  {!! Form::select('nodegroup_id', \App\Nodegroup::all_select(), $node->nodegroup_id, ['class' => 'form-control'] ) !!}
+ </div>
+</div>
+
+<div class="form-group">
  {!! Form::label('poll_enabled', 'Poll Enabled', ['class' => 'control-label col-sm-2']) !!}
  <div class="col-sm-3">
   {!! Form::select('poll_enabled', ['Y' => 'yes', 'N' => 'no' ], $node->poll_enabled, ['class' => 'form-control'] ) !!}

@@ -352,7 +352,7 @@ define('OID_Aruba_wlanAPBuilding',            '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.
 define('OID_Aruba_wlanAPFloor',               '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.16');
 define('OID_Aruba_wlanAPLoc',                 '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.17');
 define('OID_Aruba_wlanAPExternalAntenna',     '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.18');
-define('OID_Aruba_wlanAPStatus',              '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.19');
+define('OID_Aruba_wlanAPStatus',              '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.19'); // 1=up, 2=down
 define('OID_Aruba_wlanAPNumBootstraps',       '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.20');
 define('OID_Aruba_wlanAPNumReboots',          '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.21');
 define('OID_Aruba_wlanAPUnprovisioned',       '.1.3.6.1.4.1.14823.2.2.1.5.2.1.4.1.22');

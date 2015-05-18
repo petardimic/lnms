@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddProjectIdToNodesTable extends Migration {
+class AddNodegroupsToNodesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,14 +14,14 @@ class AddProjectIdToNodesTable extends Migration {
 	{
 		Schema::table('nodes', function(Blueprint $table)
 		{
-            $table->bigInteger('project_id')
+            $table->bigInteger('nodegroup_id')
                   ->unsigned()
                   ->after('id')
                   ->nullable();
 
-            $table->foreign('project_id')
+            $table->foreign('nodegroup_id')
                   ->references('id')
-                  ->on('projects');
+                  ->on('nodegroups');
 		});
 	}
 
@@ -34,7 +34,7 @@ class AddProjectIdToNodesTable extends Migration {
 	{
 		Schema::table('nodes', function(Blueprint $table)
 		{
-            $table->dropColumn('project_id');
+            $table->dropColumn('nodegroup_id');
 		});
 	}
 

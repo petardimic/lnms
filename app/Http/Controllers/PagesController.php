@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller {
 
+    /*
+     * Constructor
+     *
+     */
+    public function __construct()
+    {
+        // must auth before
+        $this->middleware('auth');
+    }
+
 	/**
      *
      */
@@ -21,7 +31,6 @@ class PagesController extends Controller {
 
             $nodesUp = \App\Node::where('location_id', $locations[$i]->id)
                                 ->where('ping_success', '100')
-                                ->where('snmp_success', '100')
                                 ->get();
 
             $locations[$i]->nodesUp   = $nodesUp->count();
@@ -38,7 +47,6 @@ class PagesController extends Controller {
 
             $nodesUp = \App\Node::where('project_id', $projects[$i]->id)
                                 ->where('ping_success', '100')
-                                ->where('snmp_success', '100')
                                 ->get();
 
             $projects[$i]->nodesUp   = $nodesUp->count();
@@ -46,7 +54,23 @@ class PagesController extends Controller {
 
         }
 
-        return view('pages.home', compact('locations', 'projects'));
+        // summary by nodegroup
+        $nodegroups = \App\Nodegroup::orderBy('name')->get();
+
+        for ($i=0; $i<count($nodegroups); $i++) {
+
+            $nodesAll = \App\Node::where('nodegroup_id', $nodegroups[$i]->id)->get();
+
+            $nodesUp = \App\Node::where('nodegroup_id', $nodegroups[$i]->id)
+                                ->where('ping_success', '100')
+                                ->get();
+
+            $nodegroups[$i]->nodesUp   = $nodesUp->count();
+            $nodegroups[$i]->nodesDown = $nodesAll->count() - $nodesUp->count();
+
+        }
+
+        return view('pages.home', compact('locations', 'projects', 'nodegroups'));
     }
 
 }

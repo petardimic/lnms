@@ -58,10 +58,10 @@ class SnmpPoller extends Command {
                 $get_sysName     = $get_result2[OID_sysName];
             } else {
                 // snmp fail
-                $snmp_success  = 1;
+                $snmp_success  = 0;
                 $get_sysUpTime = 0;
                 $get_sysObjectID = '';
-                $get_sysName     = '?';
+                $get_sysName     = '';
             }
 
             print "$node->ip_address $node->snmp_comm_ro = $snmp_success $get_sysUpTime = $get_sysObjectID $get_sysName\n";

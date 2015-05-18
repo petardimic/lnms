@@ -9,21 +9,19 @@ class Node extends \App\Lnms\Generic\Snmp\Node {
      */
     public function pollers() {
 
-//        $_ret = parent::pollers();
+        $_ret = parent::pollers();
 
-        $_ret = [];
+        $_ret['nodes']['apAddress'] = ['class'    => 'Ap',
+                                       'method'   => 'poll_apAddress',
+                                       'initial'  => 'Y',
+                                       'default'  => 'Y',
+                                       'interval' => 'daily'];
 
-//        $_ret['nodes']['apAddress'] = ['class'    => 'Ap',
-//                                       'method'   => 'poll_apAddress',
-//                                       'initial'  => 'Y',
-//                                       'default'  => 'Y',
-//                                       'interval' => 'daily'];
-
-//        $_ret['bssids']['apBssid'] = ['class'    => 'Ap',
-//                                      'method'   => 'poll_apBssid',
-//                                      'initial'  => 'Y',
-//                                      'default'  => 'Y',
-//                                      'interval' => 'daily'];
+        $_ret['bssids']['apBssid'] = ['class'    => 'Ap',
+                                      'method'   => 'poll_apBssid',
+                                      'initial'  => 'Y',
+                                      'default'  => 'Y',
+                                      'interval' => 'daily'];
 
         $_ret['bds']['apClient'] = ['class'    => 'Ap',
                                     'method'   => 'poll_apClient',

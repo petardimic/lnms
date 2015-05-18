@@ -51,6 +51,7 @@ Route::patch('ports/{id}/pollings', 'PortsController@pollings_update');
 
 Route::resource('locations', 'LocationsController');
 Route::resource('projects', 'ProjectsController');
+Route::resource('nodegroups', 'NodegroupsController');
 
 Route::get('pollings/{id}/ds', 'PollingsController@ds');
 

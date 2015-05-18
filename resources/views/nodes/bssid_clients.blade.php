@@ -26,7 +26,6 @@
     <th>clientSignalStrength</th>
     <th>clientBytesReceived</th>
     <th>clientBytesSent</th>
-    <th>Port</th>
    </tr>
   </thead>
   <caption style="caption-side: top; text-align: right;">
@@ -40,7 +39,6 @@
       <td>{{ $client->clientSignalStrength }}</td>
       <td>{{ $client->clientBytesReceived }}</td>
       <td>{{ $client->clientBytesSent }}</td>
-      <td>{{ $client->bssid->port->dsp_ifDescr }}</td>
      </tr>
     @endforeach
   </tbody>
