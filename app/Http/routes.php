@@ -67,5 +67,6 @@ Route::get('api/v1/nodes/{ip}/status', 'NodesController@api_status');
 Route::get('dashboard_by_location', 'PagesController@dashboard_by_location');
 Route::get('dashboard_by_project',  'PagesController@dashboard_by_project');
 Route::get('dashboard_by_ssid',     'PagesController@dashboard_by_ssid');
+Route::get('dashboard_by_clients',  'PagesController@dashboard_by_clients');
 
 

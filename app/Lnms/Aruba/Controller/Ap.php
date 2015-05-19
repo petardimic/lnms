@@ -151,6 +151,7 @@ class Ap {
             // get more details about bssid
             $bssidDetails = $snmp->get([OID_Aruba_wlanAPESSID     . '.' . $bssidSuffix,
                                         OID_Aruba_wlanAPRadioType . '.' . $apMacDec . '.' . $bssidIndex,
+                                        OID_Aruba_wlanAPRadioNumAssociatedClients . '.' . $apMacDec . '.' . $bssidIndex,
                                         ]);
             // bssidName
             if ($bssidDetails[OID_Aruba_wlanAPESSID . '.' . $bssidSuffix] === false) {
@@ -164,6 +165,13 @@ class Ap {
                 $bssidSpec = '';
             } else {
                 $bssidSpec = $bssidDetails[OID_Aruba_wlanAPRadioType . '.' . $apMacDec . '.' . $bssidIndex];
+            }
+
+            // bssidClients_count
+            if ($bssidDetails[OID_Aruba_wlanAPRadioNumAssociatedClients . '.' . $apMacDec . '.' . $bssidIndex] === false) {
+                $bssidClients_count = '';
+            } else {
+                $bssidClients_count = $bssidDetails[OID_Aruba_wlanAPRadioNumAssociatedClients . '.' . $apMacDec . '.' . $bssidIndex];
             }
 
             //
@@ -184,6 +192,7 @@ class Ap {
                                            'bssidSpec'           => $bssidSpec,
                                            'bssidMaxRate'        => 0,
                                            'bssidCurrentChannel' => $bssidCurrentChannel,
+                                           'bssidClients_count'  => $bssidClients_count
                                            ],
                             ];
             }
@@ -235,7 +244,21 @@ class Ap {
             $clientBytesSent      = 0;
 
             // get more details about client
-            //$clientDetails = $snmp->get([OID_Aruba_staSignalToNoiseRatio ]);
+            $clientDetails = $snmp->get([ OID_Aruba_staUserAgent . '.' . $clientSuffix,
+                                          OID_Aruba_staUserType  . '.' . $clientSuffix
+                                        ]);
+
+            if ( isset($clientDetails[OID_Aruba_staUserAgent . '.' . $clientSuffix]) ) {
+                $clientUserAgent = $clientDetails[OID_Aruba_staUserAgent . '.' . $clientSuffix];
+            } else {
+                $clientUserAgent = '';
+            }
+
+            if ( isset($clientDetails[OID_Aruba_staUserType . '.' . $clientSuffix]) ) {
+                $clientUserType = $clientDetails[OID_Aruba_staUserType . '.' . $clientSuffix];
+            } else {
+                $clientUserType = '';
+            }
 
             if ($bssid) {
                 // found bssid
@@ -251,9 +274,9 @@ class Ap {
                                            'clientSignalStrength' => $clientSignalStrength,
                                            'clientBytesReceived'  => $clientBytesReceived,
                                            'clientBytesSent'      => $clientBytesSent,
+                                           'clientUserAgent'      => $clientUserAgent,
+                                           'clientUserType'       => $clientUserType,
                                            ],
-
-
                             ];
             }
         }

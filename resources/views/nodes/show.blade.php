@@ -86,6 +86,8 @@
    <tr>
     <th>MacAddress</th>
     <th>IpAddress</th>
+    <th>UserAgent</th>
+    <th>UserType</th>
    </tr>
   </thead>
   <caption style="caption-side: top; text-align: right;">
@@ -96,6 +98,8 @@
      <tr>
       <td>{{ $client->clientMacAddress }}</td>
       <td>{{ $client->clientIpAddress }}</td>
+      <td>{{ $client->clientUserAgent }}</td>
+      <td>{{ $client->clientUserType }}</td>
      </tr>
     @endforeach
   </tbody>
@@ -119,8 +123,9 @@
 
   <a href="/nodes/{{ $node->id }}/ports" class="btn btn-primary">Ports</a>
 
-  <a href="/nodes/{{ $node->id }}/discover" class="btn btn-primary">Discover Node</a>
 -->
+
+  <a href="/nodes/{{ $node->id }}/discover" class="btn btn-primary">Discover Node</a>
 
   <a href="/nodes/{{ $node->id }}/test" class="btn btn-primary">Test Node</a>
 

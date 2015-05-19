@@ -29,15 +29,18 @@
       <li><a href="/dashboard_by_location">by Location</a></li>
       <li><a href="/dashboard_by_project">by Project</a></li>
       <li><a href="/dashboard_by_ssid">by SSID</a></li>
+      <li><a href="/dashboard_by_clients">Top WiFi Clients</a></li>
      </ul>
     </li>
 
     <li id="nodes"><a href="/nodes">Nodes</a></li>
     <li id="locations"><a href="/locations">Locations</a></li>
     <li id="projects"><a href="/projects">Projects</a></li>
-    <li id="nodegroups"><a href="/nodegroups">Nodegroups</a></li>
     <li id="users"><a href="/users">Users</a></li>
+    <!--
+    <li id="nodegroups"><a href="/nodegroups">Nodegroups</a></li>
     <li id="usergroups"><a href="/usergroups">Usergroups</a></li>
+    -->
    </ul>
 
    <ul class="nav navbar-nav navbar-right">

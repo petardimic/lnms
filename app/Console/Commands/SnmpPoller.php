@@ -68,8 +68,10 @@ class SnmpPoller extends Command {
 
             $u_node = \App\Node::find($node->id);
             $u_node->snmp_success = $snmp_success;
+            $u_node->snmp_updated = \Carbon\Carbon::now();
             $u_node->sysObjectID  = $get_sysObjectID;
             $u_node->sysName      = $get_sysName;
+            $u_node->sysUpTime    = $get_sysUpTime;
             $u_node->save();
         }
 	}

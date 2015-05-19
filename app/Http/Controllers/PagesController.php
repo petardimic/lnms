@@ -190,4 +190,17 @@ class PagesController extends Controller {
         return view('pages.dashboard_by_ssid', compact('bssids'));
     }
 
+    /**
+     *
+     * @return view
+     */
+    public function dashboard_by_clients()
+    {
+        // summary by bssid
+        $bssids = \App\Bssid::orderBy('bssidClients_count', 'desc')
+                            ->paginate(10);
+
+        return view('pages.dashboard_by_clients', compact('bssids'));
+    }
+
 }

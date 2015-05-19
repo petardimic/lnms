@@ -26,12 +26,14 @@
     <thead>
      <th width="200">Date/Time</th>
      <th>Ping Success</th>
+     <th>Response Time (ms.)</th>
     </thead>
     <tbody>
     @foreach ($pings as $ping)
         <tr>
          <td>{{ $ping->timestamp }}</td>
          <td>{{ $ping->success }}</td>
+         <td>{{ $ping->microsec / 1000 }}</td>
         </tr>
     @endforeach
     </tbody>
