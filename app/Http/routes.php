@@ -12,9 +12,9 @@
 */
 
 // temporary disable register and password pages
-Route::get('auth/register', function() {
-    return 'disabled';
-});
+//Route::get('auth/register', function() {
+//    return 'disabled';
+//});
 
 Route::post('auth/register', function() {
     return 'disabled';
@@ -52,10 +52,13 @@ Route::patch('ports/{id}/pollings', 'PortsController@pollings_update');
 Route::resource('locations', 'LocationsController');
 Route::resource('projects', 'ProjectsController');
 Route::resource('nodegroups', 'NodegroupsController');
+Route::resource('users', 'UsersController');
+Route::resource('usergroups', 'UsergroupsController');
 
 Route::get('pollings/{id}/ds', 'PollingsController@ds');
 
 // api
 Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');
 Route::get('api/v1/nodes/{id}/snmp', 'NodesController@snmp');
+Route::get('api/v1/nodes/{ip}/status', 'NodesController@api_status');
 

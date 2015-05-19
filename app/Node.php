@@ -10,6 +10,17 @@ class Node extends Model {
                             'ping_params',  'ping_success', 'snmp_success',
                             'poll_enabled', 'location_id',  'project_id',
                             'nodegroup_id' ];
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = ['snmp_comm_ro', 'snmp_comm_rw', 'snmp_version',
+                         'ping_method', 'ping_params',
+                         'mgmt_method', 'mgmt_params',
+                         'poll_enabled', 'poll_class',
+                         'created_at', 'updated_at',
+                         ];
 
     /**
      * node has many ports

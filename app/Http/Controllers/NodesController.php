@@ -850,4 +850,25 @@ class NodesController extends Controller {
 
         return view('nodes.bssid_clients', compact('node', 'clients'));
     }
+
+    /**
+     * get status
+     *
+     */
+    public function api_status($ip)
+    {
+        $node = \App\Node::where('ip_address', $ip)->first();
+
+        if ($node) {
+            $result = 'found';
+            $ping_success = $node->ping_success;
+        } else {
+            $result = 'not found';
+            $ping_success = false;
+        }
+
+        return response()->json(['result' => $result,
+                                 'ping_success' => $ping_success,
+                                ]);
+    }
 }
