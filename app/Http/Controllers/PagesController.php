@@ -22,6 +22,24 @@ class PagesController extends Controller {
      */
     public function home() {
 
+        // summary by bssid
+        $bssids = \App\Bssid::groupBy('bssidName')
+                            ->orderBy('bssidName')
+                            ->get();
+        for ($i=0; $i<count($bssids); $i++) {
+            $bssid = \App\Bssid::where('bssidName', $bssids[$i]->bssidName)->get();
+            $bssids[$i]->bssidCount = $bssid->count();
+
+            $bssids[$i]->clientCount = 0;
+
+            foreach ($bssid as $bds) {
+                $clients = \App\Bd::where('bssid_id', $bds->id)->get();
+                $bssids[$i]->clientCount += $clients->count();
+            }
+
+
+        }
+
         // summary by location
         $locations = \App\Location::orderBy('name')->get();
 
@@ -70,7 +88,7 @@ class PagesController extends Controller {
 
         }
 
-        return view('pages.home', compact('locations', 'projects', 'nodegroups'));
+        return view('pages.home', compact('locations', 'projects', 'nodegroups', 'bssids'));
     }
 
 }
