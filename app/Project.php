@@ -22,7 +22,7 @@ class Project extends Model {
     static public function all_select() {
         $_ret = array();
 
-        $_ret[''] = 'unknown';
+        $_ret[''] = '-- project --';
 
         $projects = \App\Project::orderBy('name')->get();
 

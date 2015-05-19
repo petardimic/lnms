@@ -62,3 +62,9 @@ Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');
 Route::get('api/v1/nodes/{id}/snmp', 'NodesController@snmp');
 Route::get('api/v1/nodes/{ip}/status', 'NodesController@api_status');
 
+// Dashboard
+Route::get('dashboard_by_location', 'PagesController@dashboard_by_location');
+Route::get('dashboard_by_project',  'PagesController@dashboard_by_project');
+Route::get('dashboard_by_ssid',     'PagesController@dashboard_by_ssid');
+
+

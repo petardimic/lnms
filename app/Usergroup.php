@@ -21,7 +21,7 @@ class Usergroup extends Model {
     static public function all_select() {
         $_ret = array();
 
-        $_ret[''] = 'unknown';
+        $_ret[''] = '-- usergroup --';
 
         $usergroups = \App\Usergroup::orderBy('name')->get();
 

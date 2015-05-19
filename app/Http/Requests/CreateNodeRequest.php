@@ -24,16 +24,22 @@ class CreateNodeRequest extends Request {
         switch ($this->method()) {
          case 'POST':
 		    return [
-                'name'       => 'required',
-                'ip_address' => 'required|ip|unique:nodes,ip_address',
+                'name'         => 'required',
+                'location_id'  => 'required',
+                'project_id'   => 'required',
+                'nodegroup_id' => 'required',
+                'ip_address'   => 'required|ip|unique:nodes,ip_address',
 		    ];
             break;
 
          case 'PUT':
          case 'PATCH':
 		    return [
-                'name'       => 'required',
-                'ip_address' => 'required|ip|unique:nodes,ip_address,' . $this->route('nodes') . ',id'
+                'name'         => 'required',
+                'location_id'  => 'required',
+                'project_id'   => 'required',
+                'nodegroup_id' => 'required',
+                'ip_address'   => 'required|ip|unique:nodes,ip_address,' . $this->route('nodes') . ',id'
 		    ];
             break;
         }

@@ -23,7 +23,7 @@ class Location extends Model {
     static public function all_select() {
         $_ret = array();
 
-        $_ret[''] = 'unknown';
+        $_ret[''] = '-- location --';
 
         $locations = \App\Location::all();
 

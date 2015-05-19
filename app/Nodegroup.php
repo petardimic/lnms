@@ -22,7 +22,7 @@ class Nodegroup extends Model {
     static public function all_select() {
         $_ret = array();
 
-        $_ret[''] = 'unknown';
+        $_ret[''] = '-- nodegroup --';
 
         $nodegroups = \App\Nodegroup::orderBy('name')->get();
 

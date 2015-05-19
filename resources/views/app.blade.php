@@ -23,7 +23,15 @@
 
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
    <ul class="nav navbar-nav">
-    <li id="home"><a href="/">Dashboard</a></li>
+    <li id="home" class="dropdown">
+     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dashboard<span class="caret"></span></a>
+     <ul class="dropdown-menu" role="menu">
+      <li><a href="/dashboard_by_location">by Location</a></li>
+      <li><a href="/dashboard_by_project">by Project</a></li>
+      <li><a href="/dashboard_by_ssid">by SSID</a></li>
+     </ul>
+    </li>
+
     <li id="nodes"><a href="/nodes">Nodes</a></li>
     <li id="locations"><a href="/locations">Locations</a></li>
     <li id="projects"><a href="/projects">Projects</a></li>
