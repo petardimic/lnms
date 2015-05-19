@@ -121,12 +121,12 @@ class PagesController extends Controller {
                 $locations[$i]->nodesDownPercent = 100 - $locations[$i]->nodesUpPercent;
     
                 // to prevent too small click area
-                if ($locations[$i]->nodesDownPercent < 10) {
+                if ($locations[$i]->nodesDownPercent > 0 && $locations[$i]->nodesDownPercent < 10) {
                     $locations[$i]->nodesUpPercent   -= 10;
                     $locations[$i]->nodesDownPercent += 10;
                 }
     
-                if ($locations[$i]->nodesUpPercent < 10) {
+                if ( $locations[$i]->nodesUpPercent > 0 && $locations[$i]->nodesUpPercent < 10) {
                     $locations[$i]->nodesUpPercent    += 10;
                     $locations[$i]->nodesDownPercent  -= 10;
                 }
@@ -167,12 +167,12 @@ class PagesController extends Controller {
                 $projects[$i]->nodesDownPercent = 100 - $projects[$i]->nodesUpPercent;
     
                 // to prevent too small click area
-                if ($projects[$i]->nodesDownPercent < 10) {
+                if ($projects[$i]->nodesDownPercent > 0 && $projects[$i]->nodesDownPercent < 10) {
                     $projects[$i]->nodesUpPercent   -= 10;
                     $projects[$i]->nodesDownPercent += 10;
                 }
     
-                if ($projects[$i]->nodesUpPercent < 10) {
+                if ( $projects[$i]->nodesUpPercent > 0 && $projects[$i]->nodesUpPercent < 10) {
                     $projects[$i]->nodesUpPercent    += 10;
                     $projects[$i]->nodesDownPercent  -= 10;
                 }

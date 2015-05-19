@@ -11,6 +11,7 @@
  <h1>projects.create</h1>
  {!! Form::open(['id'    => 'form',
                  'url'   => 'projects',
+                 'files' => 'true',
                  'class' => 'form-horizontal']) !!}
   @include('projects.form', ['submitButtonText' => 'Add Project',
                           'cancelHref' => '/projects',])

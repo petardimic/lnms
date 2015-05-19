@@ -54,6 +54,13 @@ class ProjectsController extends Controller {
 
         \Session::flash('flash_message', 'project ' . $input['name'] . ' created.');
 
+        // logo file
+        if ( isset($input['image']) ) {
+            $input['logo_file_name'] = basename(\Request::file('image')->getRealPath());
+            $input['logo_file_type'] = \Request::file('image')->getMimeType();
+            \Request::file('image')->move('/tmp');
+        }
+
         // create
         \App\Project::create($input);
 
@@ -98,7 +105,14 @@ class ProjectsController extends Controller {
         $project = \App\Project::findOrFail($id);
         $input = $request->all();
         \Session::flash('flash_message', 'project ' . $project->name . ' updated.');
-        
+
+        // logo file
+        if ( isset($input['image']) ) {
+            $input['logo_file_name'] = basename(\Request::file('image')->getRealPath());
+            $input['logo_file_type'] = \Request::file('image')->getMimeType();
+            \Request::file('image')->move('/tmp');
+        }
+
         // update
         $project->update($input);
 
@@ -123,4 +137,19 @@ class ProjectsController extends Controller {
         return redirect('projects');
 	}
 
+    /**
+     *
+     */
+	public function logo($id)
+    {
+        $project = \App\Project::findOrFail($id);
+
+        if ($project->logo_file_name == '') {
+            die();
+        } else {
+            header('Content-Type: ' . $project->logo_file_type . '');
+            readfile('/tmp/' . $project->logo_file_name);
+            die();
+        }
+    }
 }

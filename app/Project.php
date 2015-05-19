@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model {
 
 	//
-    protected $fillable = [ 'name' ];
+    protected $fillable = [ 'name', 'logo_file_name', 'logo_file_type' ];
 
     /**
      * project has many nodes

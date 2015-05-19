@@ -24,15 +24,16 @@ class CreateProjectRequest extends Request {
         switch ($this->method()) {
          case 'POST':
 		    return [
-                'name'       => 'required',
+                'name'      => 'required',
 		    ];
             break;
 
          case 'PUT':
          case 'PATCH':
 		    return [
-                'name'       => 'required|unique:projects,name,' . $this->route('projects') . ',id'
+                'name'      => 'required|unique:projects,name,' . $this->route('projects') . ',id',
 		    ];
+            // 'image'     => 'mimes:jpeg,bmp,png',
             break;
         }
 	}

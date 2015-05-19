@@ -21,7 +21,7 @@
 
         <h4>{{ $locations[($row*4) + $col]->name }}</h4>
 
-        Nodes
+        Node Status
         <div class="progress">
          <div class="progress-bar progress-bar-success" style="width: {{ $locations[($row*4) + $col]->nodesUpPercent }}%;">
           <a style="color: white" href="/nodes?location_id={{ $locations[($row*4) + $col]->id }}&status=up">{{ $locations[($row*4) + $col]->nodesUp }}</a>

@@ -13,6 +13,7 @@
  {!! Form::model($project, ['id'     => 'form',
                              'method' => 'PATCH',
                              'url'    => 'projects/' . $project->id,
+                             'files'  => 'true',
                              'class' => 'form-horizontal']) !!}
   @include('projects.form', ['submitButtonText' => 'Update Node',
                           'cancelHref'       => '/projects/' . $project->id ] )

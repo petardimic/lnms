@@ -15,7 +15,7 @@ class NodesController extends Controller {
     public function __construct()
     {
         // must auth before
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
 	/**

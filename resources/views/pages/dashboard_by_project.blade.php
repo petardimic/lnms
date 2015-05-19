@@ -19,9 +19,15 @@
       <div class="thumbnail">
        <div class="caption">
 
-        <h4>{{ $projects[($row*4) + $col]->name }}</h4>
+        <h5>
+         @if ( $projects[($row*4) + $col]->logo_file_name  <> '' )
+          <img height="50" src="/projects/{{ $projects[($row*4) + $col]->id }}/logo" />
+         @endif
 
-        Nodes
+        {{ $projects[($row*4) + $col]->name }}
+        </h5>
+
+        Node Status
         <div class="progress">
          <div class="progress-bar progress-bar-success" style="width: {{ $projects[($row*4) + $col]->nodesUpPercent }}%;">
           <a style="color: white" href="/nodes?project_id={{ $projects[($row*4) + $col]->id }}&status=up">{{ $projects[($row*4) + $col]->nodesUp }}</a>
