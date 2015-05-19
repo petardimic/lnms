@@ -178,4 +178,50 @@ class Node extends Model {
 
         return $_ret;
     }
+
+    /**
+     * Display sysUpTime
+     *
+     * @return String
+     */
+    public function getDspSysUpTimeAttribute() {
+
+        $_ret = '';
+
+        if ($this->sysUpTime == '') {
+            $this->sysUpTime = 0;
+        }
+
+        $this->sysUpTime = round($this->sysUpTime / 100);
+
+        // convert sysUpTime to human readble
+
+        // days
+        $days  = floor($this->sysUpTime / 86400);
+        if ($days  > 0) {
+            $_ret .= $days  . ' days, ';
+            $this->sysUpTime = $this->sysUpTime - ($days * 86400);
+        }
+
+        // hours
+        $hours = floor($this->sysUpTime / 3600);
+        if ($hours > 0) {
+            $_ret .= $hours . ' hours, ';
+            $this->sysUpTime = $this->sysUpTime - ($hours * 3600);
+        }
+
+        // mins
+        $mins  = floor($this->sysUpTime / 60);
+        if ($mins  > 0) {
+            $_ret .= $mins  . ' mins, ';
+            $this->sysUpTime = $this->sysUpTime - ($mins * 60);
+        }
+
+        $secs  = $this->sysUpTime % 60;
+        if ($secs  > 0) {
+            $_ret .= $secs  . ' s.';
+        }
+
+        return $_ret;
+    }
 }

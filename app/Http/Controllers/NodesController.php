@@ -141,7 +141,11 @@ class NodesController extends Controller {
 	{
 		//
         $node = \App\Node::findOrFail($id);
-        return view('nodes.show', compact('node'));
+        $ports = \App\Port::where('node_id', $id)->orderBy('ifIndex')->paginate(100);
+        $bssids = \App\Bssid::where('node_id', $id)->orderBy('bssidIndex')->paginate(10);
+        $clients = \App\Bd::where('node_id', $id)->orderBy('clientMacAddress')->paginate(10);
+
+        return view('nodes.show', compact('node', 'ports', 'bssids', 'clients'));
 	}
 
 	/**
