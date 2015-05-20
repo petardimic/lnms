@@ -37,6 +37,7 @@
     <li id="locations"><a href="/locations">Locations</a></li>
     <li id="projects"><a href="/projects">Projects</a></li>
     <li id="users"><a href="/users">Users</a></li>
+    <li id="search"><a href="/search">Search</a></li>
     <!--
     <li id="nodegroups"><a href="/nodegroups">Nodegroups</a></li>
     <li id="usergroups"><a href="/usergroups">Usergroups</a></li>

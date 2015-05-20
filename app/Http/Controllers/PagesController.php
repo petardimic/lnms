@@ -203,4 +203,32 @@ class PagesController extends Controller {
         return view('pages.dashboard_by_clients', compact('bssids'));
     }
 
+    /**
+     *
+     * @return view
+     */
+    public function search()
+    {
+        return view('pages.search');
+    }
+
+    /**
+     *
+     * @return view
+     */
+    public function bssid_clients()
+    {
+        if ( \Request::has('q') ) {
+            $q = trim(\Request::get('q'));
+            $clients = \App\Bd::where('clientIpAddress',    'RLIKE', $q)
+                              ->orWhere('clientMacAddress', 'RLIKE', $q)
+                              ->orderBy('timestamp', 'desc')->paginate(10);
+        } else {
+            $clients = [];
+            $q = '';
+        }
+
+        return view('pages.bssid_clients', compact('clients', 'q'));
+    }
+
 }

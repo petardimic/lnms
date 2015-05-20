@@ -27,6 +27,8 @@ Route::controllers([
 ]);
 
 Route::get('home', 'PagesController@home');
+Route::get('search', 'PagesController@search');
+Route::get('bssid_clients', 'PagesController@bssid_clients');
 Route::get('/', 'PagesController@home');
 
 Route::get('nodes/{id}/test',       'NodesController@test');
