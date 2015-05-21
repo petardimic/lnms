@@ -38,11 +38,14 @@ class SnmpPoller extends Command {
 	public function fire()
 	{
 		//
+        print \Carbon\Carbon::now() . ' Start snmpPoller...' . "\n";
         $nodes = \App\Node::where('ping_method', 'ping')
                           ->where('ping_params', '')
                           ->where('ping_success', 100)
                           ->get();
 
+        $start_timestamp = time();
+        $counter = 0;
         foreach ($nodes as $node) {
             $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro);
             $get_result = $snmp->get(OID_sysUpTime);
@@ -64,7 +67,10 @@ class SnmpPoller extends Command {
                 $get_sysName     = '';
             }
 
-            print "$node->ip_address $node->snmp_comm_ro = $snmp_success $get_sysUpTime = $get_sysObjectID $get_sysName\n";
+            $current_timestamp = time();
+            $diff_timestamp = $current_timestamp - $start_timestamp;
+
+            print \Carbon\Carbon::now() . " $counter ($diff_timestamp s.) - $node->ip_address $node->snmp_comm_ro = $snmp_success $get_sysUpTime = $get_sysObjectID $get_sysName\n";
 
             $u_node = \App\Node::find($node->id);
             $u_node->snmp_success = $snmp_success;
@@ -73,7 +79,10 @@ class SnmpPoller extends Command {
             $u_node->sysName      = $get_sysName;
             $u_node->sysUpTime    = $get_sysUpTime;
             $u_node->save();
+
+            $counter++;
         }
+        print \Carbon\Carbon::now() . ' Stop snmpPoller...' . "\n";
 	}
 
 	/**

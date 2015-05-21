@@ -42,10 +42,15 @@ class DiscoverPoller extends Command {
                           ->where('snmp_success', '100')
                           ->get();
 
+        $counter = 0;
+
         foreach ($nodes as $node) {
-            print "$node->ip_address = ";
-            $discover_result = \App\Http\Controllers\NodesController::execDiscover($node->id);
-            print $discover_result . PHP_EOL;
+            if ($node->ports()->count() == 0) {
+                print "$counter $node->ip_address = ";
+                $discover_result = \App\Http\Controllers\NodesController::execDiscover($node->id);
+                print $discover_result . PHP_EOL;
+                $counter++;
+            }
         }
 	}
 
