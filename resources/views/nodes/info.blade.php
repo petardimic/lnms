@@ -23,6 +23,10 @@
   <th>Poll Class</th>
   <td>{{ $node->poll_class }}</td>
  </tr>
+ <tr>
+  <th>sysDescr</th>
+  <td>{{ $node->sysDescr }}</td>
+ </tr>
 
 </table>
 

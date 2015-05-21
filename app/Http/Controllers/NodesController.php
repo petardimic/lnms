@@ -558,6 +558,18 @@ class NodesController extends Controller {
                  case '8744':
                     return 'Colubris\Ap';
                     break;
+
+                 default:
+                    // others class located in Zclass\
+                    $custom_poll_class = 'Zclass\Z' . $enterprise_number . '\Snmp';
+
+                    if ( class_exists('\App\Lnms\\' . $custom_poll_class . '\Node') ) {
+                        return $custom_poll_class;
+                    } else {
+                        return 'Generic\Snmp';
+                    }
+
+                    break;
                 }
             }
 
