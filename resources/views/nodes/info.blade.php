@@ -96,7 +96,7 @@
       </td>
      </tr>
     </table>
-   Last updated: 19 May 2015 21:23:33
+   Last updated: {{ $node->snmp_updated }}
 
    </div>
   </div>
