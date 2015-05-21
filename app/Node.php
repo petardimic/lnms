@@ -224,4 +224,45 @@ class Node extends Model {
 
         return $_ret;
     }
+
+    /**
+     * Generate Node Poll Class
+     *
+     * @return Array
+     */
+    static public function poll_class_select() {
+        $_ret = array();
+
+        $_ret[''] = '-- poll_class --';
+
+        $poll_classes = \App\Node::where('poll_class', '<>', '')
+                                 ->groupBy('poll_class')
+                                 ->orderBy('poll_class')
+                                 ->get();
+
+        foreach ($poll_classes as $poll_class) {
+            $_ret[$poll_class->poll_class] = $poll_class->poll_class;
+        }
+
+        $_ret['Unknown'] = 'Unknown';
+
+        return $_ret;
+    }
+
+    static public function sysObjectID_select() {
+        $_ret = array();
+
+        $_ret[''] = '-- sysObjectID --';
+
+        $sysObjectIDes = \App\Node::where('sysObjectID', '<>', '')
+                                 ->groupBy('sysObjectID')
+                                 ->orderBy('sysObjectID')
+                                 ->get();
+
+        foreach ($sysObjectIDes as $sysObjectID) {
+            $_ret[$sysObjectID->sysObjectID] = $sysObjectID->sysObjectID;
+        }
+
+        return $_ret;
+    }
 }

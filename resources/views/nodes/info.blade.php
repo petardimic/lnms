@@ -20,8 +20,8 @@
   <td>{{ $node->project_id == '' ? '' : \App\Project::find($node->project_id)->name }}</td>
  </tr>
  <tr>
-  <th>Nodegroup</th>
-  <td>{{ $node->nodegroup_id == '' ? '' : \App\Nodegroup::find($node->nodegroup_id)->name }}</td>
+  <th>Poll Class</th>
+  <td>{{ $node->poll_class }}</td>
  </tr>
 
 </table>

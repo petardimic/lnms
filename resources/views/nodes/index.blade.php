@@ -14,14 +14,17 @@
     <label class="sr-only" for="q">Name or IP Address</label>
     <input type="text" class="form-control" id="q" name="q" placeholder="Name or IP Address" value="{{ \Request::get('q') }}">
 
-&nbsp; &nbsp; Location:
 {!! Form::select('location_id', \App\Location::all_select(), \Request::get('location_id'), ['class' => 'form-control'] ) !!}
 
-&nbsp; &nbsp; Project:
 {!! Form::select('project_id',  \App\Project::all_select(),  \Request::get('project_id'),  ['class' => 'form-control'] ) !!}
 
-&nbsp; &nbsp; Nodegroup:
+<!--
 {!! Form::select('nodegroup_id',  \App\Nodegroup::all_select(),  \Request::get('nodegroup_id'),  ['class' => 'form-control'] ) !!}
+-->
+
+{!! Form::select('poll_class',  \App\Node::poll_class_select(),  \Request::get('poll_class'),  ['class' => 'form-control'] ) !!}
+
+{!! Form::select('sysObjectID',  \App\Node::sysObjectID_select(),  \Request::get('sysObjectID'),  ['class' => 'form-control'] ) !!}
 
 &nbsp; &nbsp; Status:
 {!! Form::select('status',  \App\Node::status_select(),  \Request::get('status'),  ['class' => 'form-control'] ) !!}
@@ -41,8 +44,10 @@
    <th><a href="/nodes?q={{ $q }}&sort=nodegroup_id">Nodegroup</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=location_id">Location</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=poll_enabled">Poll Enabled</a></th>
-   <th><a href="/nodes?q={{ $q }}&sort=sysName">sysName</a></th>
    <th><a href="/nodes?q={{ $q }}&sort=ping_success">Ping Success</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=sysName">sysName</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=sysObjectID">sysObjectID</a></th>
+   <th><a href="/nodes?q={{ $q }}&sort=poll_class">Poll Class</a></th>
   </tr>
  </thead>
  <tbody>
@@ -54,13 +59,22 @@
     <td>{{ $node->project_id == '' ? '' : \App\Project::find($node->project_id)->name }}</td>
     <td>{{ $node->location_id == '' ? '' : \App\Location::find($node->location_id)->name }}</td>
     <td>{{ $node->dsp_poll_enabled }}</td>
-    <td>{{ $node->sysName }}</td>
     <td>{{ $node->ping_success }}%</td>
+    <td>{{ $node->sysName }}</td>
+    <td>{{ $node->sysObjectID }}</td>
+    <td>{{ $node->poll_class }}</td>
    </tr>
   @endforeach
  </tbody>
   <caption style="caption-side: bottom; text-align: right;">
-   {!! $nodes->appends(['q' => $q, 'location_id' => \Request::get('location_id'), 'project_id' => \Request::get('project_id')])->render() !!}
+   {!! $nodes->appends(['q' => $q,
+                        'location_id' => \Request::get('location_id'),
+                        'project_id'  => \Request::get('project_id'),
+                        'nodegroup_id'  => \Request::get('nodegroup_id'),
+                        'status'  => \Request::get('status'),
+                        'poll_class'  => \Request::get('poll_class'),
+                        'sysObjectID'  => \Request::get('sysObjectID'),
+                       ])->render() !!}
   </caption>
  </table>
 @else

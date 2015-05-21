@@ -106,6 +106,32 @@
  </table>
 @endif
 
+@if (count($vlans))
+
+ <table class="table table-bordered table-hover">
+  <caption>VLANs</caption>
+  <thead>
+   <tr>
+    <th>vlanIndex</th>
+    <th>vlanName</th>
+    <th>Ports</th>
+   </tr>
+  </thead>
+  <caption style="caption-side: top; text-align: right;">
+   {!! $vlans->render() !!}
+  </caption>
+  <tbody>
+    @foreach ($vlans as $vlan)
+     <tr>
+      <td>{{ $vlan->vlanIndex }}</td>
+      <td>{{ $vlan->vlanName }}</td>
+      <td>{{ json_encode($vlan->ports->lists('dsp_ifDescr')) }}</td>
+     </tr>
+    @endforeach
+  </tbody>
+ </table>
+@endif
+
 <!--
   <a href="/nodes/{{ $node->id }}/bssid_clients" class="btn btn-primary">Clients</a>
 
@@ -119,7 +145,6 @@
 
   <a href="/nodes/{{ $node->id }}/macs" class="btn btn-primary">MACs</a>
 
-  <a href="/nodes/{{ $node->id }}/vlans" class="btn btn-primary">VLANs</a>
 
   <a href="/nodes/{{ $node->id }}/ports" class="btn btn-primary">Ports</a>
 

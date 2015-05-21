@@ -33,6 +33,7 @@ class NodesController extends Controller {
              || \Request::has('project_id')
              || \Request::has('nodegroup_id')
              || \Request::has('status')
+             || \Request::has('poll_class')
            ) {
 
             $nodes = \App\Node::where('id', '>', 0);
@@ -82,6 +83,21 @@ class NodesController extends Controller {
                     break;
                 }
             }
+
+            // search by poll_class
+            if ( \Request::has('poll_class') ) {
+                if (\Request::get('poll_class') == 'Unknown') {
+                    $nodes = $nodes->where('poll_class', null);
+                } else {
+                    $nodes = $nodes->where('poll_class', \Request::get('poll_class'));
+                }
+            }
+
+            // search by sysObjectID
+            if ( \Request::has('sysObjectID') ) {
+                $nodes = $nodes->where('sysObjectID', \Request::get('sysObjectID'));
+            }
+
 
             // paginate
             $nodes = $nodes->paginate(10);
@@ -144,8 +160,9 @@ class NodesController extends Controller {
         $ports = \App\Port::where('node_id', $id)->orderBy('ifIndex')->paginate(100);
         $bssids = \App\Bssid::where('node_id', $id)->orderBy('bssidIndex')->paginate(10);
         $clients = \App\Bd::where('node_id', $id)->orderBy('timestamp', 'desc')->paginate(10);
+        $vlans = \App\Vlan::where('node_id', $id)->orderBy('vlanIndex')->paginate(10);
 
-        return view('nodes.show', compact('node', 'ports', 'bssids', 'clients'));
+        return view('nodes.show', compact('node', 'ports', 'bssids', 'clients', 'vlans'));
 	}
 
 	/**
@@ -393,24 +410,47 @@ class NodesController extends Controller {
             return 'Cisco\Sg300';
             break;
 
-//         case '.1.3.6.1.4.1.9.1.431'; // catalyst355012G    WS-C3550-12G    10 GBIC + 2 10/100/1000
-//         case '.1.3.6.1.4.1.9.1.368'; // catalyst355012T    WS-C3550-12T    10 10/100/1000 + 2 GBIC
-//         case '.1.3.6.1.4.1.9.1.366'; // catalyst355024     WS-C3550-24     24 10/100 + 2 GBIC
-//         case '.1.3.6.1.4.1.9.1.367'; // catalyst355048     WS-C3550-48     48 10/100 + 2 GBIC
-//         case '.1.3.6.1.4.1.9.1.485'; // catalyst355024PWR  WS-C3550-24PWR  24 10/100 PWR + 2 GBIC
-//            // Cisco Catalyst 3550 Series Switches
-//            return 'Cisco\Cat3550';
-//            break;
-//
-//         case '.1.3.6.1.4.1.9.1.550'; // cisco1701
-//         case '.1.3.6.1.4.1.9.1.538'; // cisco1711
-//         case '.1.3.6.1.4.1.9.1.539'; // cisco1712
-//         case '.1.3.6.1.4.1.9.1.444'; // cisco1721
-//         case '.1.3.6.1.4.1.9.1.326'; // cisco1751
-//         case '.1.3.6.1.4.1.9.1.416'; // cisco1760
-//            // Cisco 1700 Series Modular Access Routers
-//            return 'Cisco\R1700';
-//            break;
+         case '.1.3.6.1.4.1.9.1.927': // cat296048TCS      
+         case '.1.3.6.1.4.1.9.1.928': // cat296024TCS      
+         case '.1.3.6.1.4.1.9.1.929': // cat296024S        
+         case '.1.3.6.1.4.1.9.1.1179': // cat2960x48tsS     
+         case '.1.3.6.1.4.1.9.1.1180': // cat2960x24tsS     
+         case '.1.3.6.1.4.1.9.1.1181': // cat2960xs48fpdL   
+         case '.1.3.6.1.4.1.9.1.1182': // cat2960xs48lpdL   
+         case '.1.3.6.1.4.1.9.1.1183': // cat2960xs48ltdL   
+         case '.1.3.6.1.4.1.9.1.1184': // cat2960xs24pdL    
+         case '.1.3.6.1.4.1.9.1.1185': // cat2960xs24tdL    
+         case '.1.3.6.1.4.1.9.1.1186': // cat2960xs48fpsL   
+         case '.1.3.6.1.4.1.9.1.1187': // cat2960xs48lpsL   
+         case '.1.3.6.1.4.1.9.1.1188': // cat2960xs24psL    
+         case '.1.3.6.1.4.1.9.1.1189': // cat2960xs48tsL    
+         case '.1.3.6.1.4.1.9.1.1190': // cat2960xs24tsL    
+         case '.1.3.6.1.4.1.9.1.1208': // cat29xxStack      
+         case '.1.3.6.1.4.1.9.1.1278': // cat2960cPD8TT     
+         case '.1.3.6.1.4.1.9.1.1315': // cat2960cPD8PT     
+         case '.1.3.6.1.4.1.9.1.1316': // cat2960cG8TC      
+            // Cisco Catalyst 2960 Series Switches
+            return 'Cisco\Cat2960';
+            break;
+
+         case '.1.3.6.1.4.1.9.1.431'; // catalyst355012G    WS-C3550-12G    10 GBIC + 2 10/100/1000
+         case '.1.3.6.1.4.1.9.1.368'; // catalyst355012T    WS-C3550-12T    10 10/100/1000 + 2 GBIC
+         case '.1.3.6.1.4.1.9.1.366'; // catalyst355024     WS-C3550-24     24 10/100 + 2 GBIC
+         case '.1.3.6.1.4.1.9.1.367'; // catalyst355048     WS-C3550-48     48 10/100 + 2 GBIC
+         case '.1.3.6.1.4.1.9.1.485'; // catalyst355024PWR  WS-C3550-24PWR  24 10/100 PWR + 2 GBIC
+            // Cisco Catalyst 3550 Series Switches
+            return 'Cisco\Cat3550';
+            break;
+
+         case '.1.3.6.1.4.1.9.1.550'; // cisco1701
+         case '.1.3.6.1.4.1.9.1.538'; // cisco1711
+         case '.1.3.6.1.4.1.9.1.539'; // cisco1712
+         case '.1.3.6.1.4.1.9.1.444'; // cisco1721
+         case '.1.3.6.1.4.1.9.1.326'; // cisco1751
+         case '.1.3.6.1.4.1.9.1.416'; // cisco1760
+            // Cisco 1700 Series Modular Access Routers
+            return 'Cisco\R1700';
+            break;
 
          case '.1.3.6.1.4.1.9.1.638'; // cisco1801
          case '.1.3.6.1.4.1.9.1.639'; // cisco1802
@@ -423,15 +463,21 @@ class NodesController extends Controller {
             return 'Cisco\R1800';
             break;
 
-//         case '.1.3.6.1.4.1.9.1.1192'; // cisco1905k9
-//         case '.1.3.6.1.4.1.9.1.1191'; // cisco1921k9
-//         case '.1.3.6.1.4.1.9.1.1095'; // cisco1941W
-//         case '.1.3.6.1.4.1.9.1.1172'; // cisco1941WEK9
-//         case '.1.3.6.1.4.1.9.1.1173'; // cisco1941WPK9
-//         case '.1.3.6.1.4.1.9.1.1174'; // cisco1941WNK9
-//            // Cisco 1900 Series Integrated Services Routers
-//            return 'Cisco\R1900';
-//            break;
+         case '.1.3.6.1.4.1.9.1.414':   // cisco3725
+         case '.1.3.6.1.4.1.9.1.436':   // cisco3745
+            // Cisco 3700 Series Routers
+            return 'Cisco\R3700';
+            break;
+
+         case '.1.3.6.1.4.1.9.1.1095'; // cisco1941W
+         case '.1.3.6.1.4.1.9.1.1172'; // cisco1941WEK9
+         case '.1.3.6.1.4.1.9.1.1173'; // cisco1941WPK9
+         case '.1.3.6.1.4.1.9.1.1174'; // cisco1941WNK9
+         case '.1.3.6.1.4.1.9.1.1191'; // cisco1921k9
+         case '.1.3.6.1.4.1.9.1.1192'; // cisco1905k9
+            // Cisco 1900 Series Integrated Services Routers
+            return 'Cisco\R1900';
+            break;
 
          case '.1.3.6.1.4.1.9.1.507'; // ciscoAIRAP1100
          case '.1.3.6.1.4.1.9.1.618'; // ciscoAIRAP1130
