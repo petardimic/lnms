@@ -45,12 +45,10 @@ class DiscoverPoller extends Command {
         $counter = 0;
 
         foreach ($nodes as $node) {
-            if ($node->ports()->count() == 0) {
-                print "$counter $node->ip_address = ";
-                $discover_result = \App\Http\Controllers\NodesController::execDiscover($node->id);
-                print $discover_result . PHP_EOL;
-                $counter++;
-            }
+            print "$counter $node->ip_address = ";
+            $discover_result = \App\Http\Controllers\NodesController::execDiscover($node->id);
+            print $discover_result . PHP_EOL;
+            $counter++;
         }
 	}
 

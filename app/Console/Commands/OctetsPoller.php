@@ -37,21 +37,29 @@ class OctetsPoller extends Command {
 	 */
 	public function fire()
 	{
-		//
-        $ports = \App\Port::where('poll_enabled', 'Y')->get();
+		// now test poll only ethernet(6) Up
+        $ports = \App\Port::where('ifType', '6')
+                          ->where('ifOperStatus', '1')
+                          ->orderBy('ifIndex')
+                          ->get();
+
+        $counter = 0;
 
         foreach ($ports as $port) {
 
-            if ( $port->node->poll_enabled == 'Y'
-                 && $port->node->snmp_version <> 0 ) {
+            if ($port->node->ping_success == 100) {
 
                 $snmp = new \App\Lnms\Snmp($port->node->ip_address, $port->node->snmp_comm_ro, '2c');
                 $get_result = $snmp->get([OID_ifHCInOctets  . '.' . $port->ifIndex,
                                           OID_ifHCOutOctets . '.' . $port->ifIndex
                                           ]);
-    
+   
+                print "$counter : " . $port->node->ip_address . ' ' . $port->ifIndex . ' = ';
                 if ($get_result) {
                     // get ok
+                    print $get_result[OID_ifHCInOctets   . '.' . $port->ifIndex] . ' / ';
+                    print $get_result[OID_ifHCOutOctets  . '.' . $port->ifIndex] . ' ';
+
                     $octet = \App\Octet::Create([
                         'port_id'   => $port->id,
                         'timestamp' => \Carbon\Carbon::now(),
@@ -61,7 +69,11 @@ class OctetsPoller extends Command {
                 } else {
                     // get errors
                 }
+
+                print "\n";
             }
+
+            $counter++;
         }
 	}
 

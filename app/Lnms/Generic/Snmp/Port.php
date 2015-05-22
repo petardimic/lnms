@@ -36,7 +36,7 @@ class Port {
         // walk ifDescr
         $walk_ifDescr = $snmp->walk(OID_ifDescr);
 
-        if (count($walk_ifDescr) > 0) {
+        if ( $walk_ifDescr !== false && count($walk_ifDescr) > 0) {
             // found ports
             foreach ($walk_ifDescr as $key1 => $value1) {
                 $ifIndex = str_replace(OID_ifDescr . '.', '', $key1);
@@ -153,6 +153,8 @@ class Port {
      * @return Array
      */
     public function poll_ifType($ifIndex='') {
+
+        $_ret = [];
 
         $poll_results = $this->poll_if('ifType', $ifIndex);
 

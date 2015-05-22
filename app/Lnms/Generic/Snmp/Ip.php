@@ -32,7 +32,7 @@ class Ip {
         // walk OID_ipAdEntIfIndex
         $walk_ipAdEntIfIndex = $snmp->walk(OID_ipAdEntIfIndex);
 
-        if (count($walk_ipAdEntIfIndex) == 0) {
+        if (count($walk_ipAdEntIfIndex) == 0 || $walk_ipAdEntIfIndex === false ) {
             // not found ipAddress
             return $_ret;
         }
@@ -46,10 +46,14 @@ class Ip {
             $ipAddress = str_replace(OID_ipAdEntIfIndex . '.', '', $key1);
             $netmask   = explode('.', $walk_ipAdEntNetMask[OID_ipAdEntNetMask . '.' . $ipAddress]);
 
-            $masks = substr_count(decbin($netmask[0]), 1)
-                     + substr_count(decbin($netmask[1]), 1)
-                     + substr_count(decbin($netmask[2]), 1)
-                     + substr_count(decbin($netmask[3]), 1);
+            if (count($netmask) == 4) {
+                $masks = substr_count(decbin($netmask[0]), 1)
+                         + substr_count(decbin($netmask[1]), 1)
+                         + substr_count(decbin($netmask[2]), 1)
+                         + substr_count(decbin($netmask[3]), 1);
+            } else {
+                $masks = 0;
+            }
 
             $port = \App\Port::where('node_id', $this->node->id)
                              ->where('ifIndex', $ifIndex)

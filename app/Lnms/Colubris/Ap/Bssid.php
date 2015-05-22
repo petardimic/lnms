@@ -31,7 +31,7 @@ class Bssid {
 
         $walk_coDot11BSSID = $snmp->walk(OID_Colubris_coDot11BSSID);
 
-        if (count($walk_coDot11BSSID) == 0) {
+        if (count($walk_coDot11BSSID) == 0 || $walk_coDot11BSSID === false) {
             // not found coDot11BSSID
             return $_ret;
         }
@@ -97,7 +97,7 @@ class Bssid {
         // walk coDot11StationMACAddress
         $walk_coDot11StationMACAddress = $snmp->walk(OID_Colubris_coDot11StationMACAddress);
 
-        if (count($walk_coDot11StationMACAddress) == 0) {
+        if (count($walk_coDot11StationMACAddress) == 0 || $walk_coDot11StationMACAddress === false) {
             // not found coDot11StationMACAddress
             return $_ret;
         }

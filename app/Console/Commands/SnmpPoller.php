@@ -47,10 +47,24 @@ class SnmpPoller extends Command {
         $start_timestamp = time();
         $counter = 0;
         foreach ($nodes as $node) {
-            $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro);
+
+            // try v2c
+            $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro, '2c');
+            $snmp->setOptions('-r 1 -t 1');
             $get_result = $snmp->get(OID_sysUpTime);
 
             if ($get_result) {
+                $snmp_version = 2;
+            } else {
+                // try v1
+                $snmp = new \App\Lnms\Snmp($node->ip_address, $node->snmp_comm_ro);
+                $snmp->setOptions('-r 1 -t 1');
+                $get_result = $snmp->get(OID_sysUpTime);
+                $snmp_version = 1;
+            }
+
+            if ($get_result) {
+
                 // snmp ok
                 $snmp_success  = 100;
                 $get_sysUpTime   = $get_result[OID_sysUpTime];
@@ -61,6 +75,7 @@ class SnmpPoller extends Command {
                 $get_sysName     = $get_result2[OID_sysName];
             } else {
                 // snmp fail
+                $snmp_version  = 0;
                 $snmp_success  = 0;
                 $get_sysUpTime = 0;
                 $get_sysObjectID = '';
@@ -70,9 +85,10 @@ class SnmpPoller extends Command {
             $current_timestamp = time();
             $diff_timestamp = $current_timestamp - $start_timestamp;
 
-            print \Carbon\Carbon::now() . " $counter ($diff_timestamp s.) - $node->ip_address $node->snmp_comm_ro = $snmp_success $get_sysUpTime = $get_sysObjectID $get_sysName\n";
+            print \Carbon\Carbon::now() . " $counter ($diff_timestamp s.) - $node->ip_address $node->snmp_comm_ro = (v$snmp_version) $snmp_success $get_sysUpTime = $get_sysObjectID $get_sysName\n";
 
             $u_node = \App\Node::find($node->id);
+            $u_node->snmp_version = $snmp_version;
             $u_node->snmp_success = $snmp_success;
             $u_node->snmp_updated = \Carbon\Carbon::now();
             $u_node->sysObjectID  = $get_sysObjectID;
