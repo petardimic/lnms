@@ -60,23 +60,16 @@ class Snmp {
      * initial variables
      */
     public function __construct($ip_address, $snmp_comm_ro, $snmp_version='1') {
+
+        if ($snmp_version == '2') {
+            $this->snmp_version = '2c';
+        } else {
+            $this->snmp_version = $snmp_version;
+        }
+
         $this->ip_address   = $ip_address;
         $this->snmp_comm_ro = $snmp_comm_ro;
         $this->snmp_comm_ro = $snmp_comm_ro;
-        $this->snmp_version = $snmp_version;
-
-//        // SNMP Get Command
-//        $this->snmpget = 'snmpget -O ' . $this->output_options
-//                           . ' ' . $this->options
-//                           . ' -v ' . $snmp_version
-//                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
-//
-//        // SNMP Walk Command
-//        $this->snmpwalk = 'snmpwalk -O ' . $this->output_options
-//                           . ' ' . $this->options
-//                           . ' -v ' . $snmp_version
-//                           . ' -c ' . $snmp_comm_ro . ' ' . $ip_address ;
-
     }
 
     /**
