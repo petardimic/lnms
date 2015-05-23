@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel {
 		'App\Console\Commands\DiscoverPoller',
 		'App\Console\Commands\PortPoller',
 		'App\Console\Commands\OctetsPoller',
+		'App\Console\Commands\CustomPoller',
 	];
 
 	/**

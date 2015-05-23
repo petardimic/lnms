@@ -95,11 +95,23 @@ class Ap {
                                        'ping_method'    => 'Aruba\Controller\Ap::poll_apAddress',
                                        'ping_params'    => $this->node->id,
                                        'ping_success'   => $apStatus,
+                                       'ping_updated'   => \Carbon\Carbon::now(),
                                        'snmp_success'   => 0,
                                        'poll_enabled'   => 'N',
                                        'project_id'     => $this->node->project_id,
                                        ],
                         ];
+
+            // pings
+            if ( \App\Node::where('ip_address', $apIpAddress)->count() == 1 ) {
+                $_ret[] =  [ 'table'  => 'pings',
+                             'action' => 'insert',
+                             'data'   => [ 'node_id'    => \App\Node::where('ip_address', $apIpAddress)->first()->id,
+                                           'success'    => $apStatus,
+                                           'timestamp'  => \Carbon\Carbon::now(),
+                                         ]
+                            ];
+            }
         }
 
         return $_ret;
