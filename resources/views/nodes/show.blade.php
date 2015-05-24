@@ -88,6 +88,8 @@
     <th>IpAddress</th>
     <th>UserAgent</th>
     <th>UserType</th>
+    <th>Bytes Received</th>
+    <th>Bytes Sent</th>
    </tr>
   </thead>
   <caption style="caption-side: top; text-align: right;">
@@ -100,6 +102,8 @@
       <td>{{ $client->clientIpAddress }}</td>
       <td>{{ $client->clientUserAgent }}</td>
       <td>{{ $client->clientUserType }}</td>
+      <td>{{ $client->clientBytesReceived }}</td>
+      <td>{{ $client->clientBytesSent }}</td>
      </tr>
     @endforeach
   </tbody>

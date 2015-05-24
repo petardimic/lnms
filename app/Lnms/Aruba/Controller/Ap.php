@@ -53,6 +53,7 @@ class Ap {
             // get more details about Ap
             $apDetails = $snmp->get([OID_Aruba_wlanAPName   . '.' . $apSuffix,
                                      OID_Aruba_wlanAPStatus . '.' . $apSuffix,
+                                     OID_Aruba_wlanAPUpTime . '.' . $apSuffix,
                                      OID_Aruba_wlanAPOobIpAddress . '.' . $apSuffix,
                                     ]);
             // AP Name
@@ -84,6 +85,20 @@ class Ap {
                 }
             }
 
+            // AP UpTime
+            if ($apDetails[OID_Aruba_wlanAPUpTime . '.' . $apSuffix] === false) {
+                $apUpTime = 0;
+                $snmp_success = 0;
+            } else {
+                $apUpTime = $apDetails[OID_Aruba_wlanAPUpTime . '.' . $apSuffix];
+
+                if ($apUpTime > 0) {
+                    $snmp_success = 100;
+                } else {
+                    $snmp_success = 0;
+                }
+            }
+
             // print "$apMacAddress $apIpAddress<br>";
             $_ret[] =  [ 'table'  => 'nodes',
                          'action' => 'sync',
@@ -96,7 +111,10 @@ class Ap {
                                        'ping_params'    => $this->node->id,
                                        'ping_success'   => $apStatus,
                                        'ping_updated'   => \Carbon\Carbon::now(),
-                                       'snmp_success'   => 0,
+                                       'snmp_success'   => $snmp_success,
+                                       'snmp_updated'   => \Carbon\Carbon::now(),
+                                       'sysUpTime'      => $apUpTime,
+                                       'poll_class'     => 'Aruba\\Ap',
                                        'poll_enabled'   => 'N',
                                        'project_id'     => $this->node->project_id,
                                        ],
@@ -161,9 +179,11 @@ class Ap {
                                . sprintf("%02s", dechex($tmp1[12]));
 
             // get more details about bssid
-            $bssidDetails = $snmp->get([OID_Aruba_wlanAPESSID     . '.' . $bssidSuffix,
+            $bssidDetails = $snmp->get([OID_Aruba_wlanAPESSID   . '.' . $bssidSuffix,
                                         OID_Aruba_wlanAPRadioType . '.' . $apMacDec . '.' . $bssidIndex,
                                         OID_Aruba_wlanAPRadioNumAssociatedClients . '.' . $apMacDec . '.' . $bssidIndex,
+                                        OID_Aruba_wlanAPTxBytes . '.' . $bssidSuffix,
+                                        OID_Aruba_wlanAPRxBytes . '.' . $bssidSuffix,
                                         ]);
             // bssidName
             if ($bssidDetails[OID_Aruba_wlanAPESSID . '.' . $bssidSuffix] === false) {
@@ -186,13 +206,26 @@ class Ap {
                 $bssidClients_count = $bssidDetails[OID_Aruba_wlanAPRadioNumAssociatedClients . '.' . $apMacDec . '.' . $bssidIndex];
             }
 
+            // OID_Aruba_wlanAPTxBytes
+            if ($bssidDetails[OID_Aruba_wlanAPTxBytes . '.' . $bssidSuffix] === false) {
+                $bssidTxBytes = '';
+            } else {
+                $bssidTxBytes = $bssidDetails[OID_Aruba_wlanAPTxBytes . '.' . $bssidSuffix];
+            }
+
+            // OID_Aruba_wlanAPRxBytes
+            if ($bssidDetails[OID_Aruba_wlanAPRxBytes . '.' . $bssidSuffix] === false) {
+                $bssidRxBytes = '';
+            } else {
+                $bssidRxBytes = $bssidDetails[OID_Aruba_wlanAPRxBytes . '.' . $bssidSuffix];
+            }
+
             //
             $apNode = \App\Node::where('mac_address', $apMacAddress)
                                ->first();
 
             if ($apNode) {
                 // found apNode
-
                 $_ret[] =  [ 'table'  => 'bssids',
                              'action' => 'sync',
                              'key'    => [ 'node_id' => $apNode->id,
@@ -204,9 +237,34 @@ class Ap {
                                            'bssidSpec'           => $bssidSpec,
                                            'bssidMaxRate'        => 0,
                                            'bssidCurrentChannel' => $bssidCurrentChannel,
-                                           'bssidClients_count'  => $bssidClients_count
+                                           'bssidClients_count'    => $bssidClients_count,
+                                           'bssidClients_updated'  => \Carbon\Carbon::now(),
                                            ],
                             ];
+
+                if (\App\Bssid::where('bssidIndex', $bssidIndex)->first()) {
+
+                    // insert
+                    $_ret[] =  [ 'table'  => 'bds',
+                                 'action' => 'insert',
+                                 'key'    => [ 'node_id'  => $apNode->id,
+                                               'bssid_id' => \App\Bssid::where('bssidIndex', $bssidIndex)->first()->id,
+                                               'clientMacAddress' => $bssidMacAddress,
+                                               'timestamp' => \Carbon\Carbon::now(),
+                                               ],
+        
+                                 'data'   => [ 'clientIpAddress'      => '',
+                                               'clientSignalStrength' => '',
+                                               'clientUserAgent'      => '',
+                                               'clientUserType'       => '',
+                                               'clientBytesReceived'  => $bssidRxBytes,
+                                               'clientBytesSent'      => $bssidTxBytes,
+                                               ],
+                                ];
+
+                    print \App\Bssid::where('bssidIndex', $bssidIndex)->first()->id . ' count=' . count($_ret) . "\n";
+
+                }
             }
         }
 

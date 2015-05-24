@@ -118,46 +118,48 @@ class Bssid {
                              ->where('ifIndex', $ifIndex)
                              ->first();
 
-            // find bssid
-            $bssid = \App\Bssid::where('node_id', $this->node->id)
-                               ->where('port_id', $port->id)
-                               ->first();
-
-            //
-            $clientDetails = $snmp->get([ OID_Colubris_coDot11StationIPAddress . '.' . $clientSuffix,
-                                          OID_Colubris_coDot11SignalLevel      . '.' . $clientSuffix,
-                                         ]);
-
-            if ( isset($clientDetails[OID_Colubris_coDot11StationIPAddress . '.' . $clientSuffix]) ) {
-                $clientIpAddress = $clientDetails[OID_Colubris_coDot11StationIPAddress . '.' . $clientSuffix];
-            } else {
-                $clientIpAddress = null;
-            }
-
-            if ( isset($clientDetails[OID_Colubris_coDot11SignalLevel . '.' . $clientSuffix]) ) {
-                $clientSignalStrength = $clientDetails[OID_Colubris_coDot11SignalLevel . '.' . $clientSuffix];
-            } else {
-                $clientSignalStrength = null;
-            }
-
-            if ($bssid) {
-                // found bssid
-                $_ret[] =  [ 'table'  => 'bds',
-                             'action' => 'insert',
-                             'key'    => [ 'node_id'  => $this->node->id,
-                                           'bssid_id' => $bssid->id,
-                                           'clientMacAddress' => $clientMacAddress,
-                                           'timestamp' => \Carbon\Carbon::now(),
-                                           ],
+            if ($port) {
+                // find bssid
+                $bssid = \App\Bssid::where('node_id', $this->node->id)
+                                   ->where('port_id', $port->id)
+                                   ->first();
     
-                             'data'   => [ 'clientIpAddress'      => $clientIpAddress,
-                                           'clientSignalStrength' => $clientSignalStrength,
-                                           'clientBytesReceived'  => 0,
-                                           'clientBytesSent'      => 0,
-                                           ],
-
-
-                            ];
+                //
+                $clientDetails = $snmp->get([ OID_Colubris_coDot11StationIPAddress . '.' . $clientSuffix,
+                                              OID_Colubris_coDot11SignalLevel      . '.' . $clientSuffix,
+                                             ]);
+    
+                if ( isset($clientDetails[OID_Colubris_coDot11StationIPAddress . '.' . $clientSuffix]) ) {
+                    $clientIpAddress = $clientDetails[OID_Colubris_coDot11StationIPAddress . '.' . $clientSuffix];
+                } else {
+                    $clientIpAddress = null;
+                }
+    
+                if ( isset($clientDetails[OID_Colubris_coDot11SignalLevel . '.' . $clientSuffix]) ) {
+                    $clientSignalStrength = $clientDetails[OID_Colubris_coDot11SignalLevel . '.' . $clientSuffix];
+                } else {
+                    $clientSignalStrength = null;
+                }
+    
+                if ($bssid) {
+                    // found bssid
+                    $_ret[] =  [ 'table'  => 'bds',
+                                 'action' => 'insert',
+                                 'key'    => [ 'node_id'  => $this->node->id,
+                                               'bssid_id' => $bssid->id,
+                                               'clientMacAddress' => $clientMacAddress,
+                                               'timestamp' => \Carbon\Carbon::now(),
+                                               ],
+        
+                                 'data'   => [ 'clientIpAddress'      => $clientIpAddress,
+                                               'clientSignalStrength' => $clientSignalStrength,
+                                               'clientBytesReceived'  => 0,
+                                               'clientBytesSent'      => 0,
+                                               ],
+    
+    
+                                ];
+                }
             }
         }
 

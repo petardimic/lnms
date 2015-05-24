@@ -41,9 +41,9 @@ class OctetsPoller extends Command {
         // delay to prevent run the same time with another job
         sleep((($this->argument('endIfIndex') % 2) * 30) +5);
 
-        print \Carbon\Carbon::now() . ' Start ';
-        print $this->name . '(' . $this->argument('endIfIndex') . ') ';
-        print "\n";
+        //print \Carbon\Carbon::now() . ' Start ';
+        //print $this->name . '(' . $this->argument('endIfIndex') . ') ';
+        //print "\n";
         $start_timestamp = time();
 
 		// now test poll only ethernet(6) Up
@@ -81,15 +81,15 @@ class OctetsPoller extends Command {
                 $current_timestamp = time();
                 $diff_timestamp = $current_timestamp - $start_timestamp;
 
-                print \Carbon\Carbon::now() . ' ';
-                print $this->name . '(' . $this->argument('endIfIndex') . ') ';
-                print $counter . ' (' . $diff_timestamp . ' s.) - ';
-                print $port->node->ip_address . ' ' . $port->ifIndex . ' = ';
+                //print \Carbon\Carbon::now() . ' ';
+                //print $this->name . '(' . $this->argument('endIfIndex') . ') ';
+                //print $counter . ' (' . $diff_timestamp . ' s.) - ';
+                //print $port->node->ip_address . ' ' . $port->ifIndex . ' = ';
 
                 if ($get_result) {
                     // get ok
-                    print $get_result[$oid_input   . '.' . $port->ifIndex] . ' / ';
-                    print $get_result[$oid_output  . '.' . $port->ifIndex] . ' ';
+                    //print $get_result[$oid_input   . '.' . $port->ifIndex] . ' / ';
+                    //print $get_result[$oid_output  . '.' . $port->ifIndex] . ' ';
 
                     if ( (int) $get_result[$oid_input   . '.' . $port->ifIndex] > 0 
                          || (int) $get_result[$oid_output   . '.' . $port->ifIndex] > 0 ) {
@@ -102,7 +102,7 @@ class OctetsPoller extends Command {
                         ]);
 
                     } else {
-                        print ' *** get error *** ';
+                        //print ' *** get error *** ';
 
                         // disable polling
                         $port->poll_enabled = 'N';
@@ -111,14 +111,14 @@ class OctetsPoller extends Command {
 
                 } else {
                     // get errors
-                    print ' *** cannot get the value *** ';
+                    //print ' *** cannot get the value *** ';
 
                     // disable polling
                     $port->poll_enabled = 'N';
                     $port->save();
                 }
 
-                print "\n";
+                //print "\n";
             }
 
             $counter++;
@@ -127,7 +127,8 @@ class OctetsPoller extends Command {
         $current_timestamp = time();
         $total_runtime = $current_timestamp - $start_timestamp;
         
-        print \Carbon\Carbon::now() . ' Stop ';
+        //print \Carbon\Carbon::now() . ' Stop ';
+        print \Carbon\Carbon::now() . ' ';
         print $this->name . '(' . $this->argument('endIfIndex') . ') ';
         print $counter . ' records, ';
         print 'runtime = ' . $total_runtime . " s.\n";
