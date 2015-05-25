@@ -6,6 +6,8 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <title>@yield('title')</title>
  <link rel="stylesheet" href="/css/bootstrap.min.css">
+ <link rel="stylesheet" href="/css/jquery-ui.min.css">
+ <link rel="stylesheet" href="/css/flot.css">
 </head>
 <body>
 
@@ -79,7 +81,12 @@
 <hr>
 <!-- Scripts -->
 <script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.flot.min.js"></script>
+<script src="/js/jquery.flot.time.min.js"></script>
+
+@yield('script')
 
 @yield('footer')
 
@@ -91,7 +98,7 @@ if ( ! isset($activeNav) ) {
 ?>
 <script>
 $(document).ready(function() {
- $("#{{ $activeNav }}").attr('class', 'active');
+// $("#{{ $activeNav }}").attr('class', 'active');
 });
 </script>
 

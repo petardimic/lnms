@@ -51,6 +51,9 @@ Route::get('ports/{id}', 'PortsController@show');
 Route::get('ports/{id}/pollings', 'PortsController@pollings');
 Route::patch('ports/{id}/pollings', 'PortsController@pollings_update');
 
+Route::get('ports/{id}/octets', 'PortsController@octets');
+Route::get('ports/{id}/octets_data', 'PortsController@octets_data');
+
 Route::resource('locations', 'LocationsController');
 Route::get('projects/{id}/logo', 'ProjectsController@logo');
 Route::resource('projects', 'ProjectsController');
@@ -59,6 +62,9 @@ Route::resource('users', 'UsersController');
 Route::resource('usergroups', 'UsergroupsController');
 
 Route::get('pollings/{id}/ds', 'PollingsController@ds');
+
+// bssids
+Route::get('bssids', 'BssidsController@index');
 
 // api
 Route::get('api/v1/nodes/{id}/ping', 'NodesController@ping');

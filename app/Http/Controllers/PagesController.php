@@ -172,20 +172,12 @@ class PagesController extends Controller {
     public function dashboard_by_ssid()
     {
         // summary by bssid
-        $bssids = \App\Bssid::groupBy('bssidName')
-                            ->orderBy('bssidName')
-                            ->get();
-        for ($i=0; $i<count($bssids); $i++) {
-            $bssid = \App\Bssid::where('bssidName', $bssids[$i]->bssidName)->get();
-            $bssids[$i]->bssidCount = $bssid->count();
-
-            $bssids[$i]->clientCount = 0;
-
-            foreach ($bssid as $bds) {
-                $clients = \App\Bd::where('bssid_id', $bds->id)->get();
-                $bssids[$i]->clientCount += $clients->count();
-            }
-        }
+        $bssids = \DB::table('bssids')
+                     ->select('bssidName', \DB::raw('count(*) as bssidCount'))
+                     ->where('bssidName', '<>', '')
+                     ->groupBy('bssidName')
+                     ->orderBy('bssidName')
+                     ->get();
 
         return view('pages.dashboard_by_ssid', compact('bssids'));
     }

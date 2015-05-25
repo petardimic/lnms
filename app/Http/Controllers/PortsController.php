@@ -72,4 +72,105 @@ class PortsController extends Controller {
         return redirect('/ports/' . $id . '/pollings');
     }
 
+
+    /**
+     *
+     */
+    public function octets($id) {
+
+        if ( \Request::has('date') ) {
+            $q_date = \Request::get('date');
+        } else {
+            $q_date = strftime("%Y-%m-%d");
+        }
+
+        $port  = \App\Port::findOrFail($id);
+        $octets = \App\Octet::where('port_id', $id)
+                            ->where('timestamp', '>', $q_date)
+                            ->orderBy('timestamp')
+                            ->paginate(288);
+
+        return view('ports.octets', compact('port', 'octets', 'q_date'));
+    }
+
+    /**
+     *
+     */
+    public function octets_data($id) {
+
+        if ( \Request::has('date') ) {
+            $q_date = \Request::get('date');
+        } else {
+            $q_date = strftime("%Y-%m-%d");
+        }
+
+        $port  = \App\Port::findOrFail($id);
+        $octets = \App\Octet::where('port_id', $id)
+                            ->where('timestamp', '>', $q_date)
+                            ->orderBy('timestamp')
+                            ->limit(288)
+                            ->get();
+
+        //            
+        $prev_timestamp   = 0;
+        $prev_input  = 0;
+        $prev_output = 0;
+
+        $avg_input  = [];
+        $avg_output = [];
+
+        foreach ($octets as $data) {
+
+            $diff_timestamp   = strtotime($data->timestamp) - $prev_timestamp;
+            $diff_input  = $data->input  - $prev_input;
+            $diff_output = $data->output - $prev_output;
+
+            if ($diff_input < 0) {
+                $diff_input = $diff_input + 4294967296;
+            }
+
+            if ($diff_output < 0) {
+                $diff_output = $diff_output + 4294967296;
+            }
+
+            if ($prev_input <> 0
+                && $diff_timestamp > 0
+                && $diff_input >= 0
+                && $diff_output >= 0
+                ) {
+
+
+
+                // convert byte to bit
+                $in_avg5  = (int) (8 * ($diff_input / $diff_timestamp));
+                $out_avg5 = (int) (8 * ($diff_output / $diff_timestamp));
+
+                $avg_input[]  = array((strtotime($data->timestamp) * 1000), $in_avg5);
+                $avg_output[] = array((strtotime($data->timestamp) * 1000), $out_avg5);
+
+            }
+
+            // next
+            $prev_timestamp  = strtotime($data->timestamp);
+            $prev_input  = $data->input;
+            $prev_output = $data->output;
+        }
+
+
+        $response[] = array('data'  => $avg_input,
+                            'label' => 'Inbound',
+                            'color' => 'lightgreen',
+                            'lines'  => array('show' => 'true',
+                                              'fill' => 'true',
+                                              'fillColor' => 'lightgreen')
+                            );
+        $response[] = array('data'  => $avg_output,
+                            'label' => 'Outbound',
+                            'color' => 'darkblue',
+                                    );
+        // Response::json($response, $statusCode)->setCallback(Input::get('callback'));i
+        return response()->json($response);
+
+    }
+
 }
