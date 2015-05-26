@@ -40,10 +40,10 @@ class Usergroup extends Model {
         return $_ret;
     }
 
-    /**
-     * usergroup belongs to many roles
-     */
-    public function roles() {
-        return $this->belongsToMany('\App\Role');
-    }
+//    /**
+//     * usergroup belongs to many roles
+//     */
+//    public function roles() {
+//        return $this->belongsToMany('\App\Role');
+//    }
 }

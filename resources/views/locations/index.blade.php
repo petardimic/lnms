@@ -23,14 +23,31 @@
  <thead>
   <tr>
    <th><a href="/locations?q={{ $q }}&sort=name">Name</a></th>
+   <th><a href="/locations?q={{ $q }}&sort=name">Parent</a></th>
    <th><a href="/locations?q={{ $q }}&sort=name">#Nodes</a></th>
   </tr>
  </thead>
  <tbody>
   @foreach ($locations as $location)
+
+<?php
+// TODO: now support only two levels
+$child_locations = \App\Location::where('parent_id', $location->id)
+                               ->get();
+
+$child_nodes_count = $location->nodes->count();
+
+if ( count($child_locations) > 0 ) { 
+    foreach ($child_locations as $child_location) {
+        $child_nodes_count += $child_location->nodes->count();
+    }
+}
+
+?>
    <tr>
     <td><a href="/locations/{{ $location->id }}">{{ $location->name }}</a></td>
-    <td><a href="/nodes?location_id={{ $location->id }}">{{ $location->nodes()->count() }}</a></td>
+    <td><a href="/locations/{{ $location->parent_id }}">{{ ( $location->parent_id == '' || $location->parent_id == 0 ) ? '-' : \App\Location::find($location->parent_id)->name }}</a></td>
+    <td><a href="/nodes?location_id={{ $location->id }}">{{ $child_nodes_count }}</a></td>
    </tr>
   @endforeach
  </tbody>

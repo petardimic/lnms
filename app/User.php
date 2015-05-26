@@ -59,10 +59,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $_ret;
     }
 
-    /**
-     * user belongs to many roles
-     */
-    public function roles() {
-        return $this->belongsToMany('\App\Role');
-    }
+//    /**
+//     * user belongs to many roles
+//     */
+//    public function roles() {
+//        return $this->belongsToMany('\App\Role', 'roles');
+//    }
 }

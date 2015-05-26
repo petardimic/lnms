@@ -29,9 +29,11 @@ class LocationsController extends Controller {
 
         if ($q <> '') {
             $locations = \App\Location::where('name', 'RLIKE', $q)
-                                ->paginate(10);
+                                      ->where('id', '>', 1)
+                                      ->paginate(100);
         } else {
-            $locations = \App\Location::paginate(10);
+            $locations = \App\Location::where('id', '>', 1)
+                                       ->paginate(100);
         }
         return view('locations.index', compact('locations', 'q'));
 	}
@@ -46,7 +48,7 @@ class LocationsController extends Controller {
 		//
         $location = new \App\Location();
 
-        return view('locations.create', compact('location'));
+        return view('locations.create', compact('location', 'locations'));
 	}
 
 	/**
@@ -105,7 +107,7 @@ class LocationsController extends Controller {
         $location = \App\Location::findOrFail($id);
         $input = $request->all();
         \Session::flash('flash_message', 'location ' . $location->name . ' updated.');
-        
+
         // update
         $location->update($input);
 

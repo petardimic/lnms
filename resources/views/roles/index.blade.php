@@ -33,10 +33,10 @@
   @foreach ($roles as $role)
    <tr>
     <td><a href="/roles/{{ $role->id }}">{{ $role->id }}</a></td>
-    <td>{{ $role->user_id }}</td>
-    <td>{{ $role->usergroup_id }}</td>
-    <td>{{ $role->location_id }}</td>
-    <td>{{ $role->project_id }}</td>
+    <td>{{ \App\User::find($role->user_id)->username }}</td>
+    <td>{{ \App\Usergroup::find($role->usergroup_id)->name }}</td>
+    <td>{{ \App\Location::find($role->location_id)->name }}</td>
+    <td>{{ \App\Project::find($role->project_id)->name }}</td>
    </tr>
   @endforeach
  </tbody>

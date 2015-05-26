@@ -14,14 +14,25 @@
  <thead>
   <tr>
    <th><a href="/users?sort=name">Name</a></th>
-   <th><a href="/users?sort=name">Usergroup</a></th>
+   <th><a href="/users?sort=name">Roles</a></th>
   </tr>
  </thead>
  <tbody>
   @foreach ($users as $user)
+  <?php
+    $roles = \App\Role::where('user_id', $user->id)
+                      ->get();
+    $user_roles = '';
+    if ($roles->count() > 0) {
+        foreach ($roles as $role) {
+            $user_roles .= \App\Usergroup::find($role->usergroup_id)->name . ',';
+        }
+    }
+  ?>
    <tr>
     <td><a href="/users/{{ $user->id }}">{{ $user->username }}</a></td>
-    <td>{{ $user->usergroup_id == '' ? '' : \App\Usergroup::find($user->usergroup_id)->name }}</td>
+    <td>{{ $user_roles }}</td>
+    <td></td>
    </tr>
   @endforeach
  </tbody>

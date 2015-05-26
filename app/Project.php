@@ -19,12 +19,18 @@ class Project extends Model {
      *
      * @return Array
      */
-    static public function all_select() {
+    static public function all_select($show_all='') {
         $_ret = array();
 
         $_ret[''] = '-- project --';
 
-        $projects = \App\Project::orderBy('name')->get();
+        if ($show_all == 'all') {
+            $_ret[1] = '** ALL **';
+        }
+
+        $projects = \App\Project::where('id', '>', 1)
+                                ->orderBy('name')
+                                ->get();
 
         foreach ($projects as $project) {
             $_ret[$project->id] = $project->name;
@@ -33,10 +39,10 @@ class Project extends Model {
         return $_ret;
     }
 
-    /**
-     * project belongs to many roles
-     */
-    public function roles() {
-        return $this->belongsToMany('\App\Role');
-    }
+//    /**
+//     * project belongs to many roles
+//     */
+//    public function roles() {
+//        return $this->belongsToMany('\App\Role');
+//    }
 }

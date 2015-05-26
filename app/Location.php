@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Location extends Model {
 
 	//
-    protected $fillable = [ 'name' ];
+    protected $fillable = [ 'name', 'parent_id' ];
 
     /**
      * location has many nodes
@@ -20,12 +20,17 @@ class Location extends Model {
      *
      * @return Array
      */
-    static public function all_select() {
+    static public function all_select($show_all='') {
         $_ret = array();
 
-        $_ret[''] = '-- location --';
+        $_ret['']  = '-- location --';
 
-        $locations = \App\Location::all();
+        if ($show_all == 'all') {
+            $_ret[1] = '** ALL **';
+        }
+
+        $locations = \App\Location::where('id', '>', 1)
+                                  ->get();
 
         foreach ($locations as $location) {
             $_ret[$location->id] = $location->name;
@@ -34,10 +39,10 @@ class Location extends Model {
         return $_ret;
     }
 
-    /**
-     * location belongs to many roles
-     */
-    public function roles() {
-        return $this->belongsToMany('\App\Role');
-    }
+//    /**
+//     * location belongs to many roles
+//     */
+//    public function roles() {
+//        return $this->belongsToMany('\App\Role');
+//    }
 }
