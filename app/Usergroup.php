@@ -13,6 +13,14 @@ class Usergroup extends Model {
         return $this->hasMany('\App\User');
     }
 
+    /*
+     * usergroup belongs to many permissions
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany('\App\Permission');
+    }
+
     /**
      * Generate Usergroup Associate Array
      *
@@ -32,4 +40,10 @@ class Usergroup extends Model {
         return $_ret;
     }
 
+    /**
+     * usergroup belongs to many roles
+     */
+    public function roles() {
+        return $this->belongsToMany('\App\Role');
+    }
 }

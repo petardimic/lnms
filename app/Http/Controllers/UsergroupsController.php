@@ -38,8 +38,9 @@ class UsergroupsController extends Controller {
 	{
 		//
         $usergroup = new \App\Usergroup();
+        $permissions = \App\Permission::all();
 
-        return view('usergroups.create', compact('usergroup'));
+        return view('usergroups.create', compact('usergroup', 'permissions'));
 	}
 
 	/**
@@ -55,7 +56,13 @@ class UsergroupsController extends Controller {
         \Session::flash('flash_message', 'usergroup ' . $input['name'] . ' created.');
 
         // create
-        \App\Usergroup::create($input);
+        $usergroup = \App\Usergroup::create($input);
+
+        if ( ! is_array($request['permissions']) ) {
+            $usergroup->permissions()->sync([]);
+        } else {
+            $usergroup->permissions()->sync(array_keys($request['permissions']));
+        }
 
         return redirect('usergroups');
 	}
@@ -70,6 +77,7 @@ class UsergroupsController extends Controller {
 	{
 		//
         $usergroup = \App\Usergroup::findOrFail($id);
+
         return view('usergroups.show', compact('usergroup'));
 	}
 
@@ -82,8 +90,9 @@ class UsergroupsController extends Controller {
 	public function edit($id)
 	{
 		//
-        $usergroup = \App\Usergroup::findOrFail($id);
-        return view('usergroups.edit', compact('usergroup'));
+        $usergroup   = \App\Usergroup::findOrFail($id);
+        $permissions = \App\Permission::all();
+        return view('usergroups.edit', compact('usergroup', 'permissions'));
 	}
 
 	/**
@@ -96,6 +105,13 @@ class UsergroupsController extends Controller {
 	{
 		//
         $usergroup = \App\Usergroup::findOrFail($id);
+
+        if ( ! is_array($request['permissions']) ) {
+            $usergroup->permissions()->sync([]);
+        } else {
+            $usergroup->permissions()->sync(array_keys($request['permissions']));
+        }
+
         $input = $request->all();
         \Session::flash('flash_message', 'usergroup ' . $usergroup->name . ' updated.');
         

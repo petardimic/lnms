@@ -36,9 +36,12 @@
     </li>
 
     <li id="nodes"><a href="/nodes">Nodes</a></li>
+    <li id="users"><a href="/users">Users</a></li>
+    <li id="permissions"><a href="/permissions">Permissions</a></li>
+    <li id="usergrups"><a href="/usergroups">Usergroups</a></li>
     <li id="locations"><a href="/locations">Locations</a></li>
     <li id="projects"><a href="/projects">Projects</a></li>
-    <li id="users"><a href="/users">Users</a></li>
+    <li id="roles"><a href="/roles">Roles</a></li>
     <li id="search"><a href="/search">Search</a></li>
     <!--
     <li id="nodegroups"><a href="/nodegroups">Nodegroups</a></li>

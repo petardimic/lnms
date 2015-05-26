@@ -34,4 +34,10 @@ class Location extends Model {
         return $_ret;
     }
 
+    /**
+     * location belongs to many roles
+     */
+    public function roles() {
+        return $this->belongsToMany('\App\Role');
+    }
 }

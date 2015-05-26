@@ -33,4 +33,10 @@ class Project extends Model {
         return $_ret;
     }
 
+    /**
+     * project belongs to many roles
+     */
+    public function roles() {
+        return $this->belongsToMany('\App\Role');
+    }
 }

@@ -60,6 +60,8 @@ Route::resource('projects', 'ProjectsController');
 Route::resource('nodegroups', 'NodegroupsController');
 Route::resource('users', 'UsersController');
 Route::resource('usergroups', 'UsergroupsController');
+Route::resource('permissions', 'PermissionsController');
+Route::resource('roles', 'RolesController');
 
 Route::get('pollings/{id}/ds', 'PollingsController@ds');
 

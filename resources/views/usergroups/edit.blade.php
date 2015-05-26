@@ -14,6 +14,7 @@
                              'method' => 'PATCH',
                              'url'    => 'usergroups/' . $usergroup->id,
                              'class' => 'form-horizontal']) !!}
+
   @include('usergroups.form', ['submitButtonText' => 'Update Node',
                           'cancelHref'       => '/usergroups/' . $usergroup->id ] )
  {!! Form::close() !!}
