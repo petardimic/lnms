@@ -15,7 +15,33 @@
 <div class="form-group">
  {!! Form::label('location_id', 'Location', ['class' => 'control-label col-sm-2']) !!}
  <div class="col-sm-3">
-  {!! Form::select('location_id', \App\Location::all_select(), $node->location_id, ['class' => 'form-control'] ) !!}
+
+
+<select class="form-control" name="location_id">
+<?php
+// {!! Form::select('location_id', \App\Location::all_select(), $node->location_id, ['class' => 'form-control'] ) !!}
+
+$locations = \App\Location::where('id', '>', 1)
+                          ->get();
+foreach ($locations as $location) {
+    print '<option ';
+    if ($location->id == $node->location_id) {
+        print 'selected';
+    }
+
+    print ' value="' . $location->id  . '">';
+
+    if ($location->parent_id > 0) {
+        print ' &nbsp;&middot; ';
+    }
+
+    print $location->name . '</option>';
+}
+
+?>
+</select>
+
+
  </div>
 </div>
 

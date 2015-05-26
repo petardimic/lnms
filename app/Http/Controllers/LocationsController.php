@@ -28,12 +28,13 @@ class LocationsController extends Controller {
         $q = \Request::get('q');
 
         if ($q <> '') {
+
             $locations = \App\Location::where('name', 'RLIKE', $q)
                                       ->where('id', '>', 1)
-                                      ->paginate(100);
+                                      ->paginate(200);
         } else {
             $locations = \App\Location::where('id', '>', 1)
-                                       ->paginate(100);
+                                       ->paginate(200);
         }
         return view('locations.index', compact('locations', 'q'));
 	}

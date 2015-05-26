@@ -23,7 +23,8 @@ class PagesController extends Controller {
     public function home() {
 
         // summary by location
-        $locations = \App\Location::orderBy('name')->get();
+        $locations = \App\Location::where('parent_id', 0)
+                                  ->orderBy('name')->get();
 
         for ($i=0; $i<count($locations); $i++) {
 
@@ -80,7 +81,8 @@ class PagesController extends Controller {
     public function dashboard_by_location()
     {
         // summary by location
-        $locations = \App\Location::orderBy('name')->get();
+        $locations = \App\Location::where('parent_id', 0)
+                                  ->orderBy('name')->get();
 
         for ($i=0; $i<count($locations); $i++) {
 

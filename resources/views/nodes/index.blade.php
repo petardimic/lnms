@@ -14,7 +14,29 @@
     <label class="sr-only" for="q">Name or IP Address</label>
     <input type="text" class="form-control" id="q" name="q" placeholder="Name or IP Address" value="{{ \Request::get('q') }}">
 
-{!! Form::select('location_id', \App\Location::all_select(), \Request::get('location_id'), ['class' => 'form-control'] ) !!}
+<select class="form-control" name="location_id">
+<?php
+// {!! Form::select('location_id', \App\Location::all_select(), \Request::get('location_id'), ['class' => 'form-control'] ) !!}
+
+$locations = \App\Location::where('id', '>', 1)
+                          ->get();
+foreach ($locations as $location) {
+    print '<option ';
+    if ($location->id == \Request::get('location_id')) {
+        print 'selected';
+    }
+
+    print ' value="' . $location->id  . '">';
+
+    if ($location->parent_id > 0) {
+        print ' &nbsp;&middot; ';
+    }
+
+    print $location->name . '</option>';
+}
+
+?>
+</select>
 
 {!! Form::select('project_id',  \App\Project::all_select(),  \Request::get('project_id'),  ['class' => 'form-control'] ) !!}
 
